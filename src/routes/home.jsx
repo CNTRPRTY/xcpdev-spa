@@ -9,6 +9,7 @@ import { decode_data } from '../decode_tx';
 import { Buffer } from 'buffer';
 import {
     Button,
+    Text,
     Card,
     TextInput,
     Title,
@@ -16,6 +17,7 @@ import {
     TableHead,
     TableBody, TableFoot, TableFooterCell, Subtitle, TableRow
 } from "@tremor/react";
+import {MagnifyingGlassIcon} from "@heroicons/react/24/outline";
 
 // move to util if reused
 function isAssetName(possible) {
@@ -177,19 +179,23 @@ class Home extends React.Component {
                                                 <Subtitle
                                                     className={"text-sm"}>{timeSince(new Date(block_row.block_time * 1000))}</Subtitle>
 
-                                                <div className={"flex flex-row my-3"}>
-                                                    <span className={"font-bold mr-1"}>{block_row.messages_count}</span><Subtitle>{block_row.messages_count === 1 ? 'message' : 'messages'}</Subtitle>
+                                                <div className={"flex flex-row my-3 justify-between items-center"}>
+                                                    <Text className={"font-bold mr-1"}>{block_row.messages_count}</Text>
+                                                    <Subtitle>{block_row.messages_count === 1 ? 'message' : 'messages'}</Subtitle>
                                                 </div>
                                                 {/* // https://github.com/CounterpartyXCP/counterparty-lib/blob/master/counterpartylib/lib/blocks.py#L1078 */}
                                                 {/* // https://github.com/CounterpartyXCP/counterparty-lib/blob/master/counterpartylib/lib/blocks.py#L1448 */}
-                                                <div className={"flex flex-row w-full justify-between"}>
-                                                    <span className={"font-bold mr-1"}>L:</span><Subtitle>{hashSlice(block_row.ledger_hash)}</Subtitle>
+                                                <div className={"flex flex-row w-full justify-between items-center"}>
+                                                    <Text className={"font-bold mr-1"}>L:</Text>
+                                                    <Subtitle>{hashSlice(block_row.ledger_hash)}</Subtitle>
                                                 </div>
-                                                <div className={"flex flex-row w-full justify-between"}>
-                                                    <span className={"font-bold mr-1"}>TX:</span><Subtitle>{hashSlice(block_row.txlist_hash)}</Subtitle>
+                                                <div className={"flex flex-row w-full justify-between items-center"}>
+                                                    <Text className={"font-bold mr-1"}>TX:</Text>
+                                                    <Subtitle>{hashSlice(block_row.txlist_hash)}</Subtitle>
                                                 </div>
-                                                <div className={"flex flex-row w-full justify-between"}>
-                                                    <span className={"font-bold mr-1"}>M:</span><Subtitle>{hashSlice(block_row.messages_hash)}</Subtitle>
+                                                <div className={"flex flex-row w-full justify-between items-center"}>
+                                                    <Text className={"font-bold mr-1"}>M:</Text>
+                                                    <Subtitle>{hashSlice(block_row.messages_hash)}</Subtitle>
                                                 </div>
                                                     {/* ledger_hash:{hashSlice(block_row.ledger_hash)}<br />
                                                 txlist_hash:{hashSlice(block_row.txlist_hash)}<br />
@@ -225,7 +231,7 @@ class Home extends React.Component {
         }
         else if (this.state.mempool_full_new.length) {
             mempool_element_contents = (
-                <Card className={"mt-12"}>
+                <Card className={"flex flex-col"}>
                     <Title className={"font-bold text-xl"}>Unconfirmed transactions</Title>
                     <Table className="mt-5">
                         <TableHead>
@@ -290,9 +296,9 @@ class Home extends React.Component {
                     {/* <h4>Latest:</h4> */}
                     {/*<h4>Latest (tx_index desc):</h4>*/}
                     {/* <h4>Latest (most recent top):</h4> */}
-                    <Card className={"my-12"}>
+                    <Card className={"flex flex-col"}>
                         <Title className={"font-bold text-xl"}>Block transactions</Title>
-                        <Subtitle>Latest (tx_index desc)</Subtitle>
+                        {/*<Subtitle>Latest (tx_index desc)</Subtitle>*/}
                         <Table className="mt-5">
                             <TableHead>
                                 {ListElements.getTableRowTransactionHeader(is_home_page)}
@@ -325,27 +331,33 @@ class Home extends React.Component {
             </>
         );
 
-        const placeholder = " block / tx_index / tx_hash / address / asset";
+        const placeholder = "block / tx_index / tx_hash / address / asset";
         const search_element = (
-            <span>
-                <div style={{ padding: "1.1rem 0 0.5rem 0" }}>
-                    <form onSubmit={this.handleSearchSubmit}>
-                        <div className={"flex flex-row space-x-1"}>
-                        <TextInput className={"w-64"} type="text" value={this.state.search} onChange={this.handleSearchChange} placeholder={placeholder} size={placeholder.length - 12} />
-                        {' '}
-                        <Button type="submit" variant={"secondary"} value={"go"} >Go</Button>
+            <>
+                <form onSubmit={this.handleSearchSubmit}>
+                    <div className={"flex flex-row w-full items-center justify-center space-x-1"}>
+                        <div className="flex flex-row w-full max-w-3xl  items-center bg-slate-100 dark:bg-slate-700 p-1 space-x-2 rounded-xl">
+                            <TextInput  icon={MagnifyingGlassIcon} placeholder={placeholder} className={"w-full border-none dark:border-none focus:ring-none ring-transparent dark:ring-transparent"} value={this.state.search} onChange={this.handleSearchChange}/>
+                            <Button type="submit" size={"xs"} variant={"primary"} value={"Search"} className={"bg-yellow-600 hover:bg-yellow-800 dark:bg-yellow-600 dark:hover:bg-yellow-800 ring-transparent border-none"}>Search</Button>
                         </div>
-                    </form>
-                </div>
-            </span>
+                    </div>
+                </form>
+            </>
         );
 
         const homenew_element = (
             <div className={"w-full max-w-[1300px]"}>
                 {search_element}
                 {block_element}
-                {mempool_element}
-                {transactions_element}
+                <div
+                    className={"flex flex-col lg:flex-row w-full space-y-4 lg:space-y-0  space-x-0 lg:space-x-4  items-center justify-between mt-12"}>
+                    <div className={"flex w-full max-h-[600px] overflow-scroll shadow-xl"}>
+                        {mempool_element}
+                    </div>
+                    <div className={"flex w-full max-h-[600px] overflow-scroll shadow-xl"}>
+                        {transactions_element}
+                    </div>
+                </div>
                 {/* {tables_element} */}
             </div>
         );
