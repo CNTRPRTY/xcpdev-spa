@@ -2,10 +2,13 @@ import React from 'react';
 import { Outlet, Link } from "react-router-dom";
 // import logo from './logo.svg';
 import './App.css';
-import {Divider} from "@tremor/react";
+import {Subtitle} from "@tremor/react";
+import NavMenu from "./components/NavMenu";
 
 class App extends React.Component {
+
   // function App() {
+
   render() {
     return (
 
@@ -13,46 +16,28 @@ class App extends React.Component {
 
         <div className={"p-4"}>
 
-          <Link to="/">
-            <div className={"mb-6"}><span className={"text-yellow-500 text-4xl font-extrabold"}>xcp</span><span className={"text-xl font-bold text-black"}>.dev</span></div>
-          </Link>
-          <h3 className={"text-xl font-bold my-3"}>Counterparty Bitcoin Tools</h3>
-          {/* <h3>Counterparty Bitcoin data explorer</h3> */}
-          {/* <h3>Counterparty Bitcoin explorer</h3> */}
-          {/* <h3>Counterparty Bitcoin block explorer</h3> */}
-          <nav className={"mt-12"}>
-            <Link to="/" className={"text-yellow-600 text-xl font-bold hover:text-yellow-700"}>Data</Link> |{" "}
-            <Link to="/wallet" className={"text-yellow-600 text-xl font-bold hover:text-yellow-700"}>Wallet</Link>
-            {/* <Link to="/">Home</Link> */}
-            {/* <Link to="/">Mempool</Link> |{" "}
-            <Link to="/blocks">Blocks</Link> */}
-          </nav>
-          <Divider/>
+          {/* Header */}
+          <div className={"flex flex-row items-center mb-24"}>
+            {/* Logo section */}
+            <div className={"flex flex-col flex-1"}>
+              <Link to="/" className={"flex flex-row items-center"}>
+                <div className={"text-black dark:text-neutral-400 text-3xl font-bold"}>xcp</div>
+                <div className={"text-yellow-600 dark:text-yellow-600 text-3xl font-bold"}>.dev</div>
+              </Link>
+              <Subtitle className={"flex flex-row text-xs items-center font-bold"}>Counterparty Bitcoin Tools</Subtitle>
+              {/* <h3>Counterparty Bitcoin data explorer</h3> */}
+              {/* <h3>Counterparty Bitcoin explorer</h3> */}
+              {/* <h3>Counterparty Bitcoin block explorer</h3> */}
+            </div>
+            {/* Navigation menu section */}
+            <NavMenu />
+          </div>
           <Outlet />
         </div>
 
       </main>
 
     );
-
-    // return (
-    //   <div className="App">
-    //     <header className="App-header">
-    //       <img src={logo} className="App-logo" alt="logo" />
-    //       <p>
-    //         Edit <code>src/App.js</code> and save to reload.
-    //       </p>
-    //       <a
-    //         className="App-link"
-    //         href="https://reactjs.org"
-    //         target="_blank"
-    //         rel="noopener noreferrer"
-    //       >
-    //         Learn React
-    //       </a>
-    //     </header>
-    //   </div>
-    // );
   }
 
 }
