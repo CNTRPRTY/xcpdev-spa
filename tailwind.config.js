@@ -7,6 +7,7 @@ module.exports = {
     // "./src/routes/**/*.{js,jsx,ts,tsx}",
     "./node_modules/@tremor/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode: "class",
   theme: {
     transparent: "transparent",
     current: "currentColor",
@@ -94,6 +95,20 @@ module.exports = {
         "tremor-title": ["1.125rem", { lineHeight: "1.75rem" }],
         "tremor-metric": ["1.875rem", { lineHeight: "2.25rem" }],
       },
+      keyframes: {
+        rotateToDark: {
+          '0%': { transform: 'rotate(90deg)' },
+          '100%': { transform: 'rotate(40deg)' },
+        },
+        rotateToLight: {
+          '0%': { transform: 'rotate(40deg)' },
+          '100%': { transform: 'rotate(90deg)' },
+        },
+      },
+      animation: {
+        'rotate-to-dark': 'rotateToDark 0.5s forwards',
+        'rotate-to-light': 'rotateToLight 0.5s forwards',
+      }
     },
   },
   safelist: [
