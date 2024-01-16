@@ -174,9 +174,9 @@ class ListElements {
     static getTableRowMempoolHomeHeader() {
         return (
             <TableRow>
-                <TableHeaderCell>type</TableHeaderCell>
-                <TableHeaderCell>tx_hash</TableHeaderCell>
-                <TableHeaderCell>source</TableHeaderCell>
+                <TableHeaderCell>Type</TableHeaderCell>
+                <TableHeaderCell>Tx Hash</TableHeaderCell>
+                <TableHeaderCell>Source</TableHeaderCell>
             </TableRow>
             // <tr style={{ padding: "0.25rem" }}>
             //     <td style={{ padding: "0 1rem 0.25rem 0" }}>type</td>
@@ -204,10 +204,10 @@ class ListElements {
                         {mempool_row_plus.cntrprty_decoded.msg_type}
                     </Badge>
                 </TableCell>
-                <TableCell>
+                <TableCell className={"truncate max-w-xs"}>
                     <Text>{mempool_row_plus.tx_hash}</Text>
                 </TableCell>
-                <TableCell>
+                <TableCell className={"truncate max-w-xs"}>
                     <Link to={`/address/${mempool_row_plus.source}`}>{mempool_row_plus.source}</Link>
                 </TableCell>
             </TableRow>
@@ -1062,16 +1062,16 @@ class ListElements {
         if (is_home_page) {
             firstTwo = (
                 <>
-                    <TableHeaderCell><Text>tx_hash</Text></TableHeaderCell>
-                    <TableHeaderCell><Text>tx_index</Text></TableHeaderCell>
+                    <TableHeaderCell><Text>Tx Hash</Text></TableHeaderCell>
+                    <TableHeaderCell><Text>Tx Index</Text></TableHeaderCell>
                 </>
             );
         }
         else {
             firstTwo = (
                 <>
-                <TableHeaderCell><Text>tx_index</Text></TableHeaderCell>
-                <TableHeaderCell><Text>tx_hash</Text></TableHeaderCell>
+                <TableHeaderCell><Text>Tx Index</Text></TableHeaderCell>
+                <TableHeaderCell><Text>Tx Hash</Text></TableHeaderCell>
                 </>
             );
         }
@@ -1081,11 +1081,11 @@ class ListElements {
                 {firstTwo}
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>tx_hash</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>tx_index</td> */}
-                <TableHeaderCell><Text>block_index</Text></TableHeaderCell>
-                <TableHeaderCell><Text>block_time_iso</Text></TableHeaderCell>
-                <TableHeaderCell><Text>fee (sat)</Text></TableHeaderCell>
-                <TableHeaderCell><Text>source</Text></TableHeaderCell>
-                <TableHeaderCell><Text>destination</Text></TableHeaderCell>
+                <TableHeaderCell><Text>Block Index</Text></TableHeaderCell>
+                <TableHeaderCell><Text>Block Time</Text></TableHeaderCell>
+                <TableHeaderCell><Text>Fee (sat)</Text></TableHeaderCell>
+                <TableHeaderCell><Text>Source</Text></TableHeaderCell>
+                <TableHeaderCell><Text>Destination</Text></TableHeaderCell>
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>BTC burn</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>XCP mined</td> */}
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>stringify</td> */}
@@ -1110,7 +1110,7 @@ class ListElements {
         if (is_home_page) {
             firstTwo = (
                 <>
-                    <TableCell><Link to={`/tx/${transaction_row.tx_hash}`}>{transaction_row.tx_hash}</Link></TableCell>
+                    <TableCell className={"truncate max-w-xs"}><Link to={`/tx/${transaction_row.tx_hash}`}>{transaction_row.tx_hash}</Link></TableCell>
                     <TableCell>{transaction_row.tx_index}</TableCell>
                 </>
             );
@@ -1118,7 +1118,7 @@ class ListElements {
             firstTwo = (
                 <>
                     <TableCell>{transaction_row.tx_index}</TableCell>
-                    <TableCell><Link to={`/tx/${transaction_row.tx_hash}`}>{transaction_row.tx_hash}</Link></TableCell>
+                    <TableCell className={"truncate max-w-xs"}><Link to={`/tx/${transaction_row.tx_hash}`}>{transaction_row.tx_hash}</Link></TableCell>
                     {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${transaction_row.tx_hash}`}>{hashSlice(transaction_row.tx_hash)}</Link></td> */}
                 </>
             );
@@ -1140,8 +1140,8 @@ class ListElements {
                 <TableCell><Link to={`/block/${transaction_row.block_index}`}>{transaction_row.block_index}</Link></TableCell>
                 <TableCell>{block_time_iso}</TableCell>
                 <TableCell>{transaction_row.fee}</TableCell>
-                <TableCell><Link to={`/address/${transaction_row.source}`}>{transaction_row.source}</Link></TableCell>
-                <TableCell><Link to={`/address/${transaction_row.destination}`}>{transaction_row.destination}</Link></TableCell>
+                <TableCell className={"truncate max-w-xs"}><Link to={`/address/${transaction_row.source}`}>{transaction_row.source}</Link></TableCell>
+                <TableCell className={"truncate max-w-xs"}><Link to={`/address/${transaction_row.destination}`}>{transaction_row.destination}</Link></TableCell>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{burned_quantity_with_divisibility}</td>
                 <td style={{ padding: "0 1rem 0 0" }}>{earned_quantity_with_divisibility}</td> */}
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(transaction_row)}</td> */}
@@ -1190,7 +1190,7 @@ class OneElements {
                 {route_element}
 
                 {/*<Divider />*/}
-                <p className={"flex flex-row w-full items-center justify-center mt-6 space-x-3"}>
+                <p className={"flex flex-row w-full items-center justify-center mt-12 space-x-3"}>
                     [<a href={`https://github.com/CNTRPRTY/xcpdev`} target="_blank">xcp.dev v1.1</a>]
 
                     [counterparty-lib v{COUNTERPARTY_VERSION}][<a href={COUNTERPARTY_VERSION_ALT_URL} target="_blank">v{COUNTERPARTY_VERSION_ALT}</a>]
