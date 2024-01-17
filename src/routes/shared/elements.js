@@ -201,7 +201,7 @@ class ListElements {
         return (
             <TableRow key={index}>
                 <TableCell>
-                    <Badge color={txTypeBadgeColor(mempool_row_plus.cntrprty_decoded.msg_type)}>
+                    <Badge size={"xs"} color={txTypeBadgeColor(mempool_row_plus.cntrprty_decoded.msg_type)}>
                         {mempool_row_plus.cntrprty_decoded.msg_type}
                     </Badge>
                 </TableCell>
@@ -318,7 +318,7 @@ class ListElements {
 
         return (
             <TableRow key={index} style={{ padding: "0.25rem" }}>
-                <TableCell>{message_row.main_message ? <Badge>main message</Badge> : ''}</TableCell>
+                <TableCell>{message_row.main_message ? <Badge size={"xs"}>main message</Badge> : ''}</TableCell>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{message_index}</td> */}
                 <TableCell>{category}{invalid_tx_notice}</TableCell>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{category}</td> */}
