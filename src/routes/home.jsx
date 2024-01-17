@@ -7,6 +7,17 @@ import { timeIsoFormat, timeSince, hashSlice } from '../utils';
 
 import { decode_data } from '../decode_tx';
 import { Buffer } from 'buffer';
+import {
+    Button,
+    Text,
+    Card,
+    TextInput,
+    Title,
+    Table,
+    TableHead,
+    TableBody, TableFoot, TableFooterCell, Subtitle, TableRow
+} from "@tremor/react";
+import {MagnifyingGlassIcon} from "@heroicons/react/24/outline";
 
 // move to util if reused
 function isAssetName(possible) {
@@ -159,23 +170,37 @@ class Home extends React.Component {
                                 {this.state.blocks.map((block_row, index) => {
                                     return (
                                         <td key={index} style={{ padding: "0 1rem 0 0" }}>
-                                            <strong><Link to={`/block/${block_row.block_index}`}>{block_row.block_index}</Link></strong>
-                                            <br />
-                                            {/* {timeIsoFormat(block_row.block_time)}
-                                            {' '} */}
-                                            {timeSince(new Date(block_row.block_time * 1000))}
-                                            <br /><br />
-                                            {block_row.messages_count} messages
-                                            {/* {block_row.messages} messages */}
-                                            <br /><br />
-                                            {/* // https://github.com/CounterpartyXCP/counterparty-lib/blob/master/counterpartylib/lib/blocks.py#L1078 */}
-                                            {/* // https://github.com/CounterpartyXCP/counterparty-lib/blob/master/counterpartylib/lib/blocks.py#L1448 */}
-                                            L:{hashSlice(block_row.ledger_hash)}<br />
-                                            TX:{hashSlice(block_row.txlist_hash)}<br />
-                                            M:{hashSlice(block_row.messages_hash)}<br />
-                                            {/* ledger_hash:{hashSlice(block_row.ledger_hash)}<br />
-                                            txlist_hash:{hashSlice(block_row.txlist_hash)}<br />
-                                            messages_hash:{hashSlice(block_row.messages_hash)}<br /> */}
+                                            <Card className={"flex flex-col items-start justify-start"}>
+                                                <Link className={"text-yellow-600 "}
+                                                      to={`/block/${block_row.block_index}`}>{block_row.block_index}</Link>
+
+                                                {/* {timeIsoFormat(block_row.block_time)}
+                                                {' '} */}
+                                                <Subtitle
+                                                    className={"text-sm"}>{timeSince(new Date(block_row.block_time * 1000))}</Subtitle>
+
+                                                <div className={"flex flex-row my-3 justify-between items-center"}>
+                                                    <Text className={"font-bold mr-1"}>{block_row.messages_count}</Text>
+                                                    <Subtitle>{block_row.messages_count === 1 ? 'message' : 'messages'}</Subtitle>
+                                                </div>
+                                                {/* // https://github.com/CounterpartyXCP/counterparty-lib/blob/master/counterpartylib/lib/blocks.py#L1078 */}
+                                                {/* // https://github.com/CounterpartyXCP/counterparty-lib/blob/master/counterpartylib/lib/blocks.py#L1448 */}
+                                                <div className={"flex flex-row w-full justify-between items-center"}>
+                                                    <Text className={"font-bold mr-1"}>L:</Text>
+                                                    <Subtitle>{hashSlice(block_row.ledger_hash)}</Subtitle>
+                                                </div>
+                                                <div className={"flex flex-row w-full justify-between items-center"}>
+                                                    <Text className={"font-bold mr-1"}>TX:</Text>
+                                                    <Subtitle>{hashSlice(block_row.txlist_hash)}</Subtitle>
+                                                </div>
+                                                <div className={"flex flex-row w-full justify-between items-center"}>
+                                                    <Text className={"font-bold mr-1"}>M:</Text>
+                                                    <Subtitle>{hashSlice(block_row.messages_hash)}</Subtitle>
+                                                </div>
+                                                    {/* ledger_hash:{hashSlice(block_row.ledger_hash)}<br />
+                                                txlist_hash:{hashSlice(block_row.txlist_hash)}<br />
+                                                messages_hash:{hashSlice(block_row.messages_hash)}<br /> */}
+                                            </Card>
                                         </td>
                                         // <td key={index} style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(block_row)}</td>
                                     );
@@ -187,10 +212,12 @@ class Home extends React.Component {
             );
         }
         const block_element = (
-            <>
-                <h2>Latest blocks:</h2>
-                {block_element_contents}
-            </>
+            <div className={"mt-12"}>
+                <Title className={"font-bold text-xl mb-3"}>Latest blocks</Title>
+                <div className={"overflow-scroll p-0.5"}>
+                    {block_element_contents}
+                </div>
+            </div>
         );
         //////////
 
@@ -204,27 +231,33 @@ class Home extends React.Component {
         }
         else if (this.state.mempool_full_new.length) {
             mempool_element_contents = (
-                <table>
-                    <tbody>
-                        {ListElements.getTableRowMempoolHomeHeader()}
-                        {this.state.mempool_full_new.map((mempool_row, index) => {
+                <Card className={"flex flex-col"}>
+                    <Title className={"font-bold text-xl"}>Unconfirmed transactions</Title>
+                    <Table className="mt-5">
+                        <TableHead>
+                            {ListElements.getTableRowMempoolHomeHeader()}
+                        </TableHead>
+                        <TableBody>
+                            {this.state.mempool_full_new.map((mempool_row, index) => {
 
-                            // cntrprty transaction
-                            let cntrprty_decoded = {};
-                            const cntrprty_hex = Buffer.from(mempool_row.data, 'hex').toString('hex');
-                            try {
-                                const current_version_past_block = 819000;
-                                cntrprty_decoded = decode_data(cntrprty_hex, current_version_past_block);
-                            }
-                            catch (e) {
-                                console.error(`cntrprty_decoded error: ${e}`);
-                            }
+                                // cntrprty transaction
+                                let cntrprty_decoded = {};
+                                const cntrprty_hex = Buffer.from(mempool_row.data, 'hex').toString('hex');
+                                try {
+                                    const current_version_past_block = 819000;
+                                    cntrprty_decoded = decode_data(cntrprty_hex, current_version_past_block);
+                                } catch (e) {
+                                    console.error(`cntrprty_decoded error: ${e}`);
+                                }
 
-                            mempool_row.cntrprty_decoded = cntrprty_decoded;
-                            return ListElements.getTableRowMempoolHome(mempool_row, index);
-                        })}
-                    </tbody>
-                </table>
+                                mempool_row.cntrprty_decoded = cntrprty_decoded;
+                                return ListElements.getTableRowMempoolHome(mempool_row, index);
+                            })}
+                            {/*</tbody>*/}
+                            {/*</table>*/}
+                        </TableBody>
+                    </Table>
+                </Card>
             );
         }
         // else if (this.state.mempool_full.length) {
@@ -244,7 +277,7 @@ class Home extends React.Component {
         const mempool_element = (
             <>
                 {/* <h2>Unconfirmed (mempool) transactions:</h2> */}
-                <h2>Unconfirmed transactions:</h2>
+                {/*<h2 className={"font-bold"}>Unconfirmed transactions:</h2>*/}
                 {/* <h2>Mempool transactions:</h2> */}
                 {/* <h2>Mempool:</h2> */}
                 {mempool_element_contents}
@@ -261,51 +294,72 @@ class Home extends React.Component {
             transactions_element_contents = (
                 <>
                     {/* <h4>Latest:</h4> */}
-                    <h4>Latest (tx_index desc):</h4>
+                    {/*<h4>Latest (tx_index desc):</h4>*/}
                     {/* <h4>Latest (most recent top):</h4> */}
-                    <table>
-                        <tbody>
-                            {ListElements.getTableRowTransactionHeader(is_home_page)}
-                            {this.state.btc_transactions_latest.map((transaction_row, index) => {
-                                return ListElements.getTableRowTransaction(transaction_row, index, is_home_page);
-                            })}
-                        </tbody>
-                    </table>
+                    <Card className={"flex flex-col"}>
+                        <Title className={"font-bold text-xl"}>Block transactions</Title>
+                        {/*<Subtitle>Latest (tx_index desc)</Subtitle>*/}
+                        <Table className="mt-5">
+                            <TableHead>
+                                {ListElements.getTableRowTransactionHeader(is_home_page)}
+                            </TableHead>
+                            <TableBody>
+                                {this.state.btc_transactions_latest.map((transaction_row, index) => {
+                                    return ListElements.getTableRowTransaction(transaction_row, index, is_home_page);
+                                })}
+                            </TableBody>
+                            <TableFoot>
+                                <TableRow>
+                                    <TableFooterCell>
+                                        <Link className={"font-bold hover:text-yellow-500"} to={`/transactions#${link_tx_index}`}>All transactions</Link>
+                                    </TableFooterCell>
+                                </TableRow>
+                            </TableFoot>
+                        </Table>
+                    </Card>
 
-                    <h4><Link to={`/transactions#${link_tx_index}`}>All transactions</Link></h4>
+                    {/*<h4><Link to={`/transactions#${link_tx_index}`}>All transactions</Link></h4>*/}
                     {/* <h4><Link to={`/transactions`}>All transactions</Link></h4> */}
                 </>
             );
         }
         const transactions_element = (
             <>
-                <h2>Block transactions:</h2>
+                {/*<h2>Block transactions:</h2>*/}
                 {/* <h2>Transactions:</h2> */}
                 {transactions_element_contents}
             </>
         );
 
-        const placeholder = " block / tx_index / tx_hash / address / asset";
+        const placeholder = "block / tx_index / tx_hash / address / asset";
         const search_element = (
-            <span>
-                <div style={{ padding: "1.1rem 0 0.5rem 0" }}>
-                    <form onSubmit={this.handleSearchSubmit}>
-                        <input type="text" value={this.state.search} onChange={this.handleSearchChange} placeholder={placeholder} size={placeholder.length - 12} />
-                        {' '}
-                        <input type="submit" value={"go"} />
-                    </form>
-                </div>
-            </span>
+            <>
+                <form onSubmit={this.handleSearchSubmit}>
+                    <div className={"flex flex-row w-full items-center justify-center space-x-1"}>
+                        <div className="flex flex-row w-full max-w-3xl  items-center bg-slate-100 dark:bg-slate-700 p-1 space-x-2 rounded-xl">
+                            <TextInput  icon={MagnifyingGlassIcon} placeholder={placeholder} className={"w-full border-none dark:border-none focus:ring-none ring-transparent dark:ring-transparent"} value={this.state.search} onChange={this.handleSearchChange}/>
+                            <Button type="submit" size={"xs"} variant={"primary"} value={"Search"} className={"bg-yellow-600 hover:bg-yellow-800 dark:bg-yellow-600 dark:hover:bg-yellow-800 ring-transparent border-none"}>Search</Button>
+                        </div>
+                    </div>
+                </form>
+            </>
         );
 
         const homenew_element = (
-            <>
+            <div className={"w-full max-w-[1300px]"}>
                 {search_element}
                 {block_element}
-                {mempool_element}
-                {transactions_element}
+                <div
+                    className={"flex flex-col lg:flex-row w-full space-y-4 lg:space-y-0  space-x-0 lg:space-x-4  items-center justify-between mt-12"}>
+                    <div className={"flex w-full max-h-[600px] overflow-scroll shadow-xl"}>
+                        {mempool_element}
+                    </div>
+                    <div className={"flex w-full max-h-[600px] overflow-scroll shadow-xl"}>
+                        {transactions_element}
+                    </div>
+                </div>
                 {/* {tables_element} */}
-            </>
+            </div>
         );
 
         return OneElements.getFullPageForRouteElement(homenew_element);

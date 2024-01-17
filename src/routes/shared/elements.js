@@ -2,14 +2,28 @@
 
 import { Link } from 'react-router-dom';
 // import { timeIsoFormat, quantityWithDivisibility } from '../../utils';
-import { timeIsoFormat, hashSlice, quantityWithDivisibility } from '../../utils';
+import {timeIsoFormat, hashSlice, quantityWithDivisibility, txTypeBadgeColor} from '../../utils';
 import { BITCOIN_VERSION, COUNTERPARTY_VERSION, COUNTERPARTY_VERSION_ALT, COUNTERPARTY_VERSION_ALT_URL } from '../../api';
+import {
+    Accordion, AccordionBody, AccordionHeader,
+    Badge, Divider,
+    List,
+    ListItem, Subtitle,
+    TableCell,
+    TableHeaderCell,
+    TableRow,
+    Text
+} from "@tremor/react";
+import React from "react";
 
 // function timeIsoFormat(block_time) {
 //     // return `at: ${(new Date(block_time * 1000).toISOString()).replace('.000Z', 'Z')}`;
 //     return (new Date(block_time * 1000).toISOString()).replace('.000Z', 'Z');
 // }
 
+/**
+ * TODO - replace if with a switch
+ */
 function createLinkElementBindings(bindings_json_stringified) {
     const bindingsPRE = JSON.parse(bindings_json_stringified);
     const entries = Object.entries(bindingsPRE);
@@ -121,20 +135,37 @@ function createNonLinkElement(json_stringified) {
 function linksElement(link_element_bindings, index) {
     const bindings_entries = Object.entries(link_element_bindings);
     return (
-        <table>
-            <tbody>
-                <tr key={index} style={{ padding: "0.25rem" }}>
-                    {bindings_entries.map((obj, index2) => {
+        <>
+            <List>
+                {bindings_entries.map((obj, index2) => {
                         const key = obj[0];
                         const element_value = obj[1];
                         // return (<>[{key}:{element_value}]</>);
                         return (
-                            <td key={index2} style={{ padding: "0 1rem 0 0" }}>{key}:{element_value}</td>
+                            <ListItem>
+                                <span>{key}</span>
+                                <span>{element_value}</span>
+                            </ListItem>
                         );
-                    })}
-                </tr>
-            </tbody>
-        </table>
+                    }
+                )}
+            </List>
+
+        {/*<Table>*/}
+        {/*    <TableBody>*/}
+        {/*        <TableRow key={index} style={{ padding: "0.25rem" }}>*/}
+        {/*            {bindings_entries.map((obj, index2) => {*/}
+        {/*                const key = obj[0];*/}
+        {/*                const element_value = obj[1];*/}
+        {/*                // return (<>[{key}:{element_value}]</>);*/}
+        {/*                return (*/}
+        {/*                    <TableCell key={index2} style={{ padding: "0 1rem 0 0" }}><span className={"text-red-600"}>{key}</span>:{element_value}</TableCell>*/}
+        {/*                );*/}
+        {/*            })}*/}
+        {/*        </TableRow>*/}
+        {/*    </TableBody>*/}
+        {/*</Table>*/}
+        </>
     );
 }
 
@@ -142,32 +173,51 @@ class ListElements {
 
     static getTableRowMempoolHomeHeader() {
         return (
-            <tr style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>type</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>tx_hash</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>source</td>
-
-                {/* wip, more can come from the backend */}
-                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>type</td> */}
-
-                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>category</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>command</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>timestamp_iso</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>bindings</td> */}
-            </tr>
+            <TableRow>
+                <TableHeaderCell>Type</TableHeaderCell>
+                <TableHeaderCell>Tx Hash</TableHeaderCell>
+                <TableHeaderCell>Source</TableHeaderCell>
+            </TableRow>
+            // <tr style={{ padding: "0.25rem" }}>
+            //     <td style={{ padding: "0 1rem 0.25rem 0" }}>type</td>
+            //     <td style={{ padding: "0 1rem 0.25rem 0" }}>tx_hash</td>
+            //     <td style={{ padding: "0 1rem 0.25rem 0" }}>source</td>
+            //
+            //     {/* wip, more can come from the backend */}
+            //     {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>type</td> */}
+            //
+            //     {/* <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
+            //     <td style={{ padding: "0 1rem 0.25rem 0" }}>category</td>
+            //     <td style={{ padding: "0 1rem 0.25rem 0" }}>command</td>
+            //     <td style={{ padding: "0 1rem 0.25rem 0" }}>timestamp_iso</td>
+            //     <td style={{ padding: "0 1rem 0.25rem 0" }}>bindings</td> */}
+            // </tr>
         );
     }
     static getTableRowMempoolHome(mempool_row_plus, index) { // wip, more can come from the backend
         // static getTableRowMempoolHome(mempool_row, index) {
 
         return (
-            <tr key={index} style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0 0" }}>{mempool_row_plus.cntrprty_decoded.msg_type}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{mempool_row_plus.tx_hash}</td>
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/address/${mempool_row_plus.source}`}>{mempool_row_plus.source}</Link></td>
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(mempool_row_plus)}</td> */}
-            </tr>
+            <TableRow key={index}>
+                <TableCell>
+                    <Badge color={txTypeBadgeColor(mempool_row_plus.cntrprty_decoded.msg_type)}>
+                        {mempool_row_plus.cntrprty_decoded.msg_type}
+                    </Badge>
+                </TableCell>
+                <TableCell className={"truncate max-w-xs"}>
+                    <Text>{mempool_row_plus.tx_hash}</Text>
+                </TableCell>
+                <TableCell className={"truncate max-w-xs"}>
+                    <Link to={`/address/${mempool_row_plus.source}`}>{mempool_row_plus.source}</Link>
+                </TableCell>
+            </TableRow>
+
+            // <tr key={index} style={{ padding: "0.25rem" }}>
+            //     <td style={{ padding: "0 1rem 0 0" }}>{mempool_row_plus.cntrprty_decoded.msg_type}</td>
+            //     <td style={{ padding: "0 1rem 0 0" }}>{mempool_row_plus.tx_hash}</td>
+            //     <td style={{ padding: "0 1rem 0 0" }}><Link to={`/address/${mempool_row_plus.source}`}>{mempool_row_plus.source}</Link></td>
+            //     {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(mempool_row_plus)}</td> */}
+            // </tr>
         );
 
 
@@ -199,12 +249,12 @@ class ListElements {
 
     static getTableRowMempoolTxHeader() {
         return (
-            <tr style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>category</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>command</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>timestamp_iso</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>bindings</td>
-            </tr>
+            <TableRow>
+                <TableHeaderCell>category</TableHeaderCell>
+                <TableHeaderCell>command</TableHeaderCell>
+                <TableHeaderCell>timestamp_iso</TableHeaderCell>
+                <TableHeaderCell>bindings</TableHeaderCell>
+            </TableRow>
         );
     }
     static getTableRowMempoolTx(mempool_row, index) {
@@ -220,27 +270,27 @@ class ListElements {
             invalid_tx_notice = (<>{' '}<strong>invalid</strong></>);
         }
         return (
-            <tr key={index} style={{ padding: "0.25rem" }}>
+            <TableRow key={index}>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{link_to_tx_format(mempool_row.tx_hash)}</td> */}
-                <td style={{ padding: "0 1rem 0 0" }}>{category}{invalid_tx_notice}</td>
+                <TableCell>{category}{invalid_tx_notice}</TableCell>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{category}</td> */}
-                <td style={{ padding: "0 1rem 0 0" }}>{command}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{timestamp_iso}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{linksElement(bindingsElements, index)}</td>
+                <TableCell>{command}</TableCell>
+                <TableCell>{timestamp_iso}</TableCell>
+                <TableCell>{linksElement(bindingsElements, index)}</TableCell>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(mempool_row)}</td> */}
-            </tr>
+            </TableRow>
         );
     }
 
     static getTableRowMessageTxHeader() {
         return (
-            <tr style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>category</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>command</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>message_index</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>bindings</td>
-            </tr>
+            <TableRow style={{ padding: "0.25rem" }}>
+                <TableHeaderCell></TableHeaderCell>
+                <TableHeaderCell>category</TableHeaderCell>
+                <TableHeaderCell>command</TableHeaderCell>
+                <TableHeaderCell>message_index</TableHeaderCell>
+                <TableHeaderCell>bindings</TableHeaderCell>
+            </TableRow>
         );
     }
     static getTableRowMessageTx(message_row, index) {
@@ -266,30 +316,29 @@ class ListElements {
         //////////////
 
         return (
-            <tr key={index} style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0 0" }}>{message_row.main_message ? 'main message' : ''}</td>
+            <TableRow key={index} style={{ padding: "0.25rem" }}>
+                <TableCell>{message_row.main_message ? <Badge>main message</Badge> : ''}</TableCell>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{message_index}</td> */}
-                <td style={{ padding: "0 1rem 0 0" }}>{category}{invalid_tx_notice}</td>
+                <TableCell>{category}{invalid_tx_notice}</TableCell>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{category}</td> */}
-                <td style={{ padding: "0 1rem 0 0" }}>{command}</td>
+                <TableCell>{command}</TableCell>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td> */}
-                <td style={{ padding: "0 1rem 0 0" }}>{message_index}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{linksElement(bindingsElements, index)}</td>
+                <TableCell>{message_index}</TableCell>
+                <TableCell>{linksElement(bindingsElements, index)}</TableCell>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(message_row)}</td> */}
-            </tr>
+            </TableRow>
         );
     }
 
     static getTableRowMessageBlockHeader() {
         return (
-            <tr style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>tx / state</td>
-                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>tx/state</td> */}
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>category</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>command</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>message_index</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>bindings</td>
-            </tr>
+            <TableRow>
+                <TableHeaderCell>Tx/state</TableHeaderCell>
+                <TableHeaderCell>Category</TableHeaderCell>
+                <TableHeaderCell>Command</TableHeaderCell>
+                <TableHeaderCell>Message Index</TableHeaderCell>
+                <TableHeaderCell>Bindings</TableHeaderCell>
+            </TableRow>
         );
     }
     static getTableRowMessageBlock(message_row, index) {
@@ -330,21 +379,31 @@ class ListElements {
         }
 
         return (
-            <tr key={index} style={{ padding: "0.25rem" }}>
+            <TableRow>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{message_index}</td> */}
-                <td style={{ padding: "0 1rem 0 0" }}>{
+                <TableCell>{
                     // txhash_or_event ? (<><Link to={`/tx/${txhash_or_event}`}>tx</Link>{invalid_tx_notice}</>) : 'state'
                     txhash_or_event ? (<Link to={`/tx/${txhash_or_event}`}>tx</Link>) : 'state'
-                }</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{category}{invalid_tx_notice}</td>
+                }</TableCell>
+                <TableCell>{category}{invalid_tx_notice}</TableCell>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{category}</td> */}
-                <td style={{ padding: "0 1rem 0 0" }}>{command}</td>
+                <TableCell>{command}</TableCell>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td> */}
-                <td style={{ padding: "0 1rem 0 0" }}>{message_index}</td>
+                <TableCell>{message_index}</TableCell>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(message_row)}</td> */}
-                <td style={{ padding: "0 1rem 0 0" }}>{linksElement(bindingsElements, index)}</td>
+                <TableCell>
+                    {/*<Accordion className={"border-none m-0 overflow-visible"}>*/}
+                    {/*    <AccordionHeader className={"border-none pl-0"}>*/}
+                    {/*        <Subtitle>show details</Subtitle>*/}
+                    {/*    </AccordionHeader>*/}
+                    {/*    <AccordionBody className={"p-0"}>*/}
+                            {linksElement(bindingsElements, index)}
+                    {/*    </AccordionBody>*/}
+                    {/*</Accordion>*/}
+
+                </TableCell>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(message_row)}</td> */}
-            </tr>
+            </TableRow>
         );
     }
 
@@ -353,19 +412,19 @@ class ListElements {
     static getTableRowBalanceAddressHeader(asset_page = false) {
         // static getTableRowBalanceAddressHeader() {
         return (
-            <tr style={{ padding: "0.25rem" }}>
+            <TableRow>
 
                 {asset_page ?
-                    (<td style={{ padding: "0 1rem 0.25rem 0" }}>address</td>)
-                    : (<td style={{ padding: "0 1rem 0.25rem 0" }}>asset</td>)
+                    (<TableHeaderCell>Address</TableHeaderCell>)
+                    : (<TableHeaderCell>Asset</TableHeaderCell>)
                 }
-                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>asset</td> */}
+                {/* <TableHeaderCell>asset</TableHeaderCell> */}
 
-                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>quantity (decimals are satoshi divisible)</td> */}
-                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>quantity (decimals are divisible)</td> */}
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>quantity</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>units</td>
-            </tr>
+                {/* <TableHeaderCell>quantity (decimals are satoshi divisible)</TableHeaderCell> */}
+                {/* <TableHeaderCell>quantity (decimals are divisible)</TableHeaderCell> */}
+                <TableHeaderCell>Quantity</TableHeaderCell>
+                <TableHeaderCell>Units</TableHeaderCell>
+            </TableRow>
         );
     }
     static getTableRowBalanceAddress(balance_row, index, asset_page = false) {
@@ -379,11 +438,11 @@ class ListElements {
         const is_reset = balance_row.resets && true;
 
         return (
-            <tr key={index} style={{ padding: "0.25rem" }}>
+            <TableRow key={index}>
 
                 {asset_page ?
-                    (<td style={{ padding: "0 1rem 0 0" }}><Link to={`/address/${balance_row.address}`}>{balance_row.address}</Link></td>)
-                    : (<td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${balance_row.asset}`}>{mainname}</Link></td>)
+                    (<TableCell><Link to={`/address/${balance_row.address}`}>{balance_row.address}</Link></TableCell>)
+                    : (<TableCell><Link to={`/asset/${balance_row.asset}`}>{mainname}</Link></TableCell>)
                 }
                 {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${balance_row.asset}`}>{mainname}</Link></td> */}
 
@@ -392,33 +451,32 @@ class ListElements {
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{balance_row.quantity}</td> */}
 
                 {is_reset ?
-                    (<td style={{ padding: "0 1rem 0 0" }}>RESET</td>)
+                    (<TableCell>RESET</TableCell>)
                     :
-                    (<td style={{ padding: "0 1rem 0 0" }}><code>{quantity_with_divisibility}</code></td>)
+                    (<TableCell><code>{quantity_with_divisibility}</code></TableCell>)
                     // (<td style={{ padding: "0 1rem 0 0" }}>{quantity_with_divisibility}</td>)
                 }
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{quantity_with_divisibility}</td> */}
 
-                <td style={{ padding: "0 1rem 0 0" }}><code>{`${BigInt(balance_row.quantity_text)}`}</code></td>
+                <TableCell><code>{`${BigInt(balance_row.quantity_text)}`}</code></TableCell>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{`${BigInt(balance_row.quantity_text)}`}</td> */}
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{BigInt(balance_row.quantity_text)}</td> */}
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{balance_row.quantity}</td> */}
-            </tr>
+            </TableRow>
         );
     }
 
     // address broadcasts
     static getTableRowBroadcastAddressHeader() {
         return (
-            <tr style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>text</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>timestamp_iso</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>additional data</td>
-                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>rooow</td> */}
-            </tr>
+            <TableRow>
+                <TableHeaderCell></TableHeaderCell>
+                <TableHeaderCell>block_index</TableHeaderCell>
+                <TableHeaderCell>block_time_iso</TableHeaderCell>
+                <TableHeaderCell>text</TableHeaderCell>
+                <TableHeaderCell>timestamp_iso</TableHeaderCell>
+                <TableHeaderCell>additional data</TableHeaderCell>
+            </TableRow>
         );
     }
     static getTableRowBroadcastAddress(broadcast_row, index) {
@@ -440,16 +498,16 @@ class ListElements {
         const nonlinkElements = createNonLinkElement(JSON.stringify(additional_data));
 
         return (
-            <tr key={index} style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${broadcast_row.tx_hash}`}>tx</Link>{invalid_tx_notice}</td>
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${broadcast_row.block_index}`}>{broadcast_row.block_index}</Link></td>
-                <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{broadcast_row.text}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{timestamp_iso}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{linksElement(nonlinkElements, index)}</td>
+            <TableRow key={index}>
+                <TableCell><Link to={`/tx/${broadcast_row.tx_hash}`}>tx</Link>{invalid_tx_notice}</TableCell>
+                <TableCell><Link to={`/block/${broadcast_row.block_index}`}>{broadcast_row.block_index}</Link></TableCell>
+                <TableCell>{block_time_iso}</TableCell>
+                <TableCell>{broadcast_row.text}</TableCell>
+                <TableCell>{timestamp_iso}</TableCell>
+                <TableCell>{linksElement(nonlinkElements, index)}</TableCell>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(additional_data)}</td> */}
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(broadcast_row)}</td> */}
-            </tr>
+            </TableRow>
         );
     }
 
@@ -457,35 +515,32 @@ class ListElements {
     static getTableRowIssuanceEventsAssetHeader(issuer_page = false) {
         // static getTableRowIssuanceEventsAssetHeader() {
         return (
-            <tr style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
+            <TableRow>
+                <TableHeaderCell></TableHeaderCell>
 
                 {issuer_page ?
-                    (<td style={{ padding: "0 1rem 0.25rem 0" }}>asset</td>)
-                    : (<td style={{ padding: "0 1rem 0.25rem 0" }}>issuance / destroy</td>)
+                    (<TableHeaderCell>asset</TableHeaderCell>)
+                    : (<TableHeaderCell>issuance / destroy</TableHeaderCell>)
                 }
-                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>issuance / destroy</td> */}
 
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>type</td> */}
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>quantity</td>
+                <TableHeaderCell>block_index</TableHeaderCell>
+                <TableHeaderCell>block_time_iso</TableHeaderCell>
+                <TableHeaderCell>quantity</TableHeaderCell>
 
                 {issuer_page ?
-                    (<td style={{ padding: "0 1rem 0.25rem 0" }}>description</td>)
-                    : (<td style={{ padding: "0 1rem 0.25rem 0" }}>description / tag</td>)
+                    (<TableHeaderCell>description</TableHeaderCell>)
+                    : (<TableHeaderCell>description / tag</TableHeaderCell>)
                 }
-                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>description / tag</td> */}
 
                 {issuer_page ?
                     null
-                    : (<td style={{ padding: "0 1rem 0.25rem 0" }}>issuer / source</td>)
+                    : (<TableHeaderCell>issuer / source</TableHeaderCell>)
                 }
-                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>issuer / source</td> */}
 
-                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>issuer</td> */}
-                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>data</td> */}
-            </tr>
+                {/* <TableHeaderCell>issuer</td> */}
+                {/* <TableHeaderCell>data</td> */}
+            </TableRow>
         );
     }
     static getTableRowIssuanceEventsIssuanceAsset(issuance_event_row, index, divisible, issuer_page = false) {
@@ -553,32 +608,30 @@ class ListElements {
         }
 
         return (
-            <tr key={index} style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${issuance_event_row.tx_hash}`}>tx</Link></td>
+            <TableRow key={index}>
+                <TableCell><Link to={`/tx/${issuance_event_row.tx_hash}`}>tx</Link></TableCell>
 
                 {issuer_page ?
-                    <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${issuance_event_row.asset}`}>{mainname}</Link></td>
-                    : (<td style={{ padding: "0 1rem 0 0" }}>{issuance_event_row.issuance_event_type}{invalid_tx_notice}</td>)
+                    <TableCell><Link to={`/asset/${issuance_event_row.asset}`}>{mainname}</Link></TableCell>
+                    : (<TableCell>{issuance_event_row.issuance_event_type}{invalid_tx_notice}</TableCell>)
                 }
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{issuance_event_row.issuance_event_type}{invalid_tx_notice}</td> */}
 
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{issuance_event_row.issuance_event_type}</td> */}
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${issuance_event_row.block_index}`}>{issuance_event_row.block_index}</Link></td>
-                <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{quantity_with_divisibility}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{description_orwith_lock_element}</td>
+                <TableCell><Link to={`/block/${issuance_event_row.block_index}`}>{issuance_event_row.block_index}</Link></TableCell>
+                <TableCell>{block_time_iso}</TableCell>
+                <TableCell>{quantity_with_divisibility}</TableCell>
+                <TableCell>{description_orwith_lock_element}</TableCell>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{description_or_lock}</td> */}
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{issuance_event_row.description}</td> */}
 
                 {issuer_page ?
                     null
-                    : (<td style={{ padding: "0 1rem 0 0" }}>{issuer_element}</td>)
+                    : (<TableCell>{issuer_element}</TableCell>)
                     // : (<td style={{ padding: "0 1rem 0 0" }}>{issuer}</td>)
                 }
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{issuer}</td> */}
 
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(issuance_event_row)}</td> */}
-            </tr>
+            </TableRow>
         );
     }
     static getTableRowIssuanceEventsDestroyAsset(issuance_event_row, index, divisible) {
@@ -740,52 +793,52 @@ class ListElements {
 
     static getTableRowDispensersHeader_addressPage() {
         return (
-            <tr style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>asset (get)</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>sats / unit</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td>
+            <TableRow style={{ padding: "0.25rem" }}>
+                <TableHeaderCell></TableHeaderCell>
+                <TableHeaderCell>asset (get)</TableHeaderCell>
+                <TableHeaderCell>sats / unit</TableHeaderCell>
+                <TableHeaderCell>block_index</TableHeaderCell>
+                <TableHeaderCell>block_time_iso</TableHeaderCell>
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>bindings</td> */}
-            </tr>
+            </TableRow>
         );
     }
     static getTableRowDispensers_addressPage(dispensers_row, index) {
         return (
-            <tr key={index} style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${dispensers_row.tx_hash}`}>tx</Link></td>
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${dispensers_row.asset}`}>{dispensers_row.asset}</Link></td>
-                <td style={{ padding: "0 1rem 0 0" }}>{`${dispensers_row.satoshirate/dispensers_row.give_quantity}`}</td>
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${dispensers_row.block_index}`}>{dispensers_row.block_index}</Link></td>
-                <td style={{ padding: "0 1rem 0 0" }}>{timeIsoFormat(dispensers_row.block_time)}</td>
+            <TableRow key={index} style={{ padding: "0.25rem" }}>
+                <TableCell><Link to={`/tx/${dispensers_row.tx_hash}`}>tx</Link></TableCell>
+                <TableCell><Link to={`/asset/${dispensers_row.asset}`}>{dispensers_row.asset}</Link></TableCell>
+                <TableCell>{`${dispensers_row.satoshirate/dispensers_row.give_quantity}`}</TableCell>
+                <TableCell><Link to={`/block/${dispensers_row.block_index}`}>{dispensers_row.block_index}</Link></TableCell>
+                <TableCell>{timeIsoFormat(dispensers_row.block_time)}</TableCell>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(dispensers_row)}</td> */}
-            </tr>
+            </TableRow>
         );
     }
 
     // dispenses
     static getTableRowDispensesHeader() {
         return (
-            <tr style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>quantity</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>destination</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td>
+            <TableRow>
+                <TableHeaderCell></TableHeaderCell>
+                <TableHeaderCell>quantity</TableHeaderCell>
+                <TableHeaderCell>destination</TableHeaderCell>
+                <TableHeaderCell>block_index</TableHeaderCell>
+                <TableHeaderCell>block_time_iso</TableHeaderCell>
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>bindings</td> */}
-            </tr>
+            </TableRow>
         );
     }
     static getTableRowDispenses(dispenses_row, index, asset_metadata) {
         return (
-            <tr key={index} style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${dispenses_row.tx_hash}`}>tx</Link></td>
-                <td style={{ padding: "0 1rem 0 0" }}>{quantityWithDivisibility(asset_metadata.divisible, BigInt(dispenses_row.dispense_quantity_text))}</td>
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/address/${dispenses_row.destination}`}>{dispenses_row.destination}</Link></td>
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${dispenses_row.block_index}`}>{dispenses_row.block_index}</Link></td>
-                <td style={{ padding: "0 1rem 0 0" }}>{timeIsoFormat(dispenses_row.block_time)}</td>
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(dispenses_row)}</td> */}
-            </tr>
+            <TableRow key={index}>
+                <TableCell><Link to={`/tx/${dispenses_row.tx_hash}`}>tx</Link></TableCell>
+                <TableCell>{quantityWithDivisibility(asset_metadata.divisible, BigInt(dispenses_row.dispense_quantity_text))}</TableCell>
+                <TableCell><Link to={`/address/${dispenses_row.destination}`}>{dispenses_row.destination}</Link></TableCell>
+                <TableCell><Link to={`/block/${dispenses_row.block_index}`}>{dispenses_row.block_index}</Link></TableCell>
+                <TableCell>{timeIsoFormat(dispenses_row.block_time)}</TableCell>
+                {/* <TableCell style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(dispenses_row)}</TableCell> */}
+            </TableRow>
         );
     }
 
@@ -793,8 +846,8 @@ class ListElements {
     static getTableRowOrdersHeader(give_asset_metadata) {
         // static getTableRowOrdersHeader(divisible, asset_page = false) {
         return (
-            <tr style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
+            <TableRow>
+                <TableHeaderCell></TableHeaderCell>
 
                 {/* {asset_page ?
                     null
@@ -814,25 +867,25 @@ class ListElements {
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td> */}
 
                 {give_asset_metadata.asset === 'BTC' ?
-                    (<td style={{ padding: "0 1rem 0.25rem 0" }}>{give_asset_metadata.asset} promise</td>)
+                    (<TableHeaderCell>{give_asset_metadata.asset} promise</TableHeaderCell>)
                     :
-                    (<td style={{ padding: "0 1rem 0.25rem 0" }}>{give_asset_metadata.asset} in escrow</td>)
+                    (<TableHeaderCell>{give_asset_metadata.asset} in escrow</TableHeaderCell>)
                 }
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>{give_asset_metadata.asset} in escrow</td> */}
 
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>get remaining units (requested)</td>
+                <TableHeaderCell>get remaining units (requested)</TableHeaderCell>
 
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>source</td>
+                <TableHeaderCell>source</TableHeaderCell>
 
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td>
+                <TableHeaderCell>block_index</TableHeaderCell>
+                <TableHeaderCell>block_time_iso</TableHeaderCell>
 
                 {/* {asset_page ?
                     null
                     : (<td style={{ padding: "0 1rem 0.25rem 0" }}>bindings</td>)
                 } */}
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>bindings</td> */}
-            </tr>
+            </TableRow>
         );
     }
     static getTableRowOrders(orders_row, index, divisible, asset_page = false) {
@@ -1009,34 +1062,34 @@ class ListElements {
         if (is_home_page) {
             firstTwo = (
                 <>
-                    <td style={{ padding: "0 1rem 0.25rem 0" }}>tx_hash</td>
-                    <td style={{ padding: "0 1rem 0.25rem 0" }}>tx_index</td>
+                    <TableHeaderCell><Text>Tx Hash</Text></TableHeaderCell>
+                    <TableHeaderCell><Text>Tx Index</Text></TableHeaderCell>
                 </>
             );
         }
         else {
             firstTwo = (
                 <>
-                    <td style={{ padding: "0 1rem 0.25rem 0" }}>tx_index</td>
-                    <td style={{ padding: "0 1rem 0.25rem 0" }}>tx_hash</td>
+                <TableHeaderCell><Text>Tx Index</Text></TableHeaderCell>
+                <TableHeaderCell><Text>Tx Hash</Text></TableHeaderCell>
                 </>
             );
         }
 
         return (
-            <tr style={{ padding: "0.25rem" }}>
+            <TableRow>
                 {firstTwo}
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>tx_hash</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>tx_index</td> */}
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>fee (sat)</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>source</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>destination</td>
+                <TableHeaderCell><Text>Block Index</Text></TableHeaderCell>
+                <TableHeaderCell><Text>Block Time</Text></TableHeaderCell>
+                <TableHeaderCell><Text>Fee (sat)</Text></TableHeaderCell>
+                <TableHeaderCell><Text>Source</Text></TableHeaderCell>
+                <TableHeaderCell><Text>Destination</Text></TableHeaderCell>
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>BTC burn</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>XCP mined</td> */}
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>stringify</td> */}
-            </tr>
+            </TableRow>
         );
     }
     static getTableRowTransaction(transaction_row, index, is_home_page = false) {
@@ -1057,23 +1110,23 @@ class ListElements {
         if (is_home_page) {
             firstTwo = (
                 <>
-                    <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${transaction_row.tx_hash}`}>{transaction_row.tx_hash}</Link></td>
-                    <td style={{ padding: "0 1rem 0 0" }}>{transaction_row.tx_index}</td>
+                    <TableCell className={"truncate max-w-xs"}><Link to={`/tx/${transaction_row.tx_hash}`}>{transaction_row.tx_hash}</Link></TableCell>
+                    <TableCell>{transaction_row.tx_index}</TableCell>
                 </>
             );
-        }
-        else {
+        } else {
             firstTwo = (
                 <>
-                    <td style={{ padding: "0 1rem 0 0" }}>{transaction_row.tx_index}</td>
-                    <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${transaction_row.tx_hash}`}>{transaction_row.tx_hash}</Link></td>
+                    <TableCell>{transaction_row.tx_index}</TableCell>
+                    <TableCell className={"truncate max-w-xs"}><Link to={`/tx/${transaction_row.tx_hash}`}>{transaction_row.tx_hash}</Link></TableCell>
                     {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${transaction_row.tx_hash}`}>{hashSlice(transaction_row.tx_hash)}</Link></td> */}
                 </>
             );
         }
 
         return (
-            <tr key={index} style={{ padding: "0.25rem" }}>
+            <TableRow key={index}>
+            {/*<tr key={index} style={{ padding: "0.25rem" }}>*/}
 
                 {firstTwo}
 
@@ -1084,15 +1137,15 @@ class ListElements {
 
                 <td style={{ padding: "0 1rem 0 0" }}>{transaction_row.tx_index}</td> */}
 
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${transaction_row.block_index}`}>{transaction_row.block_index}</Link></td>
-                <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{transaction_row.fee}</td>
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/address/${transaction_row.source}`}>{transaction_row.source}</Link></td>
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/address/${transaction_row.destination}`}>{transaction_row.destination}</Link></td>
+                <TableCell><Link to={`/block/${transaction_row.block_index}`}>{transaction_row.block_index}</Link></TableCell>
+                <TableCell>{block_time_iso}</TableCell>
+                <TableCell>{transaction_row.fee}</TableCell>
+                <TableCell className={"truncate max-w-xs"}><Link to={`/address/${transaction_row.source}`}>{transaction_row.source}</Link></TableCell>
+                <TableCell className={"truncate max-w-xs"}><Link to={`/address/${transaction_row.destination}`}>{transaction_row.destination}</Link></TableCell>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{burned_quantity_with_divisibility}</td>
                 <td style={{ padding: "0 1rem 0 0" }}>{earned_quantity_with_divisibility}</td> */}
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(transaction_row)}</td> */}
-            </tr>
+            </TableRow>
         );
     }
 
@@ -1133,14 +1186,15 @@ class ListElements {
 class OneElements {
     static getFullPageForRouteElement(route_element) {
         return (
-            <main style={{ padding: "1rem" }}>
+            <main className={"flex flex-col w-full items-center justify-center"}>
                 {route_element}
-                <p>
+
+                {/*<Divider />*/}
+                <p className={"flex flex-row w-full items-center justify-center mt-12 space-x-3"}>
                     [<a href={`https://github.com/CNTRPRTY/xcpdev`} target="_blank">xcp.dev v1.1</a>]
-                    <br />
 
                     [counterparty-lib v{COUNTERPARTY_VERSION}][<a href={COUNTERPARTY_VERSION_ALT_URL} target="_blank">v{COUNTERPARTY_VERSION_ALT}</a>]
-                    <br />
+
                     {/* [counterparty-lib v{COUNTERPARTY_VERSION}]
                     <br /> */}
 
