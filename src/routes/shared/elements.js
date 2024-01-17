@@ -15,6 +15,7 @@ import {
     Text
 } from "@tremor/react";
 import React from "react";
+import Footer from "../../components/Footer";
 
 // function timeIsoFormat(block_time) {
 //     // return `at: ${(new Date(block_time * 1000).toISOString()).replace('.000Z', 'Z')}`;
@@ -1189,19 +1190,7 @@ class OneElements {
             <main className={"flex flex-col w-full items-center justify-center"}>
                 {route_element}
 
-                {/*<Divider />*/}
-                <p className={"flex flex-row w-full items-center justify-center mt-12 space-x-3"}>
-                    [<a href={`https://github.com/CNTRPRTY/xcpdev`} target="_blank">xcp.dev v1.1</a>]
-
-                    [counterparty-lib v{COUNTERPARTY_VERSION}][<a href={COUNTERPARTY_VERSION_ALT_URL} target="_blank">v{COUNTERPARTY_VERSION_ALT}</a>]
-
-                    {/* [counterparty-lib v{COUNTERPARTY_VERSION}]
-                    <br /> */}
-
-                    [Bitcoin Core v{BITCOIN_VERSION}]
-                    {/* [counterparty-lib v{COUNTERPARTY_VERSION}] in [Bitcoin Core v{BITCOIN_VERSION}] */}
-                    {/* [counterparty-lib v9.59] in [Bitcoin Core v0.21.1] */}
-                </p>
+                <Footer/>
             </main>
         );
     }
