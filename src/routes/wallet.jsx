@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 
 import WalletBalances from './wallet_balances';
 import WalletCreateSelect from './wallet_create_select';
-import {Title} from "@tremor/react";
+import {Title, Text, TextInput, Subtitle, Button} from "@tremor/react";
 // import WalletCreate from './wallet_create';
 
 class Wallet extends React.Component {
@@ -192,7 +192,7 @@ class Wallet extends React.Component {
         // const button_value = "get balances";
         if (this.state.address && this.state.address.length) {
             // if (this.state.address.length) {
-            show_button = (<span> <input type="submit" value={button_value} disabled={this.state.loading} /></span>);
+            show_button = (<Button className={"my-2"} type="submit" value={button_value} disabled={this.state.loading} >Submit</Button>);
             // show_button = (<span> <input type="submit" value={button_value} /></span>);
         }
         const placeholder = "address";
@@ -200,7 +200,7 @@ class Wallet extends React.Component {
             <span>
                 <div style={{ padding: "1.1rem 0 0.5rem 0" }}>
                     <form onSubmit={this.handleSearchSubmit}>
-                        <input type="text" value={this.state.address} onChange={this.handleSearchChange} placeholder={placeholder} disabled={this.state.loading} />
+                        <TextInput className={"max-w-md"} type="text" value={this.state.address} onChange={this.handleSearchChange} placeholder={placeholder} disabled={this.state.loading} />
                         {/* <input type="text" value={this.state.address} onChange={this.handleSearchChange} placeholder={placeholder} /> */}
                         {show_button}
                     </form>
@@ -215,7 +215,7 @@ class Wallet extends React.Component {
 
         let wallet_element_contents = (
             <>
-                <p>Enter your address (or start <a href={`https://github.com/CNTRPRTY/simplest/`} target="_blank">here</a> if you don't have one):</p>
+                <Subtitle>Enter your address (or start <a href={`https://github.com/CNTRPRTY/simplest/`} target="_blank">here</a> if you don't have one):</Subtitle>
                 {/* <p>Enter your address (or start with a <a href={`https://github.com/CNTRPRTY/simplest/`} target="_blank">wallet</a>):</p> */}
                 {/* <p>Enter your address (or start with a <a href={`https://bitst.art/`} target="_blank">wallet</a>):</p> */}
                 {address_bar}
@@ -226,7 +226,7 @@ class Wallet extends React.Component {
         if (this.state.error_loading) {
             wallet_element_contents = (
                 <>
-                    <p>There was an error loading balances for address: <Link to={`/address/${this.state.address}`}>{this.state.address}</Link></p>
+                    <Text>There was an error loading balances for address: <Link to={`/address/${this.state.address}`}>{this.state.address}</Link></Text>
                 </>
             );
         }
@@ -275,14 +275,10 @@ class Wallet extends React.Component {
 
             const wallet_balances_element = (
                 <>
-                    <nav
-                        style={{
-                            // borderBottom: "solid 1px",
-                            paddingBottom: "1rem",
-                        }}
-                    >
-                        <strong>Balances</strong> |{" "}
-                        <Link to={`/wallet/${this.state.address}?method=create`}>Create</Link>
+                    <nav className={"flex flex-row space-x-2 items-center"}>
+                        <Title className={"text-yellow-600 dark:text-yellow-600"}>Balances</Title>
+                        <Text>|</Text>
+                        <Link to={`/wallet/${this.state.address}?method=create`}><Title>Create</Title></Link>
                     </nav>
                     {/* <Outlet /> */}
 
@@ -292,13 +288,10 @@ class Wallet extends React.Component {
 
             const wallet_create_element = (
                 <>
-                    <nav
-                        style={{
-                            paddingBottom: "1rem",
-                        }}
-                    >
-                        <Link to={`/wallet/${this.state.address}`}>Balances</Link> |{" "}
-                        <strong>Create</strong>
+                    <nav className={"flex flex-row space-x-2 items-center"}>
+                        <Link to={`/wallet/${this.state.address}`}><Title>Balances</Title></Link>
+                        <Text>|</Text>
+                        <Title className={"text-yellow-600 dark:text-yellow-600"}>Create</Title>
                     </nav>
 
                     <WalletCreateSelect address={this.state.address} />
@@ -308,7 +301,7 @@ class Wallet extends React.Component {
 
             wallet_element_contents = (
                 <>
-                    <p>Address: <Link to={`/address/${this.state.address}`}>{this.state.address}</Link></p>
+                    <Title>Address: <Link to={`/address/${this.state.address}`}>{this.state.address}</Link></Title>
 
                     {this.state.is_create ?
                         (<>{wallet_create_element}</>)

@@ -8,6 +8,10 @@ This is an open source Counterparty data explorer server + client application. I
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Install / Run
+
+Requires Node.js >= 18.
+
 ## Contributing
     
 Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details on how to contribute to this project.

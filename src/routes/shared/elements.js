@@ -15,6 +15,7 @@ import {
     Text
 } from "@tremor/react";
 import React from "react";
+import Footer from "../../components/Footer";
 
 // function timeIsoFormat(block_time) {
 //     // return `at: ${(new Date(block_time * 1000).toISOString()).replace('.000Z', 'Z')}`;
@@ -200,7 +201,7 @@ class ListElements {
         return (
             <TableRow key={index}>
                 <TableCell>
-                    <Badge color={txTypeBadgeColor(mempool_row_plus.cntrprty_decoded.msg_type)}>
+                    <Badge size={"xs"} color={txTypeBadgeColor(mempool_row_plus.cntrprty_decoded.msg_type)}>
                         {mempool_row_plus.cntrprty_decoded.msg_type}
                     </Badge>
                 </TableCell>
@@ -317,7 +318,7 @@ class ListElements {
 
         return (
             <TableRow key={index} style={{ padding: "0.25rem" }}>
-                <TableCell>{message_row.main_message ? <Badge>main message</Badge> : ''}</TableCell>
+                <TableCell>{message_row.main_message ? <Badge size={"xs"}>main message</Badge> : ''}</TableCell>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{message_index}</td> */}
                 <TableCell>{category}{invalid_tx_notice}</TableCell>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{category}</td> */}
@@ -502,7 +503,7 @@ class ListElements {
                 <TableCell><Link to={`/tx/${broadcast_row.tx_hash}`}>tx</Link>{invalid_tx_notice}</TableCell>
                 <TableCell><Link to={`/block/${broadcast_row.block_index}`}>{broadcast_row.block_index}</Link></TableCell>
                 <TableCell>{block_time_iso}</TableCell>
-                <TableCell>{broadcast_row.text}</TableCell>
+                <TableCell className={"truncate max-w-xs"}>{broadcast_row.text}</TableCell>
                 <TableCell>{timestamp_iso}</TableCell>
                 <TableCell>{linksElement(nonlinkElements, index)}</TableCell>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(additional_data)}</td> */}
@@ -619,7 +620,7 @@ class ListElements {
                 <TableCell><Link to={`/block/${issuance_event_row.block_index}`}>{issuance_event_row.block_index}</Link></TableCell>
                 <TableCell>{block_time_iso}</TableCell>
                 <TableCell>{quantity_with_divisibility}</TableCell>
-                <TableCell>{description_orwith_lock_element}</TableCell>
+                <TableCell className={"truncate max-w-xs"}>{description_orwith_lock_element}</TableCell>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{description_or_lock}</td> */}
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{issuance_event_row.description}</td> */}
 
@@ -1189,19 +1190,7 @@ class OneElements {
             <main className={"flex flex-col w-full items-center justify-center"}>
                 {route_element}
 
-                {/*<Divider />*/}
-                <p className={"flex flex-row w-full items-center justify-center mt-12 space-x-3"}>
-                    [<a href={`https://github.com/CNTRPRTY/xcpdev`} target="_blank">xcp.dev v1.1</a>]
-
-                    [counterparty-lib v{COUNTERPARTY_VERSION}][<a href={COUNTERPARTY_VERSION_ALT_URL} target="_blank">v{COUNTERPARTY_VERSION_ALT}</a>]
-
-                    {/* [counterparty-lib v{COUNTERPARTY_VERSION}]
-                    <br /> */}
-
-                    [Bitcoin Core v{BITCOIN_VERSION}]
-                    {/* [counterparty-lib v{COUNTERPARTY_VERSION}] in [Bitcoin Core v{BITCOIN_VERSION}] */}
-                    {/* [counterparty-lib v9.59] in [Bitcoin Core v0.21.1] */}
-                </p>
+                <Footer/>
             </main>
         );
     }

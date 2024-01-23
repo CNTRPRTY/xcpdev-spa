@@ -207,6 +207,7 @@ class Address extends React.Component {
                         <Title className={"mb-6"}>Asset issuances</Title>
                         <Subtitle>Genesis</Subtitle>
                         {issuer_genesis_element}
+                        <Divider/>
                         <Subtitle>Transfer</Subtitle>
                         {issuer_transfer_element}
                     </Card>
