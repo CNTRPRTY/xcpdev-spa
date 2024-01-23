@@ -4,7 +4,7 @@ import { getCntrprty } from '../api';
 import { OneElements, ListElements } from './shared/elements';
 // import { ListElements, OnlyElements } from './shared/elements';
 import { Link } from "react-router-dom";
-import {Card, Divider, List, ListItem, Subtitle, Table, TableBody, TableHead, Title} from "@tremor/react";
+import {Card, List, ListItem, Subtitle, Table, TableBody, TableHead, Title, Text} from "@tremor/react";
 import {FcNext, FcPrevious} from "react-icons/fc";
 
 class Block extends React.Component {
@@ -90,14 +90,14 @@ class Block extends React.Component {
         let block_element_contents = (<p>loading...</p>);
         if (this.state.block_not_found) {
             block_element_contents = (
-                <p>Block not found</p>
+                <Text>Block not found</Text>
             );
         }
         else if (this.state.messages && !this.state.messages.length) {
             block_element_contents = (
                 <>
                     <Title>Messages</Title>
-                    <p>No messages in block</p>
+                    <Text>No messages in block</Text>
                 </>
             );
         }
