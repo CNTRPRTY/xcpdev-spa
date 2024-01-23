@@ -503,7 +503,7 @@ class ListElements {
                 <TableCell><Link to={`/tx/${broadcast_row.tx_hash}`}>tx</Link>{invalid_tx_notice}</TableCell>
                 <TableCell><Link to={`/block/${broadcast_row.block_index}`}>{broadcast_row.block_index}</Link></TableCell>
                 <TableCell>{block_time_iso}</TableCell>
-                <TableCell>{broadcast_row.text}</TableCell>
+                <TableCell className={"truncate max-w-xs"}>{broadcast_row.text}</TableCell>
                 <TableCell>{timestamp_iso}</TableCell>
                 <TableCell>{linksElement(nonlinkElements, index)}</TableCell>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(additional_data)}</td> */}
@@ -620,7 +620,7 @@ class ListElements {
                 <TableCell><Link to={`/block/${issuance_event_row.block_index}`}>{issuance_event_row.block_index}</Link></TableCell>
                 <TableCell>{block_time_iso}</TableCell>
                 <TableCell>{quantity_with_divisibility}</TableCell>
-                <TableCell>{description_orwith_lock_element}</TableCell>
+                <TableCell className={"truncate max-w-xs"}>{description_orwith_lock_element}</TableCell>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{description_or_lock}</td> */}
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{issuance_event_row.description}</td> */}
 
