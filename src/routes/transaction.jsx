@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import { decode_data } from '../decode_tx';
 import { Buffer } from 'buffer';
 import { timeIsoFormat, quantityWithDivisibility } from '../utils';
-import {Card, Divider, List, ListItem, Subtitle, Table, TableBody, TableHead, Title} from "@tremor/react";
+import {Card, Divider, List, ListItem, Subtitle, Table, TableBody, TableHead, Title, Text} from "@tremor/react";
 
 class Transaction extends React.Component {
     constructor(props) {
@@ -211,7 +211,7 @@ class Transaction extends React.Component {
         if (this.state.transaction_not_found) {
             transaction_element_contents = (
                 // ideally, this should return basic transaction info for non counterparty transactions
-                <p>No CNTRPRTY block transaction found for tx_hash <a href={`https://mempool.space/tx/${this.state.tx_hash}`} target="_blank">{this.state.tx_hash}</a></p>
+                <Text>No CNTRPRTY block transaction found for tx_hash <a href={`https://mempool.space/tx/${this.state.tx_hash}`} target="_blank">{this.state.tx_hash}</a></Text>
                 // <p>no CNTRPRTY transaction found for tx_hash <a href={`https://mempool.space/tx/${this.state.tx_hash}`} target="_blank">{this.state.tx_hash}</a></p>
                 // <p>transaction not found</p>
             );
@@ -219,7 +219,7 @@ class Transaction extends React.Component {
         else if (this.state.mempool.length) {
             transaction_element_contents = (
                 <>
-                    <h3>In mempool...</h3>
+                    <Title>In mempool...</Title>
 
                     {/* // when it is in the mempool, it can be multiple rows just like the homepage */}
 
@@ -582,26 +582,26 @@ class Transaction extends React.Component {
 
                         <li>
 
-                            <h3>CNTRPRTY transaction:</h3>
+                            <Title>CNTRPRTY transaction:</Title>
 
                             <ul>
 
-                                <li>Tx Index: {this.state.transaction.tx_index}{this.state.transaction.supported ? '' : ' (supported:0)'}</li>
+                                <li><Subtitle>Tx Index: {this.state.transaction.tx_index}{this.state.transaction.supported ? '' : ' (supported:0)'}</Subtitle></li>
 
-                                <li>Tx Hash: {this.state.transaction.tx_hash} <a href={`https://mempool.space/tx/${this.state.transaction.tx_hash}`} target="_blank">{String.fromCharCode(10697)}</a></li>
+                                <li><Subtitle>Tx Hash: {this.state.transaction.tx_hash} <a href={`https://mempool.space/tx/${this.state.transaction.tx_hash}`} target="_blank">{String.fromCharCode(10697)}</a></Subtitle></li>
                                 {/* https://www.quora.com/Is-the-symbol-for-external-link-available-in-Unicode-If-so-how-do-I-get-in-on-my-Mac */}
                                 {/* <li>tx_hash: <a href={`https://mempool.space/tx/${this.state.transaction.tx_hash}`} target="_blank">{this.state.transaction.tx_hash}</a></li> */}
                                 {/* <li>tx_hash: {this.state.transaction.tx_hash}</li> */}
                                 {/* <li>tx_index: {this.state.transaction.tx_index}</li> */}
-                                <li>Block Index: <Link to={`/block/${this.state.transaction.block_index}`}>{this.state.transaction.block_index}</Link></li>
+                                <li><Subtitle>Block Index: <Link to={`/block/${this.state.transaction.block_index}`}>{this.state.transaction.block_index}</Link></Subtitle></li>
                                 {/* <li>block_index: {this.state.transaction.block_index}</li> */}
                                 {/* <li>block_time: {this.state.transaction.block_time}</li> */}
-                                <li>Block time: {timeIsoFormat(this.state.transaction.block_time)}</li>
+                                <li><Subtitle>Block time: {timeIsoFormat(this.state.transaction.block_time)}</Subtitle></li>
                                 {/* <li>tx_index: {this.state.transaction.tx_index}</li> */}
-                                <li>Source: <Link to={`/address/${this.state.transaction.source}`}>{this.state.transaction.source}</Link></li>
+                                <li><Subtitle>Source: <Link to={`/address/${this.state.transaction.source}`}>{this.state.transaction.source}</Link></Subtitle></li>
                                 {/* <li>source: {this.state.transaction.source}</li> */}
                                 {this.state.transaction.destination ? (
-                                    <li>Destination: <Link to={`/address/${this.state.transaction.destination}`}>{this.state.transaction.destination}</Link></li>
+                                    <li><Subtitle>Destination: <Link to={`/address/${this.state.transaction.destination}`}>{this.state.transaction.destination}</Link></Subtitle></li>
                                     // <li>destination: {this.state.transaction.destination}</li>
                                 ) : null}
                             </ul>
@@ -636,7 +636,7 @@ class Transaction extends React.Component {
 
                                     </List>
                                 ) :
-                                (<p>(unable to decode this transaction)</p>)
+                                (<Subtitle>(unable to decode this transaction)</Subtitle>)
                             }
                         </li>
 
@@ -773,7 +773,7 @@ class Transaction extends React.Component {
                     {btcpay_element}
                     {broadcast_element}
                     <Divider />
-                    <h2>Bitcoin transaction: {this.state.tx_hash}</h2>
+                    <Title>Bitcoin transaction: {this.state.tx_hash}</Title>
                     {/* <h2>Transaction: {this.state.tx_hash}</h2> */}
                     {transaction_element_contents}
                 </Card>

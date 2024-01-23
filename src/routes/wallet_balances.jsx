@@ -255,7 +255,7 @@ class WalletBalances extends React.Component {
 
 
                     <Card>
-                        <Title>Assets balance (sorted by most units on top, then alphabetically):</Title>
+                        <Title>Assets balance (sorted by most units on top, then alphabetically)</Title>
                         {/* <h3>Balances (sorted by most units on top, then alphabetically):</h3> */}
 
                         {/* <p>
