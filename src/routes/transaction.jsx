@@ -489,10 +489,12 @@ class Transaction extends React.Component {
                         {order_matches_rows.length ?
                             (
                                 <>
-                                    <p>Order matches:</p>
-                                    <table>
-                                        <tbody>
+                                    <Title>Order matches:</Title>
+                                    <Table>
+                                        <TableHead>
                                             {ListElements.getTableRowOrderMatchesHeader()}
+                                        </TableHead>
+                                        <TableBody>
                                             {order_matches_rows.map((order_matches_row, index) => {
                                                 const order_metadata = {
                                                     tx_hash: orders_row.tx_hash,
@@ -501,21 +503,23 @@ class Transaction extends React.Component {
                                                 }
                                                 return ListElements.getTableRowOrderMatches(order_matches_row, index, order_metadata);
                                             })}
-                                        </tbody>
-                                    </table>
+                                        </TableBody>
+                                    </Table>
                                     {/* !nested terniary! */}
                                     {order_matches_btcpays_rows.length ?
                                         (
                                             <>
-                                                <p>BTC pays:</p>
-                                                <table>
-                                                    <tbody>
+                                                <Title>BTC pays:</Title>
+                                                <Table>
+                                                    <TableHead>
                                                         {ListElements.getTableRowOrderMatchesBtcpaysHeader()}
+                                                    </TableHead>
+                                                    <TableBody>
                                                         {order_matches_btcpays_rows.map((btcpays_row, index) => {
                                                             return ListElements.getTableRowOrderMatchesBtcpays(btcpays_row, index);
                                                         })}
-                                                    </tbody>
-                                                </table>
+                                                    </TableBody>
+                                                </Table>
                                             </>
                                         )
                                         : null
@@ -537,7 +541,7 @@ class Transaction extends React.Component {
                 const order_1 = this.state.cntrprty_decoded.msg_decoded.order_1;
                 btcpay_element = (
                     <>
-                        <h3>BTC pay:</h3>
+                        <Title>BTC pay:</Title>
                         <ul>
                             <li>tx0: <Link to={`/tx/${order_0}`}>{order_0}</Link></li>
                             <li>tx1: <Link to={`/tx/${order_1}`}>{order_1}</Link></li>
@@ -552,7 +556,7 @@ class Transaction extends React.Component {
                 const text = this.state.cntrprty_decoded.msg_decoded.text;
                 broadcast_element = (
                     <>
-                        <h3>Broadcast:</h3>
+                        <Title>Broadcast:</Title>
                         <textarea rows="2" cols="55" style={{
                             // https://stackoverflow.com/a/658197
                             'whiteSpace': "nowrap",

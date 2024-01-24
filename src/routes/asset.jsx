@@ -7,6 +7,7 @@ import { getCntrprty } from '../api';
 import { OneElements, ListElements } from './shared/elements';
 import { Link } from 'react-router-dom';
 import { timeIsoFormat, quantityWithDivisibility } from '../utils';
+import {Title, Text, Subtitle, TableHead, TableBody, Table, Card, Bold, List, ListItem, Divider} from "@tremor/react";
 
 class Asset extends React.Component {
     constructor(props) {
@@ -174,7 +175,7 @@ class Asset extends React.Component {
         if (this.state.asset_not_found) {
             // if (!this.state.asset_row) {
             asset_metadata = (
-                <p>asset not found... or it is misspelled (is case sensitive)... or genesis issuance is still in the mempool...</p>
+                <Text>Asset not found... or it is misspelled (is case sensitive)... or genesis issuance is still in the mempool...</Text>
                 // <p>asset not found (or genesis issuance is still in the mempool...)</p>
                 // <p>asset not found (or is still in the mempool...)</p>
                 // <p>asset not found (maybe is still in the mempool...)</p>
@@ -199,7 +200,7 @@ class Asset extends React.Component {
 
                 markets_element = (
                     <>
-                        <h3>Market:</h3>
+                        <Title>Market:</Title>
     
                         {/* <h4>Open dispensers:</h4>
                         {ListElements.getTableRowDispensersHeader(asset_metadata)}
@@ -207,19 +208,31 @@ class Asset extends React.Component {
                             return ListElements.getTableRowDispensers(dispensers_row, index, asset_metadata.divisible, asset_page);
                         })} */}
     
-                        <h4>Open exchange orders:</h4>
+                        <Title>Open exchange orders:</Title>
     
-                        <p>Asset in escrow:</p>
-                        {ListElements.getTableRowOrdersHeader(asset_metadata)}
-                        {this.state.orders.map((orders_row, index) => {
-                            return ListElements.getTableRowOrders(orders_row, index, asset_metadata.divisible, asset_page);
-                        })}
-    
-                        <p>Asset requested:</p>
-                        {ListElements.getTableRowOrdersHeader_get(asset_metadata)}
-                        {this.state.orders_get.map((orders_row, index) => {
-                            return ListElements.getTableRowOrders_get(orders_row, index, asset_metadata.divisible);
-                        })}
+                        <Title>Asset in escrow:</Title>
+                        <Table>
+                            <TableHead>
+                                {ListElements.getTableRowOrdersHeader(asset_metadata)}
+                            </TableHead>
+                            <TableBody>
+                            {this.state.orders.map((orders_row, index) => {
+                                return ListElements.getTableRowOrders(orders_row, index, asset_metadata.divisible, asset_page);
+                            })}
+                            </TableBody>
+                        </Table>
+
+                        <Title>Asset requested:</Title>
+                        <Table>
+                            <TableHead>
+                                {ListElements.getTableRowOrdersHeader_get(asset_metadata)}
+                            </TableHead>
+                            <TableBody>
+                                {this.state.orders_get.map((orders_row, index) => {
+                                    return ListElements.getTableRowOrders_get(orders_row, index, asset_metadata.divisible);
+                                })}
+                            </TableBody>
+                        </Table>
                     </>
                 );
 
@@ -236,23 +249,29 @@ class Asset extends React.Component {
 
                 markets_element = (
                     <>
-                        <h3>Market:</h3>
+                        <Title>Market:</Title>
     
-                        <h4>Open dispensers:</h4>
-                        {ListElements.getTableRowDispensersHeader(asset_metadata)}
-                        {this.state.dispensers.map((dispensers_row, index) => {
-                            return ListElements.getTableRowDispensers(dispensers_row, index, asset_metadata.divisible, asset_page);
-                        })}
+                        <Text>Open dispensers:</Text>
+                        <Table>
+                            <TableHead>
+                                {ListElements.getTableRowDispensersHeader(asset_metadata)}
+                            </TableHead>
+                            <TableBody>
+                                {this.state.dispensers.map((dispensers_row, index) => {
+                                    return ListElements.getTableRowDispensers(dispensers_row, index, asset_metadata.divisible, asset_page);
+                                })}
+                            </TableBody>
+                        </Table>
     
-                        <h4>Open exchange orders:</h4>
+                        <Title>Open exchange orders:</Title>
     
-                        <p>Asset in escrow:</p>
+                        <Title>Asset in escrow:</Title>
                         {ListElements.getTableRowOrdersHeader(asset_metadata)}
                         {this.state.orders.map((orders_row, index) => {
                             return ListElements.getTableRowOrders(orders_row, index, asset_metadata.divisible, asset_page);
                         })}
     
-                        <p>Asset requested:</p>
+                        <Title>Asset requested:</Title>
                         {ListElements.getTableRowOrdersHeader_get(asset_metadata)}
                         {this.state.orders_get.map((orders_row, index) => {
                             return ListElements.getTableRowOrders_get(orders_row, index, asset_metadata.divisible);
@@ -267,7 +286,7 @@ class Asset extends React.Component {
                     <h3>{protocol_base} asset: {this.state.asset_name}</h3>
                     {/* <h3>Protocol asset: {this.state.asset_name}</h3> */}
                     <ul>
-                        <li>asset id: {this.state.asset_row.asset_id}</li>
+                        <li>Asset Id: {this.state.asset_row.asset_id}</li>
                         <li>divisible: true (satoshi)</li>
                     </ul>
                     {markets_element}
@@ -348,11 +367,18 @@ class Asset extends React.Component {
             if (this.state.subassets.length) {
                 subassets_element = (
                     <>
-                        <h3>Subassets:</h3>
-                        {ListElements.getTableRowSubassetsHeader()}
-                        {this.state.subassets.map((assets_row, index) => {
-                            return ListElements.getTableRowSubassets(assets_row, index);
-                        })}
+                        <Title>Subassets:</Title>
+                        <Table>
+                            <TableHead>
+                                {ListElements.getTableRowSubassetsHeader()}
+                            </TableHead>
+                            <TableBody>
+                                {this.state.subassets.map((assets_row, index) => {
+                                    return ListElements.getTableRowSubassets(assets_row, index);
+                                })}
+                            </TableBody>
+                        </Table>
+                        <Divider />
                     </>
                 );
             }
@@ -404,12 +430,11 @@ class Asset extends React.Component {
                     {/* <p>As of block {this.state.tip_blocks_row.block_index} ({timeIsoFormat(this.state.tip_blocks_row.block_time)})</p> */}
 
                     <ul>
-                        <li>issuance events: {this.state.issuances.length} issuances, {this.state.destructions.length} destructions</li>
+                        <li><Subtitle>Issuance events: {this.state.issuances.length} issuances, {this.state.destructions.length} destructions</Subtitle></li>
                     </ul>
-                    <br />
 
                     <ul>
-                        <li>locked supply: {lock_issuance ? 'true' : 'false'}</li>
+                        <li><Subtitle>Locked supply: {lock_issuance ? 'true' : 'false'}</Subtitle></li>
                         {/* <li>events ({this.state.issuances.length} issuances + {this.state.destructions.length} destructions): {all_issuance_events.length}</li> */}
                         {/* <li>events: {all_issuance_events.length}</li> */}
                         {/* <li>locked supply: {lock_issuance ? 'true' : 'false'}</li> */}
@@ -419,17 +444,25 @@ class Asset extends React.Component {
                             :
                             (
                                 <>
-                                    <li>current supply: <strong>{quantity_with_divisibility}</strong></li>
-                                    <li>
-                                        verify (
-                                        {quantityWithDivisibility(genesis_issuance.divisible, verify_total_integer_balances)} in balances +
-                                        {' '}
-                                        {quantityWithDivisibility(genesis_issuance.divisible, verify_total_integer_orders)} in open orders +
-                                        {' '}
-                                        {quantityWithDivisibility(genesis_issuance.divisible, verify_total_integer_dispensers)} in open dispensers):
-                                        {' '}
-                                        {verify_quantity_with_divisibility}
-                                    </li>
+                                    <li><Subtitle>Current supply: <Bold>{quantity_with_divisibility}</Bold></Subtitle></li>
+                                    <List className={"max-w-xs"}>
+                                        <ListItem>
+                                            <span>In Balances</span>
+                                            <span>{quantityWithDivisibility(genesis_issuance.divisible, verify_total_integer_balances)}</span>
+                                        </ListItem>
+                                        <ListItem>
+                                            <span>In Open orders</span>
+                                            <span>{quantityWithDivisibility(genesis_issuance.divisible, verify_total_integer_orders)}</span>
+                                        </ListItem>
+                                        <ListItem>
+                                            <span>In Open dispensers</span>
+                                            <span>{quantityWithDivisibility(genesis_issuance.divisible, verify_total_integer_dispensers)}</span>
+                                        </ListItem>
+                                        <ListItem>
+                                            <span>Total</span>
+                                            <span>{verify_quantity_with_divisibility}</span>
+                                        </ListItem>
+                                    </List>
                                 </>
                             )
                         }
@@ -539,43 +572,58 @@ class Asset extends React.Component {
                             // <li>verify current supply: {verify_quantity_with_divisibility}</li>
                         </ul> */}
 
-                        <h3>Balances (asset holders):</h3>
+                        <Title>Balances (asset holders):</Title>
                         {/* <h4>Balances (asset holders):</h4> */}
                         {/* show balances (holders) if applies (could be 0! */}
-                        {ListElements.getTableRowBalanceAddressHeader(asset_page)}
-                        {this.state.balances.sort(balancesSortAddress).map((balances_row, index) => {
-                            return ListElements.getTableRowBalanceAddress(balances_row, index, asset_page);
-                        })}
+                        <Table>
+                            <TableHead>
+                                {ListElements.getTableRowBalanceAddressHeader(asset_page)}
+                            </TableHead>
+                            <TableBody>
+                                {this.state.balances.sort(balancesSortAddress).map((balances_row, index) => {
+                                    return ListElements.getTableRowBalanceAddress(balances_row, index, asset_page);
+                                })}
+                            </TableBody>
+                        </Table>
                     </>
                 );
 
                 markets_element = (
                     <>
-                        <h3>Market:</h3>
+                        <Title className={"text-2xl mb-6 text-yellow-600 dark:text-yellow-600"}>Market</Title>
 
-                        <h4>Open dispensers:</h4>
-                        {ListElements.getTableRowDispensersHeader(genesis_issuance)}
-                        {/* {ListElements.getTableRowDispensersHeader(genesis_issuance.divisible, asset_page)} */}
-                        {this.state.dispensers.map((dispensers_row, index) => {
-                            return ListElements.getTableRowDispensers(dispensers_row, index, genesis_issuance.divisible, asset_page);
-                        })}
+                        <Title>Open dispensers:</Title>
+                        <Table>
+                            <TableHead>
+                                {ListElements.getTableRowDispensersHeader(genesis_issuance)}
+                            </TableHead>
+                            {/* {ListElements.getTableRowDispensersHeader(genesis_issuance.divisible, asset_page)} */}
+                            <TableBody>
+                                {this.state.dispensers.map((dispensers_row, index) => {
+                                    return ListElements.getTableRowDispensers(dispensers_row, index, genesis_issuance.divisible, asset_page);
+                                })}
+                            </TableBody>
+                        </Table>
 
-                        <h4>Open exchange orders:</h4>
+                        <Divider />
 
-                        <p>Asset in escrow:</p>
+                        <Title>Open exchange orders:</Title>
+
+                        <Title>Asset in escrow:</Title>
                         {/* <h4>Open orders:</h4> */}
-                        {ListElements.getTableRowOrdersHeader(genesis_issuance)}
-                        {/* {ListElements.getTableRowOrdersHeader(genesis_issuance.divisible, asset_page)} */}
-                        {this.state.orders.map((orders_row, index) => {
-                            // return (
-                            //     <tr key={index} style={{ padding: "0.25rem" }}>
-                            //         <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(orders_row)}</td>
-                            //     </tr>
-                            // );
-                            return ListElements.getTableRowOrders(orders_row, index, genesis_issuance.divisible, asset_page);
-                        })}
+                        <Table>
+                            <TableHead>
+                                {ListElements.getTableRowOrdersHeader(genesis_issuance)}
+                                {/* {ListElements.getTableRowOrdersHeader(genesis_issuance.divisible, asset_page)} */}
+                            </TableHead>
+                            <TableBody>
+                                {this.state.orders.map((orders_row, index) => {
+                                    return ListElements.getTableRowOrders(orders_row, index, genesis_issuance.divisible, asset_page);
+                                })}
+                            </TableBody>
+                        </Table>
 
-                        <p>Asset requested:</p>
+                        <Title>Asset requested:</Title>
                         {ListElements.getTableRowOrdersHeader_get(genesis_issuance)}
                         {this.state.orders_get.map((orders_row, index) => {
                             return ListElements.getTableRowOrders_get(orders_row, index, genesis_issuance.divisible);
@@ -587,70 +635,74 @@ class Asset extends React.Component {
 
             asset_metadata = (
                 <>
+                    <Card>
+                        <ul>
+                            <li><Title className={"mb-3"}>Genesis:</Title>
 
-                    <ul>
-                        <li><strong>Genesis:</strong>
-                        <br />
-                        <br />
+                                {/* <h3>Genesis:</h3> */}
+                                {/* <h3>Genesis issuance:</h3> */}
 
-                            {/*  */}
-                    {/* <h3>Genesis:</h3> */}
-                    {/* <h3>Genesis issuance:</h3> */}
+                                {this.state.asset_row.asset_longname ?
+                                    (
+                                        <ul>
+                                            <li><Subtitle>superasset: <Link to={`/asset/${superasset}`}>{superasset}</Link></Subtitle>
+                                            </li>
+                                        </ul>
+                                    )
+                                    : (null)
+                                }
 
-                    {this.state.asset_row.asset_longname ?
-                        (
-                            <ul>
-                                <li>superasset: <Link to={`/asset/${superasset}`}>{superasset}</Link></li>
-                            </ul>
-                        )
-                        : (null)
-                    }
+                                <ul>
+                                    {this.state.asset_row.asset_longname ?
+                                        (<li><Subtitle>asset longname: {this.state.asset_row.asset_longname}</Subtitle>
+                                        </li>)
+                                        : (null)
+                                    }
+                                    <li><Subtitle>Asset name: {this.state.asset_row.asset_name}</Subtitle></li>
+                                    <li><Subtitle>Asset Id: {this.state.asset_row.asset_id}</Subtitle></li>
+                                </ul>
+                                <ul>
+                                    {/* <li>block_index: <Link to={`/block/${this.state.asset_row.block_index}`}>{this.state.asset_row.block_index}</Link></li> */}
+                                    <li><Subtitle>Block: <Link
+                                        to={`/block/${this.state.asset_row.block_index}`}>{this.state.asset_row.block_index}</Link></Subtitle>
+                                    </li>
+                                    <li><Subtitle>Block time: {timeIsoFormat(genesis_issuance.block_time)}</Subtitle></li>
+                                </ul>
+                                <ul>
+                                    {/* <li>satoshi divisibility: {genesis_issuance.divisible ? 'true' : 'false'}</li> */}
+                                    <li>
+                                        <Subtitle>Divisible: {genesis_issuance.divisible ? 'true (satoshi)' : 'false'}</Subtitle>
+                                    </li>
+                                    {/* <li>divisible: {genesis_issuance.divisible ? 'true' : 'false'}</li> */}
+                                </ul>
 
-                    <ul>
-                        {this.state.asset_row.asset_longname ?
-                            (<li>asset longname: {this.state.asset_row.asset_longname}</li>)
-                            : (null)
-                        }
-                        <li>asset name: {this.state.asset_row.asset_name}</li>
-                        <li>asset id: {this.state.asset_row.asset_id}</li>
-                    </ul>
-                    <ul>
-                        {/* <li>block_index: <Link to={`/block/${this.state.asset_row.block_index}`}>{this.state.asset_row.block_index}</Link></li> */}
-                        <li>block: <Link to={`/block/${this.state.asset_row.block_index}`}>{this.state.asset_row.block_index}</Link></li>
-                        <li>block time: {timeIsoFormat(genesis_issuance.block_time)}</li>
-                    </ul>
-                    <ul>
-                        {/* <li>satoshi divisibility: {genesis_issuance.divisible ? 'true' : 'false'}</li> */}
-                        <li>divisible: {genesis_issuance.divisible ? 'true (satoshi)' : 'false'}</li>
-                        {/* <li>divisible: {genesis_issuance.divisible ? 'true' : 'false'}</li> */}
-                    </ul>
-                            {/*  */}
+                            </li>
+                        </ul>
 
-                        </li>
-                    </ul>
-                    
-                    <ul>
-                        <li><strong>Issuances state:</strong> as of block {this.state.tip_blocks_row.block_index} ({timeIsoFormat(this.state.tip_blocks_row.block_time)})
-                        {/* <li><strong>Issuances state:</strong> */}
-                        {/* <li><strong>Issuances status:</strong> */}
-                            <br />
-                            <br />
-                            {/* <br /> */}
-                            {issuances_summary_element}
-                        </li>
-                    </ul>
+                        <ul>
+                            <li>
+                                <Title>For <strong>[m]</strong>edia visit <Bold>bitSTART</Bold>
+                                    <a href={`https://bitst.art/${this.state.asset_row.asset_name}`}
+                                       target="_blank">/{this.state.asset_row.asset_name}</a>
+                                </Title>
+                            </li>
+                        </ul>
+                    </Card>
 
-                    <ul>
-                        <li>
-                            For <strong>[m]</strong>edia visit <strong>bitSTART</strong>:{' '}
-                            <a href={`https://bitst.art/${this.state.asset_row.asset_name}`} target="_blank">/{this.state.asset_row.asset_name}</a>
-                        </li>
-                    </ul>
+                    <Card>
+                        <ul>
+                            <li><Title>Issuances state:</Title><Subtitle>As of
+                                Block {this.state.tip_blocks_row.block_index} ({timeIsoFormat(this.state.tip_blocks_row.block_time)})</Subtitle>
+                                {/* <li><strong>Issuances state:</strong> */}
+                                {/* <li><strong>Issuances status:</strong> */}
+                                {/* <br /> */}
+                                {issuances_summary_element}
+                            </li>
+                        </ul>
+                    </Card>
 
                     {/* <h3>Issuance status:</h3>
                     {issuances_summary_element} */}
-
-
 
                     {subassets_element}
 
@@ -668,41 +720,43 @@ class Asset extends React.Component {
                         // <li>supply: {quantity_with_divisibility}{lock_issuance ? '' : ' (unlocked)'}</li>
                     </ul> */}
 
+                    <Card>
+                        {markets_element}
+                    </Card>
 
-                    {markets_element}
+                    <Card>
+                        <Title>{issuance_events_message}</Title>
+                        {/* <h3>Issuance events</h3> */}
+                        <Table>
+                            <TableHead>
+                                {ListElements.getTableRowIssuanceEventsAssetHeader()}
+                            </TableHead>
+                            <TableBody>
+                                {all_issuance_events.map((issuance_event_row, index) => {
 
+                                    // console.log(`bbb1`);
+                                    // console.log(JSON.stringify(issuance_event_row));
+                                    // console.log(`bbb2`);
 
-                    <h3>{issuance_events_message}</h3>
-                    {/* <h3>Issuance events</h3> */}
+                                    if (issuance_event_row.issuance_event_type === 'issuance') {
+                                        return ListElements.getTableRowIssuanceEventsIssuanceAsset(issuance_event_row, index, genesis_issuance.divisible);
+                                    } else { // issuance_event_row.issuance_event_type === 'destroy'
+                                        return ListElements.getTableRowIssuanceEventsDestroyAsset(issuance_event_row, index, genesis_issuance.divisible);
+                                    }
 
-                    <table>
-                        <tbody>
-                            {ListElements.getTableRowIssuanceEventsAssetHeader()}
-                            {all_issuance_events.map((issuance_event_row, index) => {
+                                    // return ListElements.getTableRowIssuanceEventsAsset(issuance_event_row, index, genesis_issuance.divisible);
+                                    // // return ListElements.getTableRowIssuanceEventsAsset(issuance_event_row, index);
+                                    // // const page = 'home'; // TODO?
+                                    // // return ListElements.getTableRowMessage(message_row, index, page);
+                                })}
+                            </TableBody>
+                        </Table>
+                    </Card>
 
-                                // console.log(`bbb1`);
-                                // console.log(JSON.stringify(issuance_event_row));
-                                // console.log(`bbb2`);
-
-                                if (issuance_event_row.issuance_event_type === 'issuance') {
-                                    return ListElements.getTableRowIssuanceEventsIssuanceAsset(issuance_event_row, index, genesis_issuance.divisible);
-                                }
-                                else { // issuance_event_row.issuance_event_type === 'destroy'
-                                    return ListElements.getTableRowIssuanceEventsDestroyAsset(issuance_event_row, index, genesis_issuance.divisible);
-                                }
-
-                                // return ListElements.getTableRowIssuanceEventsAsset(issuance_event_row, index, genesis_issuance.divisible);
-                                // // return ListElements.getTableRowIssuanceEventsAsset(issuance_event_row, index);
-                                // // const page = 'home'; // TODO?
-                                // // return ListElements.getTableRowMessage(message_row, index, page);
-                            })}
-                        </tbody>
-                    </table>
-
-                    {balances_element}
-
+                    <Card>
+                        {balances_element}
+                    </Card>
                     {/* {balances_escrows_element} */}
-
 
                 </>
             );
@@ -710,10 +764,14 @@ class Asset extends React.Component {
         }
 
         const asset_element = (
-            <>
-                <h2>Asset: {this.state.asset_name}</h2>
-                {asset_metadata}
-            </>
+            <div className={"flex flex-col w-full items-center"}>
+                <div className={"flex flex-col w-full max-w-[1300px] my-3 space-y-3"}>
+                    <Title>Asset: {this.state.asset_name}</Title>
+                </div>
+                <div className={"flex flex-col w-full max-w-[1300px] space-y-3"}>
+                    {asset_metadata}
+                </div>
+            </div>
         );
 
         return OneElements.getFullPageForRouteElement(asset_element);

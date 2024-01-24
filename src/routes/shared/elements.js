@@ -143,9 +143,9 @@ function linksElement(link_element_bindings, index) {
                         const element_value = obj[1];
                         // return (<>[{key}:{element_value}]</>);
                         return (
-                            <ListItem>
+                            <ListItem className={"space-x-6"}>
                                 <span>{key}</span>
-                                <span>{element_value}</span>
+                                <span className={"truncate max-w-xs"}>{element_value}</span>
                             </ListItem>
                         );
                     }
@@ -325,7 +325,7 @@ class ListElements {
                 <TableCell>{command}</TableCell>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td> */}
                 <TableCell>{message_index}</TableCell>
-                <TableCell>{linksElement(bindingsElements, index)}</TableCell>
+                <TableCell className={"truncate max-w-xs"}>{linksElement(bindingsElements, index)}</TableCell>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(message_row)}</td> */}
             </TableRow>
         );
@@ -392,7 +392,7 @@ class ListElements {
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td> */}
                 <TableCell>{message_index}</TableCell>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(message_row)}</td> */}
-                <TableCell>
+                <TableCell className={"truncate max-w-xs"}>
                     {/*<Accordion className={"border-none m-0 overflow-visible"}>*/}
                     {/*    <AccordionHeader className={"border-none pl-0"}>*/}
                     {/*        <Subtitle>show details</Subtitle>*/}
@@ -667,44 +667,44 @@ class ListElements {
         }
 
         return (
-            <tr key={index} style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${issuance_event_row.tx_hash}`}>tx</Link></td>
-                <td style={{ padding: "0 1rem 0 0" }}>{issuance_event_row.issuance_event_type}{invalid_tx_notice}</td>
+            <TableRow key={index} style={{ padding: "0.25rem" }}>
+                <TableCell><Link to={`/tx/${issuance_event_row.tx_hash}`}>tx</Link></TableCell>
+                <TableCell>{issuance_event_row.issuance_event_type}{invalid_tx_notice}</TableCell>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{issuance_event_row.issuance_event_type}</td> */}
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${issuance_event_row.block_index}`}>{issuance_event_row.block_index}</Link></td>
-                <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{quantity_with_divisibility}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{tag}</td>
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/address/${issuance_event_row.source}`}>{issuance_event_row.source}</Link></td>
+                <TableCell><Link to={`/block/${issuance_event_row.block_index}`}>{issuance_event_row.block_index}</Link></TableCell>
+                <TableCell>{block_time_iso}</TableCell>
+                <TableCell>{quantity_with_divisibility}</TableCell>
+                <TableCell>{tag}</TableCell>
+                <TableCell><Link to={`/address/${issuance_event_row.source}`}>{issuance_event_row.source}</Link></TableCell>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(issuance_event_row)}</td> */}
-            </tr>
+            </TableRow>
         );
     }
 
     // subassets
     static getTableRowSubassetsHeader() {
         return (
-            <tr style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>asset_longname</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>asset_name</td>
+            <TableRow>
+                <TableHeaderCell>asset_longname</TableHeaderCell>
+                <TableHeaderCell>asset_name</TableHeaderCell>
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>longname</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>name</td> */}
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td>
+                <TableHeaderCell>block_index</TableHeaderCell>
+                <TableHeaderCell>block_time_iso</TableHeaderCell>
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>stringify</td> */}
-            </tr>
+            </TableRow>
         );
     }
     static getTableRowSubassets(assets_row, index) {
         const block_time_iso = timeIsoFormat(assets_row.block_time);
         return (
-            <tr key={index} style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0 0" }}>{assets_row.asset_longname}</td>
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${assets_row.asset_name}`}>{assets_row.asset_name}</Link></td>
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${assets_row.block_index}`}>{assets_row.block_index}</Link></td>
-                <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
+            <TableRow key={index}>
+                <TableCell>{assets_row.asset_longname}</TableCell>
+                <TableCell><Link to={`/asset/${assets_row.asset_name}`}>{assets_row.asset_name}</Link></TableCell>
+                <TableCell><Link to={`/block/${assets_row.block_index}`}>{assets_row.block_index}</Link></TableCell>
+                <TableCell>{block_time_iso}</TableCell>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(assets_row)}</td> */}
-            </tr>
+            </TableRow>
         );
     }
 
@@ -714,8 +714,8 @@ class ListElements {
         // static getTableRowDispensersHeader(divisible, asset_page = false) {
         // static getTableRowDispenseAssetHeader() {
         return (
-            <tr style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
+            <TableRow>
+                <TableHeaderCell></TableHeaderCell>
 
                 {/* {asset_page ?
                     null
@@ -729,24 +729,24 @@ class ListElements {
                 } */}
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>asset (get)</td> */}
 
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>sats / unit</td>
+                <TableHeaderCell>sats / unit</TableHeaderCell>
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td> */}
 
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>{asset_metadata.asset} in escrow</td>
+                <TableHeaderCell>{asset_metadata.asset} in escrow</TableHeaderCell>
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>quantity (give_remaining)</td> */}
 
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>address</td>
+                <TableHeaderCell>address</TableHeaderCell>
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>source</td> */}
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td>
+                <TableHeaderCell>block_index</TableHeaderCell>
+                <TableHeaderCell>block_time_iso</TableHeaderCell>
 
                 {/* {asset_page ?
                     null
                     : (<td style={{ padding: "0 1rem 0.25rem 0" }}>bindings</td>)
                 } */}
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>bindings</td> */}
-            </tr>
+            </TableRow>
         );
     }
     static getTableRowDispensers(dispensers_row, index, divisible, asset_page = false) {
@@ -759,36 +759,34 @@ class ListElements {
         const status = dispensers_row.status ? 'closed' : 'open'; // 10 = closed, 0 = open
 
         return (
-            <tr key={index} style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${dispensers_row.tx_hash}`}>tx</Link></td>
+            <TableRow key={index}>
+                <TableCell><Link to={`/tx/${dispensers_row.tx_hash}`}>tx</Link></TableCell>
 
                 {asset_page ?
                     null
-                    : (<td style={{ padding: "0 1rem 0 0" }}>{`${status}${oracle_notice}`}</td>)
+                    : (<TableCell>{`${status}${oracle_notice}`}</TableCell>)
                 }
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{`${status}${oracle_notice}`}</td> */}
 
                 {asset_page ?
                     null
-                    : (<td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${dispensers_row.asset}`}>{dispensers_row.asset}</Link></td>)
+                    : (<TableCell><Link to={`/asset/${dispensers_row.asset}`}>{dispensers_row.asset}</Link></TableCell>)
                 }
                 {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${dispensers_row.asset}`}>{dispensers_row.asset}</Link></td> */}
 
-                <td style={{ padding: "0 1rem 0 0" }}>{`${dispensers_row.satoshirate/dispensers_row.give_quantity}`}</td>
+                <TableCell>{`${dispensers_row.satoshirate/dispensers_row.give_quantity}`}</TableCell>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{dispensers_row.satoshirate/dispensers_row.give_quantity}</td> */}
                 {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${dispensers_row.block_index}`}>{dispensers_row.block_index}</Link></td>
                 <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td> */}
-                <td style={{ padding: "0 1rem 0 0" }}>{quantity_with_divisibility}</td>
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/address/${dispensers_row.source}`}>{dispensers_row.source}</Link></td>
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${dispensers_row.block_index}`}>{dispensers_row.block_index}</Link></td>
-                <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
+                <TableCell>{quantity_with_divisibility}</TableCell>
+                <TableCell><Link to={`/address/${dispensers_row.source}`}>{dispensers_row.source}</Link></TableCell>
+                <TableCell><Link to={`/block/${dispensers_row.block_index}`}>{dispensers_row.block_index}</Link></TableCell>
+                <TableCell>{block_time_iso}</TableCell>
 
                 {asset_page ?
                     null
-                    : (<td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(dispensers_row)}</td>)
+                    : (<TableCell>{JSON.stringify(dispensers_row)}</TableCell>)
                 }
-                {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(dispensers_row)}</td> */}
-            </tr>
+            </TableRow>
         );
     }
 
@@ -894,18 +892,18 @@ class ListElements {
         // const quantity_with_divisibility = quantityWithDivisibility(divisible, orders_row.give_remaining);
         const block_time_iso = timeIsoFormat(orders_row.block_time);
         return (
-            <tr key={index} style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${orders_row.tx_hash}`}>tx</Link></td>
+            <TableRow key={index}>
+                <TableCell><Link to={`/tx/${orders_row.tx_hash}`}>tx</Link></TableCell>
 
                 {asset_page ?
                     null
-                    : (<td style={{ padding: "0 1rem 0 0" }}>{orders_row.status}</td>)
+                    : (<TableCell>{orders_row.status}</TableCell>)
                 }
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{orders_row.status}</td> */}
 
                 {asset_page ?
                     null
-                    : (<td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${orders_row.give_asset}`}>{orders_row.give_asset}</Link></td>)
+                    : (<TableCell><Link to={`/asset/${orders_row.give_asset}`}>{orders_row.give_asset}</Link></TableCell>)
                 }
                 {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${orders_row.give_asset}`}>{orders_row.give_asset}</Link></td> */}
 
@@ -914,77 +912,77 @@ class ListElements {
                 {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${orders_row.block_index}`}>{orders_row.block_index}</Link></td>
                 <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td> */}
 
-                <td style={{ padding: "0 1rem 0 0" }}>{quantity_with_divisibility}</td>
+                <TableCell>{quantity_with_divisibility}</TableCell>
 
-                <td style={{ padding: "0 1rem 0 0" }}>
+                <TableCell>
                     <>
                     <Link to={`/asset/${orders_row.get_asset}`}>{orders_row.get_asset}</Link>
                     {` ${BigInt(orders_row.get_remaining_text)}`}
                     </>
-                </td>
+                </TableCell>
                 {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${orders_row.get_asset}`}>{orders_row.get_asset}</Link></td> */}
 
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/address/${orders_row.source}`}>{orders_row.source}</Link></td>
+                <TableCell><Link to={`/address/${orders_row.source}`}>{orders_row.source}</Link></TableCell>
 
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${orders_row.block_index}`}>{orders_row.block_index}</Link></td>
-                <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
+                <TableCell><Link to={`/block/${orders_row.block_index}`}>{orders_row.block_index}</Link></TableCell>
+                <TableCell>{block_time_iso}</TableCell>
 
                 {asset_page ?
                     null
-                    : (<td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(orders_row)}</td>)
+                    : (<TableCell>{JSON.stringify(orders_row)}</TableCell>)
                 }
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(orders_row)}</td> */}
-            </tr>
+            </TableRow>
         );
     }
 
     // orders exchanges / get asset (asset_page only for now)
     static getTableRowOrdersHeader_get(get_asset_metadata) {
         return (
-            <tr style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>give remaining units (escrowed)</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>{get_asset_metadata.asset} requested</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>source</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td>
+            <TableRow>
+                <TableHeaderCell></TableHeaderCell>
+                <TableHeaderCell>give remaining units (escrowed)</TableHeaderCell>
+                <TableHeaderCell>{get_asset_metadata.asset} requested</TableHeaderCell>
+                <TableHeaderCell>source</TableHeaderCell>
+                <TableHeaderCell>block_index</TableHeaderCell>
+                <TableHeaderCell>block_time_iso</TableHeaderCell>
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>bindings</td> */}
-            </tr>
+            </TableRow>
         );
     }
     static getTableRowOrders_get(orders_row, index, get_divisible) {
         return (
-            <tr key={index} style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${orders_row.tx_hash}`}>tx</Link></td>
-                <td style={{ padding: "0 1rem 0 0" }}>
+            <TableRow key={index}>
+                <TableCell><Link to={`/tx/${orders_row.tx_hash}`}>tx</Link></TableCell>
+                <TableCell>
                     <>
                         <Link to={`/asset/${orders_row.give_asset}`}>{orders_row.give_asset}</Link>
                         {` ${BigInt(orders_row.give_remaining_text)}`}
                     </>
-                </td>
-                <td style={{ padding: "0 1rem 0 0" }}>{quantityWithDivisibility(get_divisible, BigInt(orders_row.get_remaining_text))}</td>
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/address/${orders_row.source}`}>{orders_row.source}</Link></td>
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${orders_row.block_index}`}>{orders_row.block_index}</Link></td>
-                <td style={{ padding: "0 1rem 0 0" }}>{timeIsoFormat(orders_row.block_time)}</td>
+                </TableCell>
+                <TableCell>{quantityWithDivisibility(get_divisible, BigInt(orders_row.get_remaining_text))}</TableCell>
+                <TableCell><Link to={`/address/${orders_row.source}`}>{orders_row.source}</Link></TableCell>
+                <TableCell><Link to={`/block/${orders_row.block_index}`}>{orders_row.block_index}</Link></TableCell>
+                <TableCell>{timeIsoFormat(orders_row.block_time)}</TableCell>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(orders_row)}</td> */}
-            </tr>
+            </TableRow>
         );
     }
 
     // order matches
     static getTableRowOrderMatchesHeader() {
         return (
-            <tr style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>status</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>forward</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>backward</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td>
+            <TableRow>
+                <TableHeaderCell></TableHeaderCell>
+                <TableHeaderCell></TableHeaderCell>
+                <TableHeaderCell>status</TableHeaderCell>
+                <TableHeaderCell>forward</TableHeaderCell>
+                <TableHeaderCell>backward</TableHeaderCell>
+                <TableHeaderCell>block_index</TableHeaderCell>
+                <TableHeaderCell>block_time_iso</TableHeaderCell>
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>JSON.stringify(order_matches_row)</td> */}
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>JSON.stringify(order_metadata)</td> */}
-            </tr>
+            </TableRow>
         );
     }
     static getTableRowOrderMatches(order_matches_row, index, order_metadata) {
@@ -997,61 +995,61 @@ class ListElements {
         }
 
         return (
-            <tr key={index} style={{ padding: "0.25rem" }}>
+            <TableRow key={index}>
                 {(order_metadata.tx_hash === order_matches_row.tx0_hash) ?
-                    (<td style={{ padding: "0 1rem 0 0" }}>tx0</td>)
+                    (<TableCell>tx0</TableCell>)
                     :
-                    (<td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${order_matches_row.tx0_hash}`}>tx0</Link></td>)
+                    (<TableCell><Link to={`/tx/${order_matches_row.tx0_hash}`}>tx0</Link></TableCell>)
                 }
                 {(order_metadata.tx_hash === order_matches_row.tx1_hash) ?
-                    (<td style={{ padding: "0 1rem 0 0" }}>tx1</td>)
+                    (<TableCell>tx1</TableCell>)
                     :
-                    (<td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${order_matches_row.tx1_hash}`}>tx1</Link></td>)
+                    (<TableCell><Link to={`/tx/${order_matches_row.tx1_hash}`}>tx1</Link></TableCell>)
                 }
-                <td style={{ padding: "0 1rem 0 0" }}>{order_matches_row.status}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>
+                <TableCell>{order_matches_row.status}</TableCell>
+                <TableCell>
                     <>
                     <Link to={`/asset/${order_matches_row.forward_asset}`}>{order_matches_row.forward_asset}</Link>
                     {` ${quantityWithDivisibility(assets_divisibility[order_matches_row.forward_asset], BigInt(order_matches_row.forward_quantity_text))}`}
                     </>
-                </td>
-                <td style={{ padding: "0 1rem 0 0" }}>
+                </TableCell>
+                <TableCell>
                     <>
                     <Link to={`/asset/${order_matches_row.backward_asset}`}>{order_matches_row.backward_asset}</Link>
                     {` ${quantityWithDivisibility(assets_divisibility[order_matches_row.backward_asset], BigInt(order_matches_row.backward_quantity_text))}`}
                     </>
-                </td>
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${order_matches_row.block_index}`}>{order_matches_row.block_index}</Link></td>
-                <td style={{ padding: "0 1rem 0 0" }}>{timeIsoFormat(order_matches_row.block_time)}</td>
+                </TableCell>
+                <TableCell><Link to={`/block/${order_matches_row.block_index}`}>{order_matches_row.block_index}</Link></TableCell>
+                <TableCell>{timeIsoFormat(order_matches_row.block_time)}</TableCell>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(order_matches_row)}</td> */}
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(order_metadata)}</td> */}
-            </tr>
+            </TableRow>
         );
     }
 
     // order matches btcpays
     static getTableRowOrderMatchesBtcpaysHeader() {
         return (
-            <tr style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>status</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>BTC</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td>
+            <TableRow>
+                <TableHeaderCell></TableHeaderCell>
+                <TableHeaderCell>status</TableHeaderCell>
+                <TableHeaderCell>BTC</TableHeaderCell>
+                <TableHeaderCell>block_index</TableHeaderCell>
+                <TableHeaderCell>block_time_iso</TableHeaderCell>
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>JSON.stringify(btcpays_row)</td> */}
-            </tr>
+            </TableRow>
         );
     }
     static getTableRowOrderMatchesBtcpays(btcpays_row, index) {
         return (
-            <tr key={index} style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/tx/${btcpays_row.tx_hash}`}>tx</Link></td>
-                <td style={{ padding: "0 1rem 0 0" }}>{btcpays_row.status}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{quantityWithDivisibility(true, btcpays_row.btc_amount)}</td>
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${btcpays_row.block_index}`}>{btcpays_row.block_index}</Link></td>
-                <td style={{ padding: "0 1rem 0 0" }}>{timeIsoFormat(btcpays_row.block_time)}</td>
+            <TableRow key={index}>
+                <TableCell><Link to={`/tx/${btcpays_row.tx_hash}`}>tx</Link></TableCell>
+                <TableCell>{btcpays_row.status}</TableCell>
+                <TableCell>{quantityWithDivisibility(true, btcpays_row.btc_amount)}</TableCell>
+                <TableCell><Link to={`/block/${btcpays_row.block_index}`}>{btcpays_row.block_index}</Link></TableCell>
+                <TableCell>{timeIsoFormat(btcpays_row.block_time)}</TableCell>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(btcpays_row)}</td> */}
-            </tr>
+            </TableRow>
         );
     }
 

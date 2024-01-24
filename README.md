@@ -6,11 +6,19 @@ THIS IS ALPHA SOFTWARE, but is live at https://www.xcp.dev.
 
 This is an open source Counterparty data explorer server + client application. It requires a fednode to run the server... (WIP)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Install / Run
+## Installation / Running
 
 Requires Node.js >= 18.
+
+1.Install dependencies:
+```bash
+npm install
+```
+
+2. Run the explorer:
+```bash
+npm run start
+```
 
 ## Contributing
     
