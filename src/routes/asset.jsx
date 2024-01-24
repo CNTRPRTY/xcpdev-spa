@@ -200,7 +200,7 @@ class Asset extends React.Component {
 
                 markets_element = (
                     <>
-                        <Title>Market:</Title>
+                        <Title className={"text-2xl mb-6 text-yellow-600 dark:text-yellow-600"}>Market</Title>
     
                         {/* <h4>Open dispensers:</h4>
                         {ListElements.getTableRowDispensersHeader(asset_metadata)}
@@ -208,7 +208,7 @@ class Asset extends React.Component {
                             return ListElements.getTableRowDispensers(dispensers_row, index, asset_metadata.divisible, asset_page);
                         })} */}
     
-                        <Title>Open exchange orders:</Title>
+                        <Title className={"mb-3"}>Open exchange orders</Title>
     
                         <Title>Asset in escrow:</Title>
                         <Table>
@@ -249,9 +249,9 @@ class Asset extends React.Component {
 
                 markets_element = (
                     <>
-                        <Title>Market:</Title>
+                        <Title className={"text-2xl mb-6 text-yellow-600 dark:text-yellow-600"}>Market</Title>
     
-                        <Text>Open dispensers:</Text>
+                        <Text>Open dispensers</Text>
                         <Table>
                             <TableHead>
                                 {ListElements.getTableRowDispensersHeader(asset_metadata)}
@@ -263,7 +263,7 @@ class Asset extends React.Component {
                             </TableBody>
                         </Table>
     
-                        <Title>Open exchange orders:</Title>
+                        <Title className={"mb-3"}>Open exchange orders</Title>
     
                         <Title>Asset in escrow:</Title>
                         {ListElements.getTableRowOrdersHeader(asset_metadata)}
@@ -343,7 +343,7 @@ class Asset extends React.Component {
             // const quantity_with_divisibility = genesis_issuance.divisible ? (total_integer / (10 ** 8)).toFixed(8) : total_integer;
 
             const issuance_events_message = this.state.destructions.length ?
-                `All issuance (and destroy) transactions:` :
+                `All issuance (and destroy) transactions` :
                 `All issuance transactions:`;
                 // `All issuance (and destroy) events:` :
                 // `All issuance events:`;
@@ -378,7 +378,6 @@ class Asset extends React.Component {
                                 })}
                             </TableBody>
                         </Table>
-                        <Divider />
                     </>
                 );
             }
@@ -572,7 +571,7 @@ class Asset extends React.Component {
                             // <li>verify current supply: {verify_quantity_with_divisibility}</li>
                         </ul> */}
 
-                        <Title>Balances (asset holders):</Title>
+                        <Title>Balances (asset holders)</Title>
                         {/* <h4>Balances (asset holders):</h4> */}
                         {/* show balances (holders) if applies (could be 0! */}
                         <Table>
@@ -592,7 +591,7 @@ class Asset extends React.Component {
                     <>
                         <Title className={"text-2xl mb-6 text-yellow-600 dark:text-yellow-600"}>Market</Title>
 
-                        <Title>Open dispensers:</Title>
+                        <Title>Open dispensers</Title>
                         <Table>
                             <TableHead>
                                 {ListElements.getTableRowDispensersHeader(genesis_issuance)}
@@ -607,7 +606,7 @@ class Asset extends React.Component {
 
                         <Divider />
 
-                        <Title>Open exchange orders:</Title>
+                        <Title className={"mb-3"}>Open exchange orders</Title>
 
                         <Title>Asset in escrow:</Title>
                         {/* <h4>Open orders:</h4> */}
@@ -704,7 +703,9 @@ class Asset extends React.Component {
                     {/* <h3>Issuance status:</h3>
                     {issuances_summary_element} */}
 
-                    {subassets_element}
+                    <Card>
+                        {subassets_element}
+                    </Card>
 
                     {/* <h3>{issuance_events_message}</h3> */}
                     {/* <h3>All issuance (and destroy) events:</h3> */}
