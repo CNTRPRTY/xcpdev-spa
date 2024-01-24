@@ -776,7 +776,6 @@ class Transaction extends React.Component {
                     {order_element}
                     {btcpay_element}
                     {broadcast_element}
-                    <Divider />
                     <Title>Bitcoin transaction: {this.state.tx_hash}</Title>
                     {/* <h2>Transaction: {this.state.tx_hash}</h2> */}
                     {transaction_element_contents}

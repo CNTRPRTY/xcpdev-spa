@@ -4,6 +4,8 @@ import { getCntrprty, COUNTERPARTY_VERSION } from "../api";
 // import { getCntrprty } from "../api";
 import { Link } from "react-router-dom";
 import { OneElements, ListElements } from './shared/elements';
+import {Badge, Card, Divider, Subtitle, Table, TableBody, TableHead, Title} from "@tremor/react";
+import {FaArrowRight} from "react-icons/fa";
 
 class Transactionspage extends React.Component {
     constructor(props) {
@@ -114,10 +116,8 @@ class Transactionspage extends React.Component {
         //     y2023: 2209463,
         // }
         const jump_year_element = (
-            <>
-                <h3>
-                    Jump to year:
-                </h3>
+            <div className={"flex flex-wrap mb-3"}>
+                <Subtitle className={"mr-2"}>Jump to year</Subtitle>
                 <p>
                     <Link to={`/transactions#${years['y2014']}`}>2014</Link>{' | '}
                     <Link to={`/transactions#${years['y2015']}`}>2015</Link>{' | '}
@@ -130,57 +130,61 @@ class Transactionspage extends React.Component {
                     <Link to={`/transactions#${years['y2022']}`}>2022</Link>{' | '}
                     <Link to={`/transactions#${years['y2023']}`}>2023</Link>
                 </p>
-                {/* <p>
-                        2014: <Link to={`/transactions#${years['y2014']}`}>{years['y2014']}</Link>{' | '}
-                        2015: <Link to={`/transactions#${years['y2015']}`}>{years['y2015']}</Link>{' | '}
-                        2016: <Link to={`/transactions#${years['y2016']}`}>{years['y2016']}</Link>{' | '}
-                        2017: <Link to={`/transactions#${years['y2017']}`}>{years['y2017']}</Link>{' | '}
-                        2018: <Link to={`/transactions#${years['y2018']}`}>{years['y2018']}</Link>{' | '}
-                        2019: <Link to={`/transactions#${years['y2019']}`}>{years['y2019']}</Link>{' | '}
-                        2020: <Link to={`/transactions#${years['y2020']}`}>{years['y2020']}</Link>{' | '}
-                        2021: <Link to={`/transactions#${years['y2021']}`}>{years['y2021']}</Link>{' | '}
-                        2022: <Link to={`/transactions#${years['y2022']}`}>{years['y2022']}</Link>
-                    </p> */}
-            </>
+            </div>
         );
 
         const change_pages_element = (
-            <p><Link to={`/transactions#${this.state.to_index + 1}`}>next 100 {'>'}</Link></p>
+            <Link to={`/transactions#${this.state.to_index + 1}`}><Badge className={"hover:cursor-pointer"} icon={FaArrowRight}>Next 100</Badge></Link>
         );
 
         content_element = (
             <div>
 
-                <p>All CNTRPRTY Bitcoin transactions in ascending order.</p>
+                <div className={"flex flex-wrap justify-between"}>
+                    <div className={"flex flex-row"}>
+                        {jump_year_element}
+                    </div>
+                    <div>
+                        <Link to={`/messages`}>All transactions and state messages</Link>
+                    </div>
+                </div>
 
-                <p><Link to={`/messages`}>All transaction and state messages</Link></p>
+                <Divider/>
 
-                {jump_year_element}
+                <Title className={"flex flex-row my-3 items-center justify-between space-x-3"}>
+                    <div>Transactions from Tx Index {this.state.from_index} to {this.state.to_index}</div>
+                    <div>{change_pages_element}</div>
+                </Title>
 
-                <h3>
-                    Transactions from tx_index {this.state.from_index} to {this.state.to_index}:
-                </h3>
-
-                {change_pages_element}
-
-                <table>
-                    <tbody>
+                <Table>
+                    <TableHead>
                         {ListElements.getTableRowTransactionHeader()}
+                    </TableHead>
+                    <TableBody>
                         {this.state.rows.map((transaction_row, index) => {
                             return ListElements.getTableRowTransaction(transaction_row, index);
                         })}
-                    </tbody>
-                </table>
+                    </TableBody>
+                </Table>
 
-                {change_pages_element}
+                <div className={"flex flex-row items-center justify-end"}>
+                    {change_pages_element}
+                </div>
 
             </div>
         );
 
         const page_element = (
             <>
-                <h2>Transactions:</h2>
-                {content_element}
+                <div className={"flex flex-col w-full items-center"}>
+                    <div className={"flex flex-col w-full max-w-[1300px] items-start space-y-3 my-3"}>
+                        <Title className={"font-bold text-xl"}>Transactions</Title>
+                        <Subtitle>All CNTRPRTY Bitcoin transactions</Subtitle>
+                    </div>
+                    <Card className={"flex flex-col overflow-scroll shadow-md my-3 max-w-[1300px]"}>
+                        {content_element}
+                    </Card>
+                </div>
             </>
         );
 
