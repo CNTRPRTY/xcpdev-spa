@@ -251,10 +251,10 @@ class ListElements {
     static getTableRowMempoolTxHeader() {
         return (
             <TableRow>
-                <TableHeaderCell>category</TableHeaderCell>
-                <TableHeaderCell>command</TableHeaderCell>
-                <TableHeaderCell>timestamp_iso</TableHeaderCell>
-                <TableHeaderCell>bindings</TableHeaderCell>
+                <TableHeaderCell>Category</TableHeaderCell>
+                <TableHeaderCell>Command</TableHeaderCell>
+                <TableHeaderCell>Timestamp</TableHeaderCell>
+                <TableHeaderCell>Bindings</TableHeaderCell>
             </TableRow>
         );
     }
@@ -472,11 +472,11 @@ class ListElements {
         return (
             <TableRow>
                 <TableHeaderCell></TableHeaderCell>
-                <TableHeaderCell>block_index</TableHeaderCell>
-                <TableHeaderCell>block_time_iso</TableHeaderCell>
-                <TableHeaderCell>text</TableHeaderCell>
-                <TableHeaderCell>timestamp_iso</TableHeaderCell>
-                <TableHeaderCell>additional data</TableHeaderCell>
+                <TableHeaderCell>Block Index</TableHeaderCell>
+                <TableHeaderCell>Block Time</TableHeaderCell>
+                <TableHeaderCell>Text</TableHeaderCell>
+                <TableHeaderCell>Timestamp</TableHeaderCell>
+                <TableHeaderCell>Additional Data</TableHeaderCell>
             </TableRow>
         );
     }
@@ -1151,15 +1151,15 @@ class ListElements {
     // messages
     static getTableRowMessagesHeader() {
         return (
-            <tr style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>message_index</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_index</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>block_time_iso</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>category</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>command</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>bindings</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>timestamp_iso</td>
-            </tr>
+            <TableRow>
+                <TableHeaderCell>Message Index</TableHeaderCell>
+                <TableHeaderCell>Block Index</TableHeaderCell>
+                <TableHeaderCell>Block Time</TableHeaderCell>
+                <TableHeaderCell>Category</TableHeaderCell>
+                <TableHeaderCell>Command</TableHeaderCell>
+                <TableHeaderCell>Bindings</TableHeaderCell>
+                <TableHeaderCell>Timestamp</TableHeaderCell>
+            </TableRow>
         );
     }
     static getTableRowMessages(message_row, index) {
@@ -1167,15 +1167,15 @@ class ListElements {
         const timestamp_iso = timeIsoFormat(message_row.timestamp);
         const bindingsElements = createLinkElementBindings(message_row.bindings);
         return (
-            <tr key={index} style={{ padding: "0.25rem" }}>
-                <td style={{ padding: "0 1rem 0 0" }}>{message_row.message_index}</td>
-                <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${message_row.block_index}`}>{message_row.block_index}</Link></td>
-                <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{message_row.category}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{message_row.command}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{linksElement(bindingsElements, index)}</td>
-                <td style={{ padding: "0 1rem 0 0" }}>{timestamp_iso}</td>
-            </tr>
+            <TableRow key={index}>
+                <TableCell>{message_row.message_index}</TableCell>
+                <TableCell><Link to={`/block/${message_row.block_index}`}>{message_row.block_index}</Link></TableCell>
+                <TableCell>{block_time_iso}</TableCell>
+                <TableCell>{message_row.category}</TableCell>
+                <TableCell>{message_row.command}</TableCell>
+                <TableCell>{linksElement(bindingsElements, index)}</TableCell>
+                <TableCell>{timestamp_iso}</TableCell>
+            </TableRow>
         );
     }
     ///////////////
