@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter } from './shared/classhooks';
 // import { getCntrprty } from '../api';
 import { ListElements } from './shared/elements';
-import {Card, Table, TableBody, TableHead, Title} from "@tremor/react";
+import {Card, Subtitle, Table, TableBody, TableHead, Title} from "@tremor/react";
 // import { Outlet, Link } from "react-router-dom";
 
 class WalletBalances extends React.Component {
@@ -186,7 +186,7 @@ class WalletBalances extends React.Component {
         if (this.state.balances && !this.state.balances.length) {
             wallet_element_contents = (
                 <>
-                    <p>No balances for address</p>
+                    <Subtitle>No balances for address</Subtitle>
                     {/* <p>no balances for address: <Link to={`/address/${this.state.address}`}>{this.state.address}</Link></p> */}
                 </>
             );

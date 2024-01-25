@@ -225,7 +225,9 @@ class Home extends React.Component {
         let mempool_element_contents = (<p>loading...</p>);
         if (this.state.mempool_empty) {
             mempool_element_contents = (
-                <p>Try refreshing the page in a couple of minutes...</p>
+                <Card className={"flex w-full items-center"}>
+                    <Text className={"flex w-full justify-center"}>Try refreshing the page in a couple of minutes...</Text>
+                </Card>
                 // <p>Try refreshing the page in a couple of minutes... (<a href={`https://github.com/CounterpartyXCP/counterparty-lib/issues/1227`} target="_blank">why?</a>)</p>
             );
         }
@@ -349,12 +351,11 @@ class Home extends React.Component {
             <div className={"w-full max-w-[1300px]"}>
                 {search_element}
                 {block_element}
-                <div
-                    className={"flex flex-col lg:flex-row w-full space-y-4 lg:space-y-0  space-x-0 lg:space-x-4  items-center justify-between mt-12"}>
-                    <div className={"flex w-full max-h-[600px] overflow-scroll shadow-xl"}>
+                <div className={"flex w-full gap-4 flex-col lg:flex-row items-start justify-between mt-12"}>
+                    <div className={"flex w-full h-[500px] max-h-[500px] overflow-auto p-[1px] rounded-lg shadow-xl"}>
                         {mempool_element}
                     </div>
-                    <div className={"flex w-full max-h-[600px] overflow-scroll shadow-xl"}>
+                    <div className={"flex w-full h-[500px] max-h-[500px] overflow-auto p-[1px] rounded-lg shadow-xl"}>
                         {transactions_element}
                     </div>
                 </div>

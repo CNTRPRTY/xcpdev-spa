@@ -9,37 +9,34 @@ class App extends React.Component {
 
   // function App() {
 
-  render() {
-    return (
+    render() {
+        return (
+            <main className="App">
+                <div className={"p-4"}>
 
-      <main className="App">
+                    {/* Header */}
+                    <div className={"flex flex-row items-center mb-24"}>
+                        {/* Logo section */}
+                        <div className={"flex flex-col flex-1"}>
+                            <Link to="/" className={"flex flex-row items-center"}>
+                                <div className={"text-black dark:text-neutral-400 text-3xl font-bold"}>xcp</div>
+                                <div className={"text-yellow-600 dark:text-yellow-600 text-3xl font-bold"}>.dev</div>
+                            </Link>
+                            <Subtitle className={"flex flex-row text-xs items-center font-bold"}>Counterparty Bitcoin
+                                Tools</Subtitle>
+                            {/* <h3>Counterparty Bitcoin data explorer</h3> */}
+                            {/* <h3>Counterparty Bitcoin explorer</h3> */}
+                            {/* <h3>Counterparty Bitcoin block explorer</h3> */}
+                        </div>
+                        {/* Navigation menu section */}
+                        <NavMenu/>
+                    </div>
 
-        <div className={"p-4"}>
-
-          {/* Header */}
-          <div className={"flex flex-row items-center mb-24"}>
-            {/* Logo section */}
-            <div className={"flex flex-col flex-1"}>
-              <Link to="/" className={"flex flex-row items-center"}>
-                <div className={"text-black dark:text-neutral-400 text-3xl font-bold"}>xcp</div>
-                <div className={"text-yellow-600 dark:text-yellow-600 text-3xl font-bold"}>.dev</div>
-              </Link>
-              <Subtitle className={"flex flex-row text-xs items-center font-bold"}>Counterparty Bitcoin Tools</Subtitle>
-              {/* <h3>Counterparty Bitcoin data explorer</h3> */}
-              {/* <h3>Counterparty Bitcoin explorer</h3> */}
-              {/* <h3>Counterparty Bitcoin block explorer</h3> */}
-            </div>
-            {/* Navigation menu section */}
-            <NavMenu />
-          </div>
-          <Outlet />
-        </div>
-
-      </main>
-
-    );
-  }
-
+                    <Outlet/>
+                </div>
+            </main>
+        );
+    }
 }
 
 export default App;

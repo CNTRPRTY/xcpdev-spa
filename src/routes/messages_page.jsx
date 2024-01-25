@@ -4,6 +4,8 @@ import { getCntrprty, COUNTERPARTY_VERSION } from "../api";
 // import { getCntrprty } from "../api";
 import { Link } from "react-router-dom";
 import { OneElements, ListElements } from './shared/elements';
+import {Card, Title, Text, Subtitle, TableHead, TableBody, Table, Badge, Divider} from "@tremor/react";
+import {FaArrowRight} from "react-icons/fa";
 
 class Messagespage extends React.Component {
     // class Transactionspage extends React.Component {
@@ -69,7 +71,7 @@ class Messagespage extends React.Component {
         if (this.state.page_not_found) {
             return (
                 <main style={{ padding: "1rem" }}>
-                    <h2>No results found</h2>
+                    <Text>No results found</Text>
                 </main>
             );
         }
@@ -104,10 +106,8 @@ class Messagespage extends React.Component {
             };
         }
         const jump_year_element = (
-            <>
-                <h3>
-                    Jump to year:
-                </h3>
+            <div className={"flex flex-wrap mb-3"}>
+                <Subtitle className={"mr-2"}>Jump to year</Subtitle>
                 <p>
                     <Link to={`/messages#${years['y2014']}`}>2014</Link>{' | '}
                     <Link to={`/messages#${years['y2015']}`}>2015</Link>{' | '}
@@ -120,52 +120,61 @@ class Messagespage extends React.Component {
                     <Link to={`/messages#${years['y2022']}`}>2022</Link>{' | '}
                     <Link to={`/messages#${years['y2023']}`}>2023</Link>
                 </p>
-            </>
+            </div>
         );
 
         const change_pages_element = (
-            <p><Link to={`/messages#${this.state.to_index + 1}`}>next 100 {'>'}</Link></p>
+            <Link to={`/messages#${this.state.to_index + 1}`}><Badge className={"hover:cursor-pointer"} icon={FaArrowRight}>Next 100</Badge></Link>
         );
 
         content_element = (
             <div>
 
-                <p>All CNTRPRTY Bitcoin transaction and state messages in ascending order.</p>
+                <div className={"flex flex-wrap justify-between"}>
+                    <div className={"flex flex-row"}>
+                        {jump_year_element}
+                    </div>
+                    <div>
+                        <Link to={`/transactions`}>All transactions</Link>
+                    </div>
+                </div>
 
-                <p><Link to={`/transactions`}>All transactions</Link></p>
+                <Divider/>
 
-                {jump_year_element}
+                <Title className={"flex flex-row my-3 items-center justify-between space-x-3"}>
+                    <div>Messages from Message Index {this.state.from_index} to {this.state.to_index}</div>
+                    <div>{change_pages_element}</div>
+                </Title>
 
-                <h3>
-                    Messages from message_index {this.state.from_index} to {this.state.to_index}:
-                    {/* Transactions from tx_index {this.state.from_index} to {this.state.to_index}: */}
-                </h3>
-
-                {change_pages_element}
-
-                <table>
-                    <tbody>
+                <Table>
+                    <TableHead>
                         {ListElements.getTableRowMessagesHeader()}
+                    </TableHead>
+                    <TableBody>
                         {this.state.rows.map((message_row, index) => {
                             return ListElements.getTableRowMessages(message_row, index);
                         })}
-                        {/* {ListElements.getTableRowTransactionHeader()}
-                            {this.state.rows.map((transaction_row, index) => {
-                                return ListElements.getTableRowTransaction(transaction_row, index);
-                            })} */}
-                    </tbody>
-                </table>
+                    </TableBody>
+                </Table>
 
-                {change_pages_element}
+                <div className={"flex flex-row items-center justify-end"}>
+                    {change_pages_element}
+                </div>
 
             </div>
         );
 
         const page_element = (
             <>
-                <h2>Messages:</h2>
-                {/* <h2>Transactions:</h2> */}
-                {content_element}
+                <div className={"flex flex-col w-full items-center"}>
+                    <div className={"flex flex-col w-full max-w-[1300px] items-start space-y-3 my-3"}>
+                        <Title className={"font-bold text-xl"}>Messages</Title>
+                        <Subtitle>All CNTRPRTY Bitcoin transactions and state messages</Subtitle>
+                    </div>
+                    <Card className={"flex flex-col overflow-scroll shadow-md my-3 max-w-[1300px]"}>
+                        {content_element}
+                    </Card>
+                </div>
             </>
         );
 
