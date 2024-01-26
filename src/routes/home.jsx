@@ -338,7 +338,7 @@ class Home extends React.Component {
             <>
                 <form onSubmit={this.handleSearchSubmit}>
                     <div className={"flex flex-row w-full items-center justify-center space-x-1"}>
-                        <div className="flex flex-row w-full max-w-3xl  items-center bg-slate-100 dark:bg-slate-700 p-1 space-x-2 rounded-xl">
+                        <div className="flex flex-row w-full max-w-3xl  items-center bg-slate-100 dark:bg-slate-800 p-1 space-x-2 rounded-xl">
                             <TextInput  icon={MagnifyingGlassIcon} placeholder={placeholder} className={"w-full border-none dark:border-none focus:ring-none ring-transparent dark:ring-transparent"} value={this.state.search} onChange={this.handleSearchChange}/>
                             <Button type="submit" size={"xs"} variant={"primary"} value={"Search"} className={"bg-yellow-600 hover:bg-yellow-800 dark:bg-yellow-600 dark:hover:bg-yellow-800 ring-transparent border-none"}>Search</Button>
                         </div>
@@ -351,30 +351,18 @@ class Home extends React.Component {
             <div className={"w-full max-w-[1300px]"}>
                 {search_element}
                 {block_element}
-                <div className={"flex w-full gap-4 flex-col lg:flex-row items-start justify-between mt-12"}>
-                    <div className={"flex w-full h-[500px] max-h-[500px] overflow-auto p-[1px] rounded-lg shadow-xl"}>
+                <div className={"flex w-full gap-4 flex-col lg:flex-row items-start justify-between mt-6"}>
+                    <div className={"flex w-full min-h-[200px] lg:min-h-[500px] max-h-[500px] overflow-auto p-[1px] rounded-lg shadow-xl"}>
                         {mempool_element}
                     </div>
-                    <div className={"flex w-full h-[500px] max-h-[500px] overflow-auto p-[1px] rounded-lg shadow-xl"}>
+                    <div className={"flex w-full min-h-[200px] lg:min-h-[500px] max-h-[500px] overflow-auto p-[1px] rounded-lg shadow-xl"}>
                         {transactions_element}
                     </div>
                 </div>
-                {/* {tables_element} */}
             </div>
         );
 
         return OneElements.getFullPageForRouteElement(homenew_element);
-        // return OneElements.getFullPageForRouteElement(mempool_element);
-        // return (
-        //     <main style={{ padding: "1rem" }}>
-        //         {mempool_element}
-        //         <p>
-        //             [xcp.dev v1.0]
-        //             <br />
-        //             [counterparty-lib v9.59] in [Bitcoin Core v0.21???]
-        //         </p>
-        //     </main>
-        // );
     }
 
 }
