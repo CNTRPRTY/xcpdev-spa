@@ -7,16 +7,20 @@ import { Link } from "react-router-dom";
 import {Card, List, ListItem, Table, TableBody, TableHead, Title, Text} from "@tremor/react";
 import {FcNext, FcPrevious} from "react-icons/fc";
 
+function baseState(block) {
+    return {
+        block,
+        // block: Number(props.router.params.block),
+        block_not_found: null,
+        block_row: null,
+        messages: null,
+    };
+}
+
 class Block extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            block: props.router.params.block,
-            // block: Number(props.router.params.block),
-            block_not_found: null,
-            block_row: null,
-            messages: null,
-        };
+        this.state = baseState(props.router.params.block);
     }
 
     async fetchData(_block) {
@@ -39,6 +43,8 @@ class Block extends React.Component {
         else {
 
             const block = Number(_block);
+
+            this.setState(baseState(block));
 
             try {
                 block_response = await getCntrprty(`/block/${block}`);
