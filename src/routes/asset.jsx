@@ -266,16 +266,28 @@ class Asset extends React.Component {
                         <Title className={"mb-3"}>Open exchange orders</Title>
     
                         <Title>Asset in escrow:</Title>
-                        {ListElements.getTableRowOrdersHeader(asset_metadata)}
-                        {this.state.orders.map((orders_row, index) => {
-                            return ListElements.getTableRowOrders(orders_row, index, asset_metadata.divisible, asset_page);
-                        })}
+                        <Table>
+                            <TableHead>
+                                {ListElements.getTableRowOrdersHeader(asset_metadata)}
+                            </TableHead>
+                            <TableBody>
+                                {this.state.orders.map((orders_row, index) => {
+                                    return ListElements.getTableRowOrders(orders_row, index, asset_metadata.divisible, asset_page);
+                                })}
+                            </TableBody>
+                        </Table>
     
                         <Title>Asset requested:</Title>
-                        {ListElements.getTableRowOrdersHeader_get(asset_metadata)}
-                        {this.state.orders_get.map((orders_row, index) => {
-                            return ListElements.getTableRowOrders_get(orders_row, index, asset_metadata.divisible);
-                        })}
+                        <Table>
+                            <TableHead>
+                                {ListElements.getTableRowOrdersHeader_get(asset_metadata)}
+                            </TableHead>
+                            <TableBody>
+                                {this.state.orders_get.map((orders_row, index) => {
+                                    return ListElements.getTableRowOrders_get(orders_row, index, asset_metadata.divisible);
+                                })}
+                            </TableBody>
+                        </Table>
                     </>
                 );
 
@@ -623,10 +635,16 @@ class Asset extends React.Component {
                         </Table>
 
                         <Title>Asset requested:</Title>
-                        {ListElements.getTableRowOrdersHeader_get(genesis_issuance)}
-                        {this.state.orders_get.map((orders_row, index) => {
-                            return ListElements.getTableRowOrders_get(orders_row, index, genesis_issuance.divisible);
-                        })}
+                        <Table>
+                            <TableHead>
+                                {ListElements.getTableRowOrdersHeader_get(genesis_issuance)}
+                            </TableHead>
+                            <TableBody>
+                                {this.state.orders_get.map((orders_row, index) => {
+                                    return ListElements.getTableRowOrders_get(orders_row, index, genesis_issuance.divisible);
+                                })}
+                            </TableBody>
+                        </Table>
                     </>
                 );
             }
