@@ -592,7 +592,7 @@ class Transaction extends React.Component {
 
                                 <li><Subtitle>Tx Index: {this.state.transaction.tx_index}{this.state.transaction.supported ? '' : ' (supported:0)'}</Subtitle></li>
 
-                                <li><Subtitle>Tx Hash: {this.state.transaction.tx_hash} <a href={`https://mempool.space/tx/${this.state.transaction.tx_hash}`} target="_blank">{String.fromCharCode(10697)}</a></Subtitle></li>
+                                <li><Subtitle className={"truncate"}>Tx Hash: {this.state.transaction.tx_hash} <a href={`https://mempool.space/tx/${this.state.transaction.tx_hash}`} target="_blank">{String.fromCharCode(10697)}</a></Subtitle></li>
                                 {/* https://www.quora.com/Is-the-symbol-for-external-link-available-in-Unicode-If-so-how-do-I-get-in-on-my-Mac */}
                                 {/* <li>tx_hash: <a href={`https://mempool.space/tx/${this.state.transaction.tx_hash}`} target="_blank">{this.state.transaction.tx_hash}</a></li> */}
                                 {/* <li>tx_hash: {this.state.transaction.tx_hash}</li> */}
@@ -769,14 +769,14 @@ class Transaction extends React.Component {
         const transaction_element = (
             <div className={"flex flex-col w-full items-center"}>
                 <div className={"flex flex-row w-full max-w-[1300px] items-center space-x-1 my-3"}>
-                    <Title className={"font-bold text-xl"}>Tx {this.state.tx_hash}</Title>
+                    <Title className={"flex flex-row w-full font-bold truncate text-xl"}>Tx {this.state.tx_hash}</Title>
                 </div>
                 <Card className={"flex flex-col overflow-scroll shadow-md my-3 max-w-[1300px]"}>
                     {dispenser_element}
                     {order_element}
                     {btcpay_element}
                     {broadcast_element}
-                    <Title>Bitcoin transaction: {this.state.tx_hash}</Title>
+                    <Title className={"overflow-hidden truncate"}>Bitcoin transaction: {this.state.tx_hash}</Title>
                     {/* <h2>Transaction: {this.state.tx_hash}</h2> */}
                     {transaction_element_contents}
                 </Card>

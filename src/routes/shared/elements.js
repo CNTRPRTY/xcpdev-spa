@@ -15,7 +15,7 @@ import {
     Text
 } from "@tremor/react";
 import React from "react";
-import Footer from "../../components/Footer";
+import Footer from "../../components/Footer/Footer";
 
 // function timeIsoFormat(block_time) {
 //     // return `at: ${(new Date(block_time * 1000).toISOString()).replace('.000Z', 'Z')}`;
