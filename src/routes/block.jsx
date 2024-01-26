@@ -4,7 +4,7 @@ import { getCntrprty } from '../api';
 import { OneElements, ListElements } from './shared/elements';
 // import { ListElements, OnlyElements } from './shared/elements';
 import { Link } from "react-router-dom";
-import {Card, List, ListItem, Subtitle, Table, TableBody, TableHead, Title, Text} from "@tremor/react";
+import {Card, List, ListItem, Table, TableBody, TableHead, Title, Text} from "@tremor/react";
 import {FcNext, FcPrevious} from "react-icons/fc";
 
 class Block extends React.Component {
@@ -146,33 +146,33 @@ class Block extends React.Component {
             block_metadata = (
                 <>
                     <List>
-                        <ListItem >
+                        <ListItem className={"space-x-6"}>
                             <span>Block Index </span>
-                            <span>{this.state.block}</span>
+                            <span className={"truncate max-w-xs"}>{this.state.block}</span>
                         </ListItem>
-                        <ListItem >
+                        <ListItem className={"space-x-6"}>
                             <span>Block Time </span>
-                            <span>{(new Date(this.state.block_row.block_time * 1000).toISOString()).replace('.000Z', 'Z')}</span>
+                            <span className={"truncate max-w-xs"}>{(new Date(this.state.block_row.block_time * 1000).toISOString()).replace('.000Z', 'Z')}</span>
                         </ListItem>
-                        <ListItem >
+                        <ListItem className={"space-x-6"}>
                             <span>Block Hash</span>
-                            <span>{this.state.block_row.block_hash}</span>
+                            <span className={"truncate max-w-xs"}>{this.state.block_row.block_hash}</span>
                         </ListItem>
-                        <ListItem >
+                        <ListItem className={"space-x-6"}>
                             <span>Block Previous Hash</span>
-                            <span>{this.state.block_row.previous_block_hash}</span>
+                            <span className={"truncate max-w-xs"}>{this.state.block_row.previous_block_hash}</span>
                         </ListItem>
-                        <ListItem >
+                        <ListItem className={"space-x-6"}>
                             <span>Ledger Hash (L):</span>
-                            <span>{this.state.block_row.ledger_hash}</span>
+                            <span className={"truncate max-w-xs"}>{this.state.block_row.ledger_hash}</span>
                         </ListItem>
-                        <ListItem >
+                        <ListItem className={"space-x-6"}>
                             <span>Txlist Hash (TX):</span>
-                            <span>{this.state.block_row.txlist_hash}</span>
+                            <span className={"truncate max-w-xs"}>{this.state.block_row.txlist_hash}</span>
                         </ListItem>
-                        <ListItem >
+                        <ListItem className={"space-x-6"}>
                             <span>Messages Hash (M):</span>
-                            <span>{this.state.block_row.messages_hash}</span>
+                            <span className={"truncate max-w-xs"}>{this.state.block_row.messages_hash}</span>
                         </ListItem>
                     </List>
 
