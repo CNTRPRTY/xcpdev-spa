@@ -4,6 +4,7 @@ import {
   Button,
   TextInput,
 } from "@tremor/react";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
 // move to util if reused
 function isAssetName(possible) {
