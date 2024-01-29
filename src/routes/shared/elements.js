@@ -2,7 +2,7 @@
 
 import { Link } from 'react-router-dom';
 // import { timeIsoFormat, quantityWithDivisibility } from '../../utils';
-import {timeIsoFormat, hashSlice, quantityWithDivisibility, txTypeBadgeColor} from '../../utils';
+import { timeIsoFormat, hashSlice, quantityWithDivisibility, formatDivision, txTypeBadgeColor } from '../../utils';
 import { BITCOIN_VERSION, COUNTERPARTY_VERSION, COUNTERPARTY_VERSION_ALT, COUNTERPARTY_VERSION_ALT_URL } from '../../api';
 import {
     Accordion, AccordionBody, AccordionHeader,
@@ -773,7 +773,9 @@ class ListElements {
                 }
                 {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${dispensers_row.asset}`}>{dispensers_row.asset}</Link></td> */}
 
-                <TableCell>{`${dispensers_row.satoshirate/dispensers_row.give_quantity}`}</TableCell>
+                <TableCell>{`${formatDivision(dispensers_row.satoshirate, dispensers_row.give_quantity)}`}</TableCell>
+                {/* <TableCell>{`${dispensers_row.satoshirate/dispensers_row.give_quantity}`}</TableCell> */}
+                
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{dispensers_row.satoshirate/dispensers_row.give_quantity}</td> */}
                 {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${dispensers_row.block_index}`}>{dispensers_row.block_index}</Link></td>
                 <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td> */}
@@ -807,7 +809,10 @@ class ListElements {
             <TableRow key={index} style={{ padding: "0.25rem" }}>
                 <TableCell><Link to={`/tx/${dispensers_row.tx_hash}`}>tx</Link></TableCell>
                 <TableCell><Link to={`/asset/${dispensers_row.asset}`}>{dispensers_row.asset}</Link></TableCell>
-                <TableCell>{`${dispensers_row.satoshirate/dispensers_row.give_quantity}`}</TableCell>
+                
+                <TableCell>{`${formatDivision(dispensers_row.satoshirate, dispensers_row.give_quantity)}`}</TableCell>
+                {/* <TableCell>{`${dispensers_row.satoshirate/dispensers_row.give_quantity}`}</TableCell> */}
+                
                 <TableCell><Link to={`/block/${dispensers_row.block_index}`}>{dispensers_row.block_index}</Link></TableCell>
                 <TableCell>{timeIsoFormat(dispensers_row.block_time)}</TableCell>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(dispensers_row)}</td> */}
