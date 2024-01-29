@@ -7,54 +7,82 @@ import { Link } from "react-router-dom";
 import {Card, List, ListItem, Table, TableBody, TableHead, Title, Text} from "@tremor/react";
 import {FcNext, FcPrevious} from "react-icons/fc";
 
+function baseState(block) {
+    return {
+        block,
+        // block: Number(props.router.params.block),
+        block_not_found: null,
+        block_row: null,
+        messages: null,
+    };
+}
+
 class Block extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            block: Number(props.router.params.block),
-            block_not_found: null,
-            block_row: null,
-            messages: null,
-        };
+        this.state = baseState(props.router.params.block);
     }
 
-    async fetchData(block) {
+    async fetchData(_block) {
+
         let block_response = {};
-        try {
-            block_response = await getCntrprty(`/block/${block}`);
-        }
-        catch (e) {
-            block_response.messages = null;
-        }
-        // const block_response = await getCntrprty(`/block/${block}`);
 
-        // console.log(`rrr1`);
-        // console.log(JSON.stringify(block_response));
-        // console.log(`rrr2`);
+        // handle blockhash redirect
+        if (!Number.isInteger(Number(_block))) {
+            // assume is blockhash
+            try {
+                const blockindex_response = await getCntrprty(`/blockhash/${_block}`);
+                this.props.router.navigate(`/block/${blockindex_response.block_row.block_index}`, { replace: true });
+            }
+            catch (e) {
+                this.setState({
+                    block_not_found: true,
+                });
+            }
+        }
+        else {
 
-        if (!block_response.messages) {
-            this.setState({
-                block,
-                block_not_found: true,
-                block_row: null,
-                messages: null,
-            });
-        }
-        else if (!block_response.messages.length) {
-            this.setState({
-                block,
-                block_not_found: null,
-                block_row: block_response.block_row,
-                messages: [],
-            });
-        }
-        else { // block_response.messages.length
-            this.setState({
-                block,
-                block_not_found: null,
-                block_row: block_response.block_row,
-                messages: block_response.messages,
-            });
+            const block = Number(_block);
+
+            this.setState(baseState(block));
+
+            try {
+                block_response = await getCntrprty(`/block/${block}`);
+            }
+            catch (e) {
+                block_response.messages = null;
+            }
+            // const block_response = await getCntrprty(`/block/${block}`);
+
+            // console.log(`rrr1`);
+            // console.log(JSON.stringify(block_response));
+            // console.log(`rrr2`);
+
+            if (!block_response.messages) {
+                this.setState({
+                    block,
+                    block_not_found: true,
+                    block_row: null,
+                    messages: null,
+                });
+            }
+            else if (!block_response.messages.length) {
+                this.setState({
+                    block,
+                    block_not_found: null,
+                    block_row: block_response.block_row,
+                    messages: [],
+                });
+            }
+            else { // block_response.messages.length
+                this.setState({
+                    block,
+                    block_not_found: null,
+                    block_row: block_response.block_row,
+                    messages: block_response.messages,
+                });
+            }
+
         }
 
     }
@@ -75,10 +103,11 @@ class Block extends React.Component {
         // console.log(`rrrrrrrrr3`);
 
         // props.router.params.block
-        const updatedProp = Number(this.props.router.params.block);
-        // const updatedProp = this.props.router.params.block;
+        // const updatedProp = Number(this.props.router.params.block);
+        const updatedProp = this.props.router.params.block;
         // const updatedProp = this.props.block;
-        if (updatedProp !== Number(prevProps.router.params.block)) {
+        if (`${updatedProp}`.trim() !== `${prevProps.router.params.block}`.trim()) {
+            // if (updatedProp !== Number(prevProps.router.params.block)) {
             // if (updatedProp !== prevProps.router.params.block) {
             // if (updatedProp !== prevProps.block) {
             await this.fetchData(updatedProp);

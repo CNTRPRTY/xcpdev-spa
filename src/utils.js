@@ -27,14 +27,32 @@ function hashSlice(hash) {
     return `${hash.slice(0, 5)}...${hash.slice(-5)}`
 }
 
-function quantityWithDivisibility(divisible, quantity_integer) {
+function quantityWithDivisibility(divisible, quantity_bigint) {
     // return divisible ? (quantity_integer / (10 ** 8)).toFixed(8) : quantity_integer;
+
+    if (typeof quantity_bigint !== 'bigint') {
+        throw Error('quantityWithDivisibility param must be a bigint'); // kind of confusing to be opposite of formatDivision
+    }
 
     // now done based on string
     // TODO locale formatting
+
+    let quantity_integer;
+    let is_negative;
+    if (quantity_bigint < 0) {
+        // normalize to positive, then add negative back at last step
+        quantity_integer = -quantity_bigint;
+        is_negative = true;
+    }
+    else {
+        quantity_integer = quantity_bigint;
+        is_negative = false;
+    }
+
+    let to_return;
     if (divisible) {
         const quantity_integer_string_length = `${quantity_integer}`.length;
-        let to_return;
+        // let to_return;
         if (quantity_integer_string_length < 8) {
             to_return = `${quantity_integer}`;
             while (to_return.length < 8) {
@@ -48,11 +66,51 @@ function quantityWithDivisibility(divisible, quantity_integer) {
             const first_chars_left = `${quantity_integer}`.slice(0, quantity_integer_string_length - 8);
             to_return = `${first_chars_left ? first_chars_left : '0'}.${decimals}`;
         }
-        return to_return;
+        // return to_return;
     }
     else {
-        return `${quantity_integer}`;
+        to_return = `${quantity_integer}`;
+        // return `${quantity_integer}`;
     }
+
+    return `${is_negative ? '-' : ''}${to_return}`;
+}
+
+function formatDivision(numerator_int, denominator_int) {
+    // TODO locale formatting
+
+    if (
+        (typeof numerator_int === 'bigint') ||
+        (typeof denominator_int === 'bigint')
+    ) {
+        throw Error('formatDivision params cannot be bigint'); // kind of confusing to be opposite of quantityWithDivisibility
+        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt#operators
+        // The / operator also works as expected with whole numbers - but operations with a fractional result will be truncated when used with a BigInt value - they won't return any fractional digits.
+    }
+
+    let formatted;
+    
+    const division_exp = (numerator_int / denominator_int).toExponential();
+
+    if (division_exp.includes('e-')) {
+        const [num, exp] = division_exp.split('e-');
+        let to_fixed_value = parseInt(exp);
+        if (num.includes('.')) {
+            const afterdot = num.split('.')[1];
+            to_fixed_value = to_fixed_value + afterdot.length;
+        }
+        // truncate if too long
+        if (to_fixed_value > 10) { // haven't seen more than 7 but to be safe and not miss numbers
+            to_fixed_value = 10;
+        }
+        formatted = `${Number(division_exp).toFixed(to_fixed_value)}`;
+        // formatted = `(${division_exp}) ${Number(division_exp).toFixed(to_fixed_value)}`;
+    }
+    else {
+        formatted = `${Number(division_exp)}`;
+    }
+
+    return formatted;
 }
 
 function txTypeBadgeColor(type) {
@@ -77,5 +135,6 @@ export {
     timeSince,
     hashSlice,
     quantityWithDivisibility,
-    txTypeBadgeColor
+    formatDivision,
+    txTypeBadgeColor,
 };

@@ -17,42 +17,14 @@ import {
     TableHead,
     TableBody, TableFoot, TableFooterCell, Subtitle, TableRow
 } from "@tremor/react";
-import {MagnifyingGlassIcon} from "@heroicons/react/24/outline";
 
-// move to util if reused
-function isAssetName(possible) {
-    // if subasset only validate the superasset part
-    const maybe_subasset = possible.split('.');
-    if (maybe_subasset.length > 1) {
-        possible = maybe_subasset[0];
-    }
-    // https://stackoverflow.com/a/8653681
-    if (possible.match(/^[a-zA-Z]+$/)) {
-        // only letters
-        return true;
-    }
-    else if (
-        (
-            possible.startsWith('A') ||
-            possible.startsWith('a')
-        ) &&
-        Number.isInteger(Number(possible.substring(1))) // Number.isInteger(99999999999999999999999); // true (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/isInteger#using_isinteger)
-    ) {
-        // is numeric asset
-        return true;
-    }
-    else {
-        return false;
-    }
-}
+import Search from './shared/search';
 
 class Home extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            search: '',
-            
+        this.state = {            
             ////
             blocks: null,
             ////
@@ -63,54 +35,6 @@ class Home extends React.Component {
             //
             btc_transactions_latest: null,
         };
-        this.handleSearchChange = this.handleSearchChange.bind(this);
-        this.handleSearchSubmit = this.handleSearchSubmit.bind(this);
-    }
-
-    handleSearchChange(event) {
-        this.setState({ search: event.target.value });
-    }
-
-    handleSearchSubmit(event) {
-        event.preventDefault();
-        let to_navigate = this.state.search.replace(/\s/g, ''); // remove all whitespace (https://stackoverflow.com/a/6623263)
-        this.setState({ search: '' });
-
-        let path_type = null;
-
-        // simple for now:
-        if (to_navigate.length === 64) {
-            path_type = 'tx';
-        }
-        else if (Number.isInteger(Number(to_navigate))) {
-            // simplest to allow both block_height and tx_index
-            const num = Number(to_navigate);
-            if (num >= 900000) {
-                path_type = 'tx';
-            }
-            else {
-                path_type = 'block';
-            }
-            // path_type = 'block';
-        }
-        else if (isAssetName(to_navigate)) {
-            const to_uppercase = to_navigate.split('.');
-            to_uppercase[0] = to_uppercase[0].toUpperCase();
-            to_navigate = to_uppercase.join('.');
-            path_type = 'asset';
-        }
-        // TODO more strict validation, but for now treating everything else as an address
-        else {
-            path_type = 'address';
-        }
-
-        if (path_type) {
-            this.props.router.navigate(`${path_type}/${to_navigate}`);
-        }
-        else {
-            alert(`no data type match found for: ${to_navigate}`);
-        }
-
     }
 
     async fetchDataBlocks() {
@@ -333,23 +257,9 @@ class Home extends React.Component {
             </>
         );
 
-        const placeholder = "block / tx_index / tx_hash / address / asset";
-        const search_element = (
-            <>
-                <form onSubmit={this.handleSearchSubmit}>
-                    <div className={"flex flex-row w-full items-center justify-center space-x-1"}>
-                        <div className="flex flex-row w-full max-w-3xl  items-center bg-slate-100 dark:bg-slate-800 p-1 space-x-2 rounded-xl">
-                            <TextInput  icon={MagnifyingGlassIcon} placeholder={placeholder} className={"w-full border-none dark:border-none focus:ring-none ring-transparent dark:ring-transparent"} value={this.state.search} onChange={this.handleSearchChange}/>
-                            <Button type="submit" size={"xs"} variant={"primary"} value={"Search"} className={"bg-yellow-600 hover:bg-yellow-800 dark:bg-yellow-600 dark:hover:bg-yellow-800 ring-transparent border-none"}>Search</Button>
-                        </div>
-                    </div>
-                </form>
-            </>
-        );
-
         const homenew_element = (
             <div className={"w-full max-w-[1300px]"}>
-                {search_element}
+                <Search />
                 {block_element}
                 <div className={"flex w-full gap-4 flex-col lg:flex-row items-start justify-between mt-6"}>
                     <div className={"flex w-full min-h-[200px] lg:min-h-[500px] max-h-[500px] overflow-auto p-[1px] rounded-lg shadow-xl"}>

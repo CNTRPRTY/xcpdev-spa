@@ -2,7 +2,7 @@
 
 import { Link } from 'react-router-dom';
 // import { timeIsoFormat, quantityWithDivisibility } from '../../utils';
-import {timeIsoFormat, hashSlice, quantityWithDivisibility, txTypeBadgeColor} from '../../utils';
+import { timeIsoFormat, hashSlice, quantityWithDivisibility, formatDivision, txTypeBadgeColor } from '../../utils';
 import { BITCOIN_VERSION, COUNTERPARTY_VERSION, COUNTERPARTY_VERSION_ALT, COUNTERPARTY_VERSION_ALT_URL } from '../../api';
 import {
     Accordion, AccordionBody, AccordionHeader,
@@ -16,6 +16,9 @@ import {
 } from "@tremor/react";
 import React from "react";
 import Footer from "../../components/Footer/Footer";
+
+import NavMenu from "../../components/NavMenu";
+import Logo from "../../components/Logo";
 
 // function timeIsoFormat(block_time) {
 //     // return `at: ${(new Date(block_time * 1000).toISOString()).replace('.000Z', 'Z')}`;
@@ -773,7 +776,9 @@ class ListElements {
                 }
                 {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/asset/${dispensers_row.asset}`}>{dispensers_row.asset}</Link></td> */}
 
-                <TableCell>{`${dispensers_row.satoshirate/dispensers_row.give_quantity}`}</TableCell>
+                <TableCell>{`${formatDivision(dispensers_row.satoshirate, dispensers_row.give_quantity)}`}</TableCell>
+                {/* <TableCell>{`${dispensers_row.satoshirate/dispensers_row.give_quantity}`}</TableCell> */}
+                
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{dispensers_row.satoshirate/dispensers_row.give_quantity}</td> */}
                 {/* <td style={{ padding: "0 1rem 0 0" }}><Link to={`/block/${dispensers_row.block_index}`}>{dispensers_row.block_index}</Link></td>
                 <td style={{ padding: "0 1rem 0 0" }}>{block_time_iso}</td> */}
@@ -807,7 +812,10 @@ class ListElements {
             <TableRow key={index} style={{ padding: "0.25rem" }}>
                 <TableCell><Link to={`/tx/${dispensers_row.tx_hash}`}>tx</Link></TableCell>
                 <TableCell><Link to={`/asset/${dispensers_row.asset}`}>{dispensers_row.asset}</Link></TableCell>
-                <TableCell>{`${dispensers_row.satoshirate/dispensers_row.give_quantity}`}</TableCell>
+                
+                <TableCell>{`${formatDivision(dispensers_row.satoshirate, dispensers_row.give_quantity)}`}</TableCell>
+                {/* <TableCell>{`${dispensers_row.satoshirate/dispensers_row.give_quantity}`}</TableCell> */}
+                
                 <TableCell><Link to={`/block/${dispensers_row.block_index}`}>{dispensers_row.block_index}</Link></TableCell>
                 <TableCell>{timeIsoFormat(dispensers_row.block_time)}</TableCell>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(dispensers_row)}</td> */}
@@ -1045,7 +1053,8 @@ class ListElements {
             <TableRow key={index}>
                 <TableCell><Link to={`/tx/${btcpays_row.tx_hash}`}>tx</Link></TableCell>
                 <TableCell>{btcpays_row.status}</TableCell>
-                <TableCell>{quantityWithDivisibility(true, btcpays_row.btc_amount)}</TableCell>
+                <TableCell>{quantityWithDivisibility(true, BigInt(btcpays_row.btc_amount_text))}</TableCell>
+                {/* <TableCell>{quantityWithDivisibility(true, btcpays_row.btc_amount)}</TableCell> */}
                 <TableCell><Link to={`/block/${btcpays_row.block_index}`}>{btcpays_row.block_index}</Link></TableCell>
                 <TableCell>{timeIsoFormat(btcpays_row.block_time)}</TableCell>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(btcpays_row)}</td> */}
@@ -1185,10 +1194,22 @@ class ListElements {
 class OneElements {
     static getFullPageForRouteElement(route_element) {
         return (
-            <main className={"flex flex-col w-full items-center justify-center"}>
-                {route_element}
+            <main className={"p-4"}>
 
-                <Footer/>
+                {/* Header */}
+                <div className={"flex flex-row items-center mb-24"}>
+                    {/* Logo section */}
+                    <Logo />
+                    {/* Navigation menu section */}
+                    <NavMenu />
+                </div>
+
+                <div className={"flex flex-col w-full items-center justify-center"}>
+                    {/* <main className={"flex flex-col w-full items-center justify-center"}> */}
+                    {route_element}
+                    <Footer />
+                </div>
+
             </main>
         );
     }
