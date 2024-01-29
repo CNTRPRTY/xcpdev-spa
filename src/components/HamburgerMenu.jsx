@@ -4,6 +4,7 @@ import {HiMenuAlt2} from "react-icons/hi";
 import ThemeSwitcher from "./ThemeSwitcher";
 import Logo from "./Logo";
 import {Subtitle} from "@tremor/react";
+import {Link} from "react-router-dom";
 
 function HamburgerMenu({props}) {
 
@@ -68,6 +69,23 @@ function HamburgerMenu({props}) {
                                                 <div>Theme</div>
                                                 <ThemeSwitcher/>
                                             </Subtitle>
+                                        </div>
+
+                                        <div className={"py-2"}>
+                                            <ul>
+                                                <li>
+                                                    <Link to="/" className={"text-yellow-600 text-sm font-bold hover:text-yellow-700"}>DATA</Link>
+                                                </li>
+                                                <li>
+                                                    <Link to="/wallet" className={"text-yellow-600 text-sm font-bold hover:text-yellow-700"}>WALLET</Link>
+                                                </li>
+                                                <li>
+                                                    <Link to="/messages" className={"text-yellow-600 text-sm font-bold hover:text-yellow-700"}>MESSAGES</Link>
+                                                </li>
+                                                <li>
+                                                    <Link to="/transactions" className={"text-yellow-600 text-sm font-bold hover:text-yellow-700"}>TRANSACTIONS</Link>
+                                                </li>
+                                            </ul>
                                         </div>
 
                                         <div className={"flex flex-row items-start py-4 "}>

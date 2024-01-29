@@ -1,4 +1,4 @@
-# xcp.dev
+# xcp.dev - single page application
 
 ## Libre Counterparty Bitcoin Data Explorer
 
@@ -10,7 +10,7 @@ This is an open source Counterparty data explorer server + client application. I
 
 Requires Node.js >= 18.
 
-1.Install dependencies:
+1. Install dependencies:
 ```bash
 npm install
 ```
