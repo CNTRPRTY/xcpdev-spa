@@ -22,7 +22,7 @@ function Footer() {
 
             {/* Visible in desktop and mobile view */}
             <div className={"flex flex-col md:flex-row items-center justify-center gap-2 m-6 mb-20"}>
-                <Text className={"flex"}>[<a href={`https://github.com/CNTRPRTY/xcpdev`} target="_blank" rel="noreferrer">xcp.dev v2.2</a>]</Text>
+                <Text className={"flex"}>[<a href={`https://github.com/CNTRPRTY/xcpdev`} target="_blank" rel="noreferrer">xcp.dev v2.3</a>]</Text>
                 <Text className={"flex"}>[counterparty-lib v{COUNTERPARTY_VERSION}][<a href={COUNTERPARTY_VERSION_ALT_URL} target="_blank" rel="noreferrer">v{COUNTERPARTY_VERSION_ALT}</a>]</Text>
                 <Text className={"flex"}>[Bitcoin Core v{BITCOIN_VERSION}]</Text>
             </div>
