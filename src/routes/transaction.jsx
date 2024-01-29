@@ -261,9 +261,9 @@ class Transaction extends React.Component {
 
                 olga_element = (
                     <li>
-                        <p>Honoring <Link to={`/asset/OLGA`}>OLGA</Link></p>
-                        <img src={data_url_chain_fixed} />
-                        <p>Image *written* in Bitcoin since 2015</p>
+                        <Text>Honoring <Link to={`/asset/OLGA`}>OLGA</Link></Text>
+                        <img src={data_url_chain_fixed} alt={"OLGA"}/>
+                        <Text>Image *written* in Bitcoin since 2015</Text>
 
                         <input
                             type="range"
@@ -278,7 +278,7 @@ class Transaction extends React.Component {
 
                         <br />
                         <br />
-                        <img src={`${data_url_cut}=`} style={{ width: "200px" }} />
+                        <img src={`${data_url_cut}=`} style={{ width: "200px" }} alt={"OLGA"}/>
                         <br />
                         reverse:{' '}
                         [{reverse.join('')}]
@@ -324,8 +324,8 @@ class Transaction extends React.Component {
 
                 dispenser_element = (
                     <>
-                        <h3>Dispenser:</h3>
-                        <p>State as of block {tip_blocks_row.block_index} ({timeIsoFormat(tip_blocks_row.block_time)})</p>
+                        <Title>Dispenser:</Title>
+                        <Text>State as of block {tip_blocks_row.block_index} ({timeIsoFormat(tip_blocks_row.block_time)})</Text>
                         <ul>
                             <li>Status: {dispenser_status}</li>
                         </ul>
@@ -420,8 +420,8 @@ class Transaction extends React.Component {
 
                 order_element = (
                     <>
-                        <h3>Order:</h3>
-                        <p>State as of block {tip_blocks_row.block_index} ({timeIsoFormat(tip_blocks_row.block_time)})</p>
+                        <Title>Order:</Title>
+                        <Text>State as of block {tip_blocks_row.block_index} ({timeIsoFormat(tip_blocks_row.block_time)})</Text>
                         <ul>
                             <li>status: {orders_row.status}</li>
                         </ul>
