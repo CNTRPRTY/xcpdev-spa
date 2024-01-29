@@ -1045,7 +1045,8 @@ class ListElements {
             <TableRow key={index}>
                 <TableCell><Link to={`/tx/${btcpays_row.tx_hash}`}>tx</Link></TableCell>
                 <TableCell>{btcpays_row.status}</TableCell>
-                <TableCell>{quantityWithDivisibility(true, btcpays_row.btc_amount)}</TableCell>
+                <TableCell>{quantityWithDivisibility(true, BigInt(btcpays_row.btc_amount_text))}</TableCell>
+                {/* <TableCell>{quantityWithDivisibility(true, btcpays_row.btc_amount)}</TableCell> */}
                 <TableCell><Link to={`/block/${btcpays_row.block_index}`}>{btcpays_row.block_index}</Link></TableCell>
                 <TableCell>{timeIsoFormat(btcpays_row.block_time)}</TableCell>
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(btcpays_row)}</td> */}
