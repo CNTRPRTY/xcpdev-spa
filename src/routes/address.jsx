@@ -3,7 +3,7 @@ import { withRouter } from './shared/classhooks';
 import { getCntrprty } from '../api';
 import { OneElements, ListElements } from './shared/elements';
 import { Link } from 'react-router-dom';
-import { Card, Divider, Subtitle, Table, TableBody, TableHead, Title } from "@tremor/react";
+import { Card, Divider, Subtitle, Table, TableBody, TableHead, Title, Text } from "@tremor/react";
 
 function baseState(address) {
     return {
@@ -114,7 +114,7 @@ class Address extends React.Component {
                             </Table>
                         </>
                     )
-                    : (<p>no open dispensers</p>);
+                    : (<Text>no open dispensers</Text>);
         }
 
         let address_closed_dispensers_element = (<p>loading...</p>);
@@ -162,7 +162,7 @@ class Address extends React.Component {
                             </Table>
                         </>
                     )
-                    : (<p>no broadcasts</p>);
+                    : (<Text>No broadcasts</Text>);
         }
 
 
@@ -230,7 +230,7 @@ class Address extends React.Component {
                             </Table>
                         </>
                     )
-                    : (<p>no genesis issuances</p>);
+                    : (<Text>No genesis issuances</Text>);
         }
 
         let issuer_transfer_element = (<p>loading...</p>);
@@ -254,7 +254,7 @@ class Address extends React.Component {
                             </Table>
                         </>
                     )
-                    : (<p>no transfer issuances</p>);
+                    : (<Text>No transfer issuances</Text>);
         }
 
 
