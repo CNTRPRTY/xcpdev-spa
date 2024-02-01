@@ -5,7 +5,7 @@ import React from "react";
 function Logo() {
   return (
       <div className={"flex flex-col flex-1"}>
-          <Link to="/" className={"flex flex-row items-center"}>
+          <Link to="/" className={"flex flex-row w-fit items-center"}>
               <div className={"text-black dark:text-neutral-400 text-3xl font-bold"}>xcp</div>
               <div className={"text-yellow-600 dark:text-yellow-600 text-3xl font-bold"}>.dev</div>
           </Link>
