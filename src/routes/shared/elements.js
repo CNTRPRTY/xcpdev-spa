@@ -19,6 +19,7 @@ import Footer from "../../components/Footer/Footer";
 
 import NavMenu from "../../components/NavMenu";
 import Logo from "../../components/Logo";
+import Search from "./search";
 
 // function timeIsoFormat(block_time) {
 //     // return `at: ${(new Date(block_time * 1000).toISOString()).replace('.000Z', 'Z')}`;
@@ -1197,15 +1198,17 @@ class OneElements {
             <main className={"p-4"}>
 
                 {/* Header */}
-                <div className={"flex flex-row items-center mb-24"}>
-                    {/* Logo section */}
-                    <Logo />
-                    {/* Navigation menu section */}
-                    <NavMenu />
+                <div className={"flex flex-col mb-24 space-y-6"}>
+                    <div className={"flex flex-row items-center justify-between"}>
+                        {/* Logo section */}
+                        <Logo/>
+                        {/* Navigation menu section */}
+                        <NavMenu/>
+                    </div>
+                    <Search/>
                 </div>
 
                 <div className={"flex flex-col w-full items-center justify-center"}>
-                    {/* <main className={"flex flex-col w-full items-center justify-center"}> */}
                     {route_element}
                     <Footer />
                 </div>

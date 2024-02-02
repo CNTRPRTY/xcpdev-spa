@@ -259,7 +259,6 @@ class Home extends React.Component {
 
         const homenew_element = (
             <div className={"w-full max-w-[1300px]"}>
-                <Search />
                 {block_element}
                 <div className={"flex w-full gap-4 flex-col lg:flex-row items-start justify-between mt-6"}>
                     <div className={"flex w-full min-h-[200px] lg:min-h-[500px] max-h-[500px] overflow-auto p-[1px] rounded-lg shadow-xl"}>
