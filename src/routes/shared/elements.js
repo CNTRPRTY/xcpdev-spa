@@ -1209,7 +1209,6 @@ class OneElements {
                 </div>
 
                 <div className={"flex flex-col w-full items-center justify-center"}>
-                    {/* <main className={"flex flex-col w-full items-center justify-center"}> */}
                     {route_element}
                     <Footer />
                 </div>
