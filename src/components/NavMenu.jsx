@@ -4,8 +4,6 @@ import React from "react";
 import HamburgerMenu from "./HamburgerMenu";
 import MenuLinks from "./MenuLinks";
 
-import SearchMenu from "./SearchMenu";
-
 function NavMenu() {
   return (
       <>
@@ -18,7 +16,6 @@ function NavMenu() {
 
           {/* Visible only in mobile view */}
           <div className={"flex flex-row sm:hidden space-x-4 items-center"}>
-            <SearchMenu/>
             <HamburgerMenu/>
           </div>
       </>
