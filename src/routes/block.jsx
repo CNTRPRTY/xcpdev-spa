@@ -48,6 +48,7 @@ class Block extends React.Component {
 
             try {
                 block_response = await getCntrprty(`/block/${block}`);
+                block_response.messages = (await getCntrprty(`/block/${block}/messages`)).messages;
             }
             catch (e) {
                 block_response.messages = null;
