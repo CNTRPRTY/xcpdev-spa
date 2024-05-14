@@ -2000,6 +2000,7 @@ class ListElements {
 
 
 const DEFAULT_THEME = "dark";
+const DEFAULT_DEBUG_MODE = "false";
 
 function getThemedElement() {
 
@@ -2033,10 +2034,18 @@ class OneElements extends React.Component {
             _theme = DEFAULT_THEME;
         }
 
+        let _debug_mode = localStorage.debug_mode;
+        if (typeof localStorage.debug_mode === 'undefined') {
+            localStorage.setItem("debug_mode", DEFAULT_DEBUG_MODE);
+            _theme = DEFAULT_DEBUG_MODE;
+        }
+
         this.state = {
             theme: _theme,
+            debug_mode: _debug_mode,
         };
         this.handleDarkModeToggle = this.handleDarkModeToggle.bind(this);
+        this.handleDebugModeToggle = this.handleDebugModeToggle.bind(this);
     }
 
     handleDarkModeToggle() {
@@ -2045,6 +2054,21 @@ class OneElements extends React.Component {
         const storedTheme = this.state.theme;
         const newColorTheme = switchTheme(storedTheme);
         this.setState({ theme: newColorTheme });
+    }
+
+    handleDebugModeToggle() {
+        const storedDebugMode = this.state.debug_mode;
+        let _debug_mode;
+        if (storedDebugMode === "true") {
+            _debug_mode = "false";
+        }
+        else {
+            _debug_mode = "true";
+        }
+        localStorage.setItem("debug_mode", _debug_mode);
+
+        window.location.reload();
+        // this.setState({ debug_mode: _debug_mode });
     }
 
     componentDidMount() {
@@ -2117,6 +2141,16 @@ class OneElements extends React.Component {
                                 />
                                 {' '}
                                 <span class="text-gray-600 dark:text-gray-400">dark mode</span>
+                            </label>
+                            {' '}
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    onClick={this.handleDebugModeToggle}
+                                    checked={this.state.debug_mode === "true"}
+                                />
+                                {' '}
+                                <span class="text-gray-600 dark:text-gray-400">debug mode</span>
                             </label>
                         </div>
 
