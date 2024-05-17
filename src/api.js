@@ -171,6 +171,21 @@ function getDispenserStatusText(status_number) {
 }
 
 
+// v10
+function eventsFilter(message_row, show_all_events = false) {
+    if (show_all_events) return true;
+    else {
+        const non_message_events = [
+            'transactions',
+            'transaction_outputs',
+            'assets',
+            'blocks',
+        ];
+        return !non_message_events.includes(message_row.category);
+    }
+}
+
+
 export {
     COUNTERPARTY_VERSION_PREVIEW,
     COUNTERPARTY_VERSION_ALT,
@@ -183,4 +198,5 @@ export {
     postLibApiProxyFetch,
     selectTransactionMessagesFromAll,
     getDispenserStatusText,
+    eventsFilter, // v10
 };
