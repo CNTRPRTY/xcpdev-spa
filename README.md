@@ -1,12 +1,20 @@
-# xcp.dev
+# xcp.dev - single page application
 
 ## Libre Counterparty Bitcoin Data Explorer
 
-THIS IS ALPHA SOFTWARE, but is live at https://www.xcp.dev.
-
-This is an open source Counterparty data explorer server + client application. It requires a fednode to run the server... (WIP)
+This is a [Counterparty](https://www.counterparty.io/) web client application, which requires an [api](https://github.com/CNTRPRTY/xcpdev-api) to function. It is currently live at [xcp.dev](https://www.xcp.dev).
 
 ---
+
+## Install
+
+Requires Node.js >= 18.
+
+Install dependencies:
+
+```bash
+npm install
+```
 
 ## Run
 
