@@ -2112,6 +2112,8 @@ class OneElements extends React.Component {
         //   }
         // //////
 
+        const lib_or_core = COUNTERPARTY_VERSION.startsWith('9') ? "lib" : "core";
+
         return (
             <span // appropriate for styling purposes: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/span
                 id="main-content"
@@ -2178,7 +2180,8 @@ class OneElements extends React.Component {
                         </div>
 
                         {'[ '}
-                        <a href={`https://github.com/CNTRPRTY/xcpdev-genesis`} target="_blank">xcp.dev v1.9</a>
+                        <a href={`https://github.com/CNTRPRTY/xcpdev`} target="_blank">xcp.dev v1.9</a>
+                        {/* <a href={`https://github.com/CNTRPRTY/xcpdev-genesis`} target="_blank">xcp.dev v1.9</a> */}
                         {' '}|{' '}
                         <Link to="/api">API</Link>
                         {' ]'}
@@ -2186,7 +2189,8 @@ class OneElements extends React.Component {
                         <br />
                         {'[ '}
                         <span class="dark:text-slate-100">
-                            counterparty-lib v{COUNTERPARTY_VERSION}
+                            counterparty-{lib_or_core} v{COUNTERPARTY_VERSION}
+                            {/* counterparty-lib v{COUNTERPARTY_VERSION} */}
                             {' '}
                             {COUNTERPARTY_VERSION_PREVIEW ? 'PREVIEW ' : ''}
                         </span>
