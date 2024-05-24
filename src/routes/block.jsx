@@ -202,7 +202,8 @@ class Block extends React.Component {
                                         <span class="dark:text-slate-100">{this.state.block_row.txlist_hash}</span>
                                     </li>
                                     <li>
-                                        <span class="text-gray-600 dark:text-gray-400">messages hash (M):</span>
+                                        <span class="text-gray-600 dark:text-gray-400">messages hash (M*):</span>
+                                        {/* <span class="text-gray-600 dark:text-gray-400">messages hash (M):</span> */}
                                         {' '}
                                         <span class="dark:text-slate-100">{this.state.block_row.messages_hash}</span>
                                     </li>

@@ -105,7 +105,8 @@ class Home extends React.Component {
 
                                             <code>L: {hashSlice(block_row.ledger_hash)}</code><br />
                                             <code>TX:{hashSlice(block_row.txlist_hash)}</code><br />
-                                            <code>M: {hashSlice(block_row.messages_hash)}</code><br />
+                                            <code>M*: {hashSlice(block_row.messages_hash)}</code><br />
+                                            {/* <code>M: {hashSlice(block_row.messages_hash)}</code><br /> */}
 
                                         </div>
 
