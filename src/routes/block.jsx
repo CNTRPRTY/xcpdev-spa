@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import { Buffer } from 'buffer';
 
 import { withRouter } from './shared/classhooks';
-import { getCntrprty } from '../api';
+import { getCntrprty, eventsFilter } from '../api';
+// import { getCntrprty } from '../api';
 import { OneElements, ListElements } from './shared/elements';
 import { decode_data } from '../decode_tx';
 
@@ -29,24 +30,9 @@ function baseState(block) {
         messages: [],
 
         messages_show_bindings: false,
-
         // to debug
         show_all_events: false,
     };
-}
-
-// defaults to filtering
-function eventsFilter(message_row, show_all_events = false) {
-    if (show_all_events) return true;
-    else {
-        const new_messages = [
-            'transactions',
-            'transaction_outputs',
-            'assets',
-            'blocks',
-        ];
-        return !new_messages.includes(message_row.category);
-    }
 }
 
 class Block extends React.Component {
@@ -394,7 +380,8 @@ class Block extends React.Component {
 
                             <table>
                                 <tbody>
-                                    {ListElements.getTableRowMessageBlockHeader(this.state.messages_show_bindings)}
+                                    {ListElements.getTableRowMessageBlockHeader(this.state.messages_show_bindings, this.state.show_all_events)}
+                                    {/* {ListElements.getTableRowMessageBlockHeader(this.state.messages_show_bindings)} */}
                                     {/* {ListElements.getTableRowMessageBlockHeader()} */}
 
                                     {/* filter only in display */}
@@ -402,7 +389,8 @@ class Block extends React.Component {
                                         return eventsFilter(message_row, this.state.show_all_events);
                                     }).map((message_row, index) => {
                                         // {this.state.messages.map((message_row, index) => {
-                                        return ListElements.getTableRowMessageBlock(message_row, index, this.state.messages_show_bindings, eventsFilter(message_row));
+                                        return ListElements.getTableRowMessageBlock(message_row, index, this.state.messages_show_bindings,  this.state.show_all_events);
+                                        // return ListElements.getTableRowMessageBlock(message_row, index, this.state.messages_show_bindings, eventsFilter(message_row));
                                         // return ListElements.getTableRowMessageBlock(message_row, index, this.state.messages_show_bindings);
                                         // // return ListElements.getTableRowMessageBlock(message_row, index);
                                     })}
