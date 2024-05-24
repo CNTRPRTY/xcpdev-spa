@@ -1,6 +1,6 @@
 
 // in this case, alt becomes the current
-const COUNTERPARTY_VERSION_PREVIEW = true;
+const COUNTERPARTY_VERSION_PREVIEW = false;
 
 const COUNTERPARTY_VERSION_ALT = "9.61.3";
 const COUNTERPARTY_VERSION_ALT_URL = "https://xcp.dev";
