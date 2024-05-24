@@ -218,7 +218,8 @@ class WalletCreateSend extends WalletCreate {
                     <div class="py-1 my-1 mt-3">
                         {/* <div class="py-1 my-1"> */}
                         <input
-                            class="px-1 border-solid border-2 border-gray-400 dark:text-slate-100"
+                            class="px-1 border-solid border-2 border-gray-400"
+                            // class="px-1 border-solid border-2 border-gray-400 dark:text-slate-100"
                             type="submit"
                             value="submit"
                             disabled={this.state.open_dialog_obj !== null}

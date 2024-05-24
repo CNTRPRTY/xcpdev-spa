@@ -163,7 +163,8 @@ class Wallet extends React.Component {
                     // size={placeholder_size}
                     />
                     <input
-                        class="px-1 border-solid border-2 border-gray-400 dark:text-slate-100"
+                        class="px-1 border-solid border-2 border-gray-400"
+                        // class="px-1 border-solid border-2 border-gray-400 dark:text-slate-100"
                         // class="px-1 border-solid border-2 border-gray-400"
                         type="submit"
                         value={"go"}
