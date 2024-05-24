@@ -144,7 +144,7 @@ class Wallet extends React.Component {
         // if (this.state.address && this.state.address.length) {
         //     show_button = (<span> <input type="submit" value={button_value} disabled={this.state.loading} /></span>);
         // }
-        const placeholder = "address";
+        const placeholder = " address";
         const address_bar = (
             <>
                 {/* <div style={{ padding: "1.1rem 0 0.5rem 0" }}> */}
