@@ -1,0 +1,36 @@
+.link {
+    color: gray !important;
+    /*font: 1.3rem condensedRegular3270, monospace;*/
+    /*text-shadow: 0 0 5px #C8C8C8;*/
+}
+
+.link:hover {
+    text-decoration: none !important;
+
+    @apply
+    text-yellow-700 !important;
+
+}
+
+.link:focus {
+    text-decoration: none !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.link:active {
+    text-decoration: none !important;
+}
+
+.active {
+    text-decoration: none !important;
+
+    @apply
+    text-yellow-600
+    ring-0
+}
+
+.active:hover {
+    @apply
+    text-yellow-700
+}
