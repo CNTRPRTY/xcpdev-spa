@@ -2181,7 +2181,8 @@ class OneElements extends React.Component {
                         </div>
 
                         {'[ '}
-                        <a href={`https://github.com/CNTRPRTY/xcpdev`} target="_blank">xcp.dev v1.9</a>
+                        <a href={`https://github.com/CNTRPRTY/xcpdev`} target="_blank">xcp.dev v2.0</a>
+                        {/* <a href={`https://github.com/CNTRPRTY/xcpdev`} target="_blank">xcp.dev v1.9</a> */}
                         {/* <a href={`https://github.com/CNTRPRTY/xcpdev-genesis`} target="_blank">xcp.dev v1.9</a> */}
                         {' '}|{' '}
                         <Link to="/api">API</Link>
