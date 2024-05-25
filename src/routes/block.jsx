@@ -355,7 +355,7 @@ class Block extends React.Component {
                                                 checked={this.state.show_all_events}
                                             />
                                             {' '}
-                                            <span class="text-gray-600 dark:text-gray-400">debug: show all events</span>
+                                            <span class="text-gray-600 dark:text-gray-400">pro: show all events</span>
                                         </label>
                                     </>
                                 )

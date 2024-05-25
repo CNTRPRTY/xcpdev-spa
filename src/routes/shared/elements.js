@@ -2175,7 +2175,8 @@ class OneElements extends React.Component {
                                     checked={this.state.debug_mode === "true"}
                                 />
                                 {' '}
-                                <span class="text-gray-600 dark:text-gray-400">debug mode</span>
+                                <span class="text-gray-600 dark:text-gray-400">pro mode</span>
+                                {/* <span class="text-gray-600 dark:text-gray-400">debug mode</span> */}
                             </label>
                         </div>
 
