@@ -550,7 +550,8 @@ class WalletCreate extends React.Component {
         if (this.state.open_dialog_obj.dialog_state === 'success') {
 
             // hex position varies based on extended_tx_info
-            let hex = this.state.open_dialog_obj.response.data.lib_response.result;
+            let hex = this.state.open_dialog_obj.response.data.lib_response.result.result;
+            // let hex = this.state.open_dialog_obj.response.data.lib_response.result;
             if (typeof hex === 'object') hex = hex.tx_hex;
 
             success = (
