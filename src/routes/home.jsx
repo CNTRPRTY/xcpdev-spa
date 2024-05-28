@@ -1,26 +1,13 @@
 import React from 'react';
 import { withRouter } from './shared/classhooks';
+// import { getCntrprty, eventsFilter } from '../api';
 import { getCntrprty } from '../api';
 import { OneElements, ListElements } from './shared/elements';
 import { Link } from "react-router-dom";
 import { timeSince, hashSlice } from '../utils';
 
-// import { decode_data } from '../decode_tx';
-// import { Buffer } from 'buffer';
-
-// defaults to filtering
-function eventsFilter(message_row, show_all_events = false) {
-    if (show_all_events) return true;
-    else {
-        const new_messages = [
-            'transactions',
-            'transaction_outputs',
-            'assets',
-            'blocks',
-        ];
-        return !new_messages.includes(message_row.category);
-    }
-}
+import { decode_data } from '../decode_tx';
+import { Buffer } from 'buffer';
 
 class Home extends React.Component {
 
@@ -163,7 +150,7 @@ class Home extends React.Component {
             mempool_element_contents = (
                 <>
 
-                {localStorage.debug_mode === "true" ?
+                {/* {localStorage.debug_mode === "true" ?
                     (
                         <>
                             {' '}
@@ -183,7 +170,7 @@ class Home extends React.Component {
                         </>
                     )
                     : null
-                }
+                } */}
 
                 {/* to debug */}
                 {/* {' '}
@@ -208,7 +195,7 @@ class Home extends React.Component {
                         {ListElements.getTableRowMempoolHomeHeader()}
                         {/* {this.state.mempool.map((mempool_row, index) => { */}
                         {/* {this.state.mempool.flatMap((mempool_row, index) => { */}
-                        {this.state.mempool.filter((message_row) => {
+                        {/* {this.state.mempool.filter((message_row) => {
                             return eventsFilter(message_row, this.state.mempool_show_all_events);
                         }).map((mempool_row, index) => {
 
@@ -255,7 +242,26 @@ class Home extends React.Component {
                             // mempool_row.cntrprty_decoded = cntrprty_decoded;
                             // return ListElements.getTableRowMempoolHome(mempool_row, index);
 
+                        })} */}
+
+                        {this.state.mempool.map((mempool_row, index) => {
+
+                            // cntrprty transaction
+                            let cntrprty_decoded = {};
+                            const cntrprty_hex = Buffer.from(mempool_row.data, 'hex').toString('hex');
+                            try {
+                                const current_version_past_block = 819000;
+                                cntrprty_decoded = decode_data(mempool_row.destination, current_version_past_block, cntrprty_hex);
+                            }
+                            catch (e) {
+                                console.error(`cntrprty_decoded error: ${e}`);
+                            }
+
+                            mempool_row.cntrprty_decoded = cntrprty_decoded;
+                            return ListElements.getTableRowMempoolHome(mempool_row, index);
+
                         })}
+
                     </tbody>
                 </table>
                 </>
