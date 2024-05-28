@@ -92,7 +92,7 @@ class Home extends React.Component {
 
                                             <code>L: {hashSlice(block_row.ledger_hash)}</code><br />
                                             <code>TX:{hashSlice(block_row.txlist_hash)}</code><br />
-                                            <code>M*: {hashSlice(block_row.messages_hash)}</code><br />
+                                            <code>M*:{hashSlice(block_row.messages_hash)}</code><br />
                                             {/* <code>M: {hashSlice(block_row.messages_hash)}</code><br /> */}
 
                                         </div>
@@ -312,7 +312,7 @@ class Home extends React.Component {
             </>
         );
 
-        const route_element = (
+        const bitcoin_synced_route_element = (
             <>
                 <div class="py-2 my-2">
                     {block_element}
@@ -323,6 +323,42 @@ class Home extends React.Component {
                 <div class="py-2 my-2">
                     {transactions_element}
                 </div>
+            </>
+        );
+
+        const route_element = (
+            <>
+                {this.state.node_response && this.state.node_response.node.bitcoind.getblockchaininfo.initialblockdownload ?
+                    (
+                        <div class="py-2 my-2">
+                            <h2 class="font-bold text-xl mb-1">
+                                Bitcoin sync in progress:
+                            </h2>
+                            <div class="py-1 my-1 ml-4 overflow-auto">
+                                <ul>
+                                    {/* <li>
+                                        <span class="text-gray-600 dark:text-gray-400">initialblockdownload:</span>
+                                        {' '}
+                                        <span class="dark:text-slate-100">{`${this.state.node_response.node.bitcoind.getblockchaininfo.initialblockdownload}`}</span>
+                                    </li> */}
+                                    <li>
+                                        <span class="text-gray-600 dark:text-gray-400">verificationprogress:</span>
+                                        {' '}
+                                        <span class="dark:text-slate-100">{this.state.node_response.node.bitcoind.getblockchaininfo.verificationprogress}</span>
+                                    </li>
+                                    <li>
+                                        <span class="text-gray-600 dark:text-gray-400">blocks:</span>
+                                        {' '}
+                                        <span class="dark:text-slate-100">{this.state.node_response.node.bitcoind.getblockchaininfo.blocks}</span>
+                                    </li>
+                                </ul>
+                                {/* {JSON.stringify(this.state.node_response)} */}
+                            </div>
+                        </div>
+                    )
+                    :
+                    bitcoin_synced_route_element
+                }
             </>
         );
 
