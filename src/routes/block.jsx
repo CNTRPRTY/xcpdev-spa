@@ -340,7 +340,22 @@ class Block extends React.Component {
                                 <span class="text-gray-600 dark:text-gray-400">show bindings</span>
                             </label>
 
-                            {localStorage.debug_mode === "true" ?
+                            {' '}
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    onClick={() => {
+                                        this.setState((prevState, props) => ({
+                                            show_all_events: !prevState.show_all_events
+                                        }));
+                                    }}
+                                    checked={this.state.show_all_events}
+                                />
+                                {' '}
+                                <span class="text-gray-600 dark:text-gray-400">show all events</span>
+                            </label>
+
+                            {/* {localStorage.debug_mode === "true" ?
                                 (
                                     <>
                                         {' '}
@@ -355,12 +370,12 @@ class Block extends React.Component {
                                                 checked={this.state.show_all_events}
                                             />
                                             {' '}
-                                            <span class="text-gray-600 dark:text-gray-400">pro: show all events</span>
+                                            <span class="text-gray-600 dark:text-gray-400">show all events</span>
                                         </label>
                                     </>
                                 )
                                 : null
-                            }
+                            } */}
 
                             {/* to debug */}
                             {/* // {' '}
