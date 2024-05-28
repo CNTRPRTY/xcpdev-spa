@@ -60,6 +60,12 @@ class Transaction extends React.Component {
             let transaction = null;
             try {
                 const transaction_response = await getCntrprty(`/tx/${tx_hash}`);
+
+                // TODO mempool transactions are back in response!
+                if (!transaction_response.transaction) {
+                    throw Error(`Transaction has not been mined...`);
+                }
+
                 transaction = transaction_response.transaction;
                 this.setState({
                     transaction_loading: false,
@@ -74,35 +80,39 @@ class Transaction extends React.Component {
 
             // TODO mempool...
 
-            // cntrprty transaction
-            if (transaction.data) {
+            if (transaction) {
+
+                // cntrprty transaction
+                if (transaction.data) {
+                    try {
+                        const cntrprty_hex = Buffer.from(transaction.data, 'hex').toString('hex');
+                        const cntrprty_decoded = decode_data(transaction.destination, transaction.block_index, cntrprty_hex);
+                        this.setState({
+                            cntrprty_hex,
+                            cntrprty_decoded,
+                        });
+                    }
+                    catch (err) {
+                        this.setState({
+                            cntrprty_error: err,
+                        });
+                    }
+                }
+
                 try {
-                    const cntrprty_hex = Buffer.from(transaction.data, 'hex').toString('hex');
-                    const cntrprty_decoded = decode_data(transaction.destination, transaction.block_index, cntrprty_hex);
+                    const messages_response = await getCntrprty(`/block/${transaction.block_index}/messages`);
+                    const messages = selectTransactionMessagesFromAll(tx_hash, messages_response.messages);
                     this.setState({
-                        cntrprty_hex,
-                        cntrprty_decoded,
+                        messages_loading: false,
+                        messages,
                     });
                 }
                 catch (err) {
                     this.setState({
-                        cntrprty_error: err,
+                        messages_loading_error: err,
                     });
                 }
-            }
 
-            try {
-                const messages_response = await getCntrprty(`/block/${transaction.block_index}/messages`);
-                const messages = selectTransactionMessagesFromAll(tx_hash, messages_response.messages);
-                this.setState({
-                    messages_loading: false,
-                    messages,
-                });
-            }
-            catch (err) {
-                this.setState({
-                    messages_loading_error: err,
-                });
             }
 
         }
