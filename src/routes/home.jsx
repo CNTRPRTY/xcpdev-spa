@@ -14,11 +14,19 @@ class Home extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            blocks: null,
-            mempool: null,
-            mempool_show_all_events: false, // to debug
-            transactions: null,
             node_response: null,
+
+            blocks_loading: true,
+            blocks_loading_error: null,
+            blocks: [],
+
+            mempool_loading: true,
+            mempool_loading_error: null,
+            mempool: [],
+
+            transactions_loading: true,
+            transactions_loading_error: null,
+            transactions: [],
         };
     }
 
@@ -30,24 +38,48 @@ class Home extends React.Component {
     }
 
     async fetchDataBlocks() {
-        const block_response = await getCntrprty('/blocks');
-        this.setState({
-            blocks: block_response.blocks,
-        });
+        try {
+            const block_response = await getCntrprty('/blocks');
+            this.setState({
+                blocks_loading: false,
+                blocks: block_response.blocks,
+            });
+        }
+        catch (err) {
+            this.setState({
+                blocks_loading_error: err,
+            });
+        }
     }
 
     async fetchDataMempool() {
-        const mempool_response = await getCntrprty('/mempool');
-        this.setState({
-            mempool: mempool_response.mempool,
-        });
+        try {
+            const mempool_response = await getCntrprty('/mempool');
+            this.setState({
+                mempool_loading: false,
+                mempool: mempool_response.mempool,
+            });
+        }
+        catch (err) {
+            this.setState({
+                mempool_loading_error: err,
+            });
+        }
     }
 
     async fetchDataTransactions() {
-        const transactions_response = await getCntrprty(`/transactions`);
-        this.setState({
-            transactions: transactions_response.transactions,
-        });
+        try {
+            const transactions_response = await getCntrprty(`/transactions`);
+            this.setState({
+                transactions_loading: false,
+                transactions: transactions_response.transactions,
+            });
+        }
+        catch (err) {
+            this.setState({
+                transactions_loading_error: err,
+            });
+        }
     }
 
     async componentDidMount() {
@@ -66,7 +98,15 @@ class Home extends React.Component {
                 loading...
             </p>
         );
-        if (this.state.blocks && this.state.blocks.length) {
+        if (this.state.blocks_loading_error) {
+            block_element_contents = (
+                <p class="text-gray-600 dark:text-gray-400">
+                    {`${this.state.blocks_loading_error}`}
+                </p>
+            );
+        }
+        else if (!this.state.blocks_loading) {
+        // if (this.state.blocks && this.state.blocks.length) {
             block_element_contents = (
                 <table>
                     <tbody>
@@ -126,146 +166,157 @@ class Home extends React.Component {
                 loading...
             </p>
         );
-        if (this.state.mempool && !this.state.mempool.length) {
-
-            let tip_state_message = "Try refreshing the page in a couple of minutes...";
-            if (
-                this.state.node_response &&
-                this.state.blocks && this.state.blocks.length
-            ) {
-                const cp_latest_block = Number(this.state.blocks[0].block_index);
-                const bitcoin_tip = Number(this.state.node_response.node.bitcoind.getblockchaininfo.blocks);
-                if (cp_latest_block + 10 < bitcoin_tip) {
-                    tip_state_message = `Still syncing, more than ${bitcoin_tip - cp_latest_block} blocks left...`;
-                }
-            }
-
+        if (this.state.mempool_loading_error) {
             mempool_element_contents = (
-                <p class="dark:text-slate-100">
-                    {tip_state_message}
+                <p class="text-gray-600 dark:text-gray-400">
+                    {`${this.state.mempool_loading_error}`}
                 </p>
             );
         }
-        else if (this.state.mempool && this.state.mempool.length) {
-            mempool_element_contents = (
-                <>
+        else if (!this.state.mempool_loading) {
 
-                {/* {localStorage.debug_mode === "true" ?
-                    (
-                        <>
-                            {' '}
-                            <label>
-                                <input
-                                    type="checkbox"
-                                    onClick={() => {
-                                        this.setState((prevState, props) => ({
-                                            mempool_show_all_events: !prevState.mempool_show_all_events
-                                        }));
-                                    }}
-                                    checked={this.state.mempool_show_all_events}
-                                />
+            if (this.state.mempool && !this.state.mempool.length) {
+
+                let tip_state_message = "Try refreshing the page in a couple of minutes...";
+                if (
+                    this.state.node_response &&
+                    this.state.blocks && this.state.blocks.length
+                ) {
+                    const cp_latest_block = Number(this.state.blocks[0].block_index);
+                    const bitcoin_tip = Number(this.state.node_response.node.bitcoind.getblockchaininfo.blocks);
+                    if (cp_latest_block + 10 < bitcoin_tip) {
+                        tip_state_message = `Still syncing, more than ${bitcoin_tip - cp_latest_block} blocks left...`;
+                    }
+                }
+    
+                mempool_element_contents = (
+                    <p class="dark:text-slate-100">
+                        {tip_state_message}
+                    </p>
+                );
+            }
+            else if (this.state.mempool && this.state.mempool.length) {
+                mempool_element_contents = (
+                    <>
+    
+                    {/* {localStorage.debug_mode === "true" ?
+                        (
+                            <>
                                 {' '}
-                                <span class="text-gray-600 dark:text-gray-400">pro: show all events</span>
-                            </label>
-                        </>
-                    )
-                    : null
-                } */}
+                                <label>
+                                    <input
+                                        type="checkbox"
+                                        onClick={() => {
+                                            this.setState((prevState, props) => ({
+                                                mempool_show_all_events: !prevState.mempool_show_all_events
+                                            }));
+                                        }}
+                                        checked={this.state.mempool_show_all_events}
+                                    />
+                                    {' '}
+                                    <span class="text-gray-600 dark:text-gray-400">pro: show all events</span>
+                                </label>
+                            </>
+                        )
+                        : null
+                    } */}
+    
+                    {/* to debug */}
+                    {/* {' '}
+                    <label>
+                        <input
+                            type="checkbox"
+                            onClick={() => {
+                                this.setState((prevState, props) => ({
+                                    mempool_show_all_events: !prevState.mempool_show_all_events
+                                }));
+                            }}
+                            checked={this.state.mempool_show_all_events}
+                        />
+                        {' '}
+                        <span class="text-gray-600 dark:text-gray-400">debug: show all events</span>
+                    </label> */}
+                    {/*  */}
+    
+                    
+                    <table>
+                        <tbody>
+                            {ListElements.getTableRowMempoolHomeHeader()}
+                            {/* {this.state.mempool.map((mempool_row, index) => { */}
+                            {/* {this.state.mempool.flatMap((mempool_row, index) => { */}
+                            {/* {this.state.mempool.filter((message_row) => {
+                                return eventsFilter(message_row, this.state.mempool_show_all_events);
+                            }).map((mempool_row, index) => {
+    
+                                const bindings = JSON.parse(mempool_row.bindings);
+                                mempool_row.source = bindings.source;
+                                let cntrprty_decoded = {
+                                    msg_type: mempool_row.category,
+                                };
+                                mempool_row.cntrprty_decoded = cntrprty_decoded;
+                                return ListElements.getTableRowMempoolHome(mempool_row, index);
+    
+                                // const new_messages = [
+                                //     // 'transactions',
+                                //     // 'transaction_outputs',
+                                //     // 'assets',
+                                // ];
+    
+                                // if (new_messages.includes(mempool_row.category)) {
+                                //     // flatMap: return empty to remove the item
+                                //     return [];
+                                // }
+                                // else {
+                                //     // flatMap: return a 1-element array to keep the item
+                                //     const bindings = JSON.parse(mempool_row.bindings);
+                                //     mempool_row.source = bindings.source;
+                                //     let cntrprty_decoded = {
+                                //         msg_type: mempool_row.category,
+                                //     };
+                                //     mempool_row.cntrprty_decoded = cntrprty_decoded;
+                                //     return [ListElements.getTableRowMempoolHome(mempool_row, index)];
+                                // }
+    
+                                // // cntrprty transaction
+                                // let cntrprty_decoded = {};
+                                // const cntrprty_hex = Buffer.from(mempool_row.data, 'hex').toString('hex');
+                                // try {
+                                //     const current_version_past_block = 819000;
+                                //     cntrprty_decoded = decode_data(cntrprty_hex, current_version_past_block);
+                                // }
+                                // catch (e) {
+                                //     console.error(`cntrprty_decoded error: ${e}`);
+                                // }
+    
+                                // mempool_row.cntrprty_decoded = cntrprty_decoded;
+                                // return ListElements.getTableRowMempoolHome(mempool_row, index);
+    
+                            })} */}
+    
+                            {this.state.mempool.map((mempool_row, index) => {
+    
+                                // cntrprty transaction
+                                let cntrprty_decoded = {};
+                                const cntrprty_hex = Buffer.from(mempool_row.data, 'hex').toString('hex');
+                                try {
+                                    const current_version_past_block = 819000;
+                                    cntrprty_decoded = decode_data(mempool_row.destination, current_version_past_block, cntrprty_hex);
+                                }
+                                catch (e) {
+                                    console.error(`cntrprty_decoded error: ${e}`);
+                                }
+    
+                                mempool_row.cntrprty_decoded = cntrprty_decoded;
+                                return ListElements.getTableRowMempoolHome(mempool_row, index);
+    
+                            })}
+    
+                        </tbody>
+                    </table>
+                    </>
+                );
+            }
 
-                {/* to debug */}
-                {/* {' '}
-                <label>
-                    <input
-                        type="checkbox"
-                        onClick={() => {
-                            this.setState((prevState, props) => ({
-                                mempool_show_all_events: !prevState.mempool_show_all_events
-                            }));
-                        }}
-                        checked={this.state.mempool_show_all_events}
-                    />
-                    {' '}
-                    <span class="text-gray-600 dark:text-gray-400">debug: show all events</span>
-                </label> */}
-                {/*  */}
-
-                
-                <table>
-                    <tbody>
-                        {ListElements.getTableRowMempoolHomeHeader()}
-                        {/* {this.state.mempool.map((mempool_row, index) => { */}
-                        {/* {this.state.mempool.flatMap((mempool_row, index) => { */}
-                        {/* {this.state.mempool.filter((message_row) => {
-                            return eventsFilter(message_row, this.state.mempool_show_all_events);
-                        }).map((mempool_row, index) => {
-
-                            const bindings = JSON.parse(mempool_row.bindings);
-                            mempool_row.source = bindings.source;
-                            let cntrprty_decoded = {
-                                msg_type: mempool_row.category,
-                            };
-                            mempool_row.cntrprty_decoded = cntrprty_decoded;
-                            return ListElements.getTableRowMempoolHome(mempool_row, index);
-
-                            // const new_messages = [
-                            //     // 'transactions',
-                            //     // 'transaction_outputs',
-                            //     // 'assets',
-                            // ];
-
-                            // if (new_messages.includes(mempool_row.category)) {
-                            //     // flatMap: return empty to remove the item
-                            //     return [];
-                            // }
-                            // else {
-                            //     // flatMap: return a 1-element array to keep the item
-                            //     const bindings = JSON.parse(mempool_row.bindings);
-                            //     mempool_row.source = bindings.source;
-                            //     let cntrprty_decoded = {
-                            //         msg_type: mempool_row.category,
-                            //     };
-                            //     mempool_row.cntrprty_decoded = cntrprty_decoded;
-                            //     return [ListElements.getTableRowMempoolHome(mempool_row, index)];
-                            // }
-
-                            // // cntrprty transaction
-                            // let cntrprty_decoded = {};
-                            // const cntrprty_hex = Buffer.from(mempool_row.data, 'hex').toString('hex');
-                            // try {
-                            //     const current_version_past_block = 819000;
-                            //     cntrprty_decoded = decode_data(cntrprty_hex, current_version_past_block);
-                            // }
-                            // catch (e) {
-                            //     console.error(`cntrprty_decoded error: ${e}`);
-                            // }
-
-                            // mempool_row.cntrprty_decoded = cntrprty_decoded;
-                            // return ListElements.getTableRowMempoolHome(mempool_row, index);
-
-                        })} */}
-
-                        {this.state.mempool.map((mempool_row, index) => {
-
-                            // cntrprty transaction
-                            let cntrprty_decoded = {};
-                            const cntrprty_hex = Buffer.from(mempool_row.data, 'hex').toString('hex');
-                            try {
-                                const current_version_past_block = 819000;
-                                cntrprty_decoded = decode_data(mempool_row.destination, current_version_past_block, cntrprty_hex);
-                            }
-                            catch (e) {
-                                console.error(`cntrprty_decoded error: ${e}`);
-                            }
-
-                            mempool_row.cntrprty_decoded = cntrprty_decoded;
-                            return ListElements.getTableRowMempoolHome(mempool_row, index);
-
-                        })}
-
-                    </tbody>
-                </table>
-                </>
-            );
         }
         const mempool_element = (
             <>
@@ -283,7 +334,15 @@ class Home extends React.Component {
                 loading...
             </p>
         );
-        if (this.state.transactions && this.state.transactions.length) {
+        if (this.state.transactions_loading_error) {
+            transactions_element_contents = (
+                <p class="text-gray-600 dark:text-gray-400">
+                    {`${this.state.transactions_loading_error}`}
+                </p>
+            );
+        }
+        else if (!this.state.transactions_loading) {
+        // if (this.state.transactions && this.state.transactions.length) {
             const is_home_page = true;
             transactions_element_contents = (
                 <table>
