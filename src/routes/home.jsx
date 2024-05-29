@@ -401,14 +401,21 @@ class Home extends React.Component {
                                         <span class="dark:text-slate-100">{`${this.state.node_response.node.bitcoind.getblockchaininfo.initialblockdownload}`}</span>
                                     </li> */}
                                     <li>
-                                        <span class="text-gray-600 dark:text-gray-400">verificationprogress:</span>
+                                        <span class="text-gray-600 dark:text-gray-400">progress:</span>
                                         {' '}
-                                        <span class="dark:text-slate-100">{this.state.node_response.node.bitcoind.getblockchaininfo.verificationprogress}</span>
+                                        <span class="dark:text-slate-100">
+                                            {(this.state.node_response.node.bitcoind.getblockchaininfo.verificationprogress * 100).toFixed(4)} %
+                                        </span>
+                                        {/* <span class="dark:text-slate-100">{(this.state.node_response.node.bitcoind.getblockchaininfo.verificationprogress * 100).toFixed(3}%</span> */}
+                                        {/* <span class="dark:text-slate-100">{this.state.node_response.node.bitcoind.getblockchaininfo.verificationprogress}</span> */}
                                     </li>
                                     <li>
                                         <span class="text-gray-600 dark:text-gray-400">blocks:</span>
                                         {' '}
-                                        <span class="dark:text-slate-100">{this.state.node_response.node.bitcoind.getblockchaininfo.blocks}</span>
+                                        <span class="dark:text-slate-100">
+                                            {this.state.node_response.node.bitcoind.getblockchaininfo.blocks} / {this.state.node_response.node.bitcoind.getblockchaininfo.headers}
+                                        </span>
+                                        {/* <span class="dark:text-slate-100">{this.state.node_response.node.bitcoind.getblockchaininfo.blocks}</span> */}
                                     </li>
                                 </ul>
                                 {/* {JSON.stringify(this.state.node_response)} */}
