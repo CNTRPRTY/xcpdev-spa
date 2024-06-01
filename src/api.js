@@ -88,6 +88,8 @@ function selectTransactionMessagesFromAll(tx_hash, messages_all) {
     let messages = [];
     for (const message of messages_all) {
 
+        if (!eventsFilter(message)) continue;
+
         const bindings = JSON.parse(message.bindings);
         // TODO dispensers:update instead of 'dispenser_tx_hash' like dispenses:insert is just 'tx_hash' thus missing it here with this check
         // TODO orders:update similar, it has 'offer_hash' in cancels:insert but 'tx_hash' here thus also being missed here
