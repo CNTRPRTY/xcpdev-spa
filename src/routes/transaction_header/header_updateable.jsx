@@ -34,9 +34,28 @@ class TransactionUpdateable extends React.Component {
             }
 
             const transaction_state_response = await getCntrprty(url);
+
+            //////
+            // lets work on the response history data
+            // if applies, add btcpay matches to matches
+            let order_matches_rows = transaction_state_response.order_matches_rows;
+            if (transaction_state_response.btcpays_rows.length) {
+                order_matches_rows = order_matches_rows.map((row) => {
+                    const found = transaction_state_response.btcpays_rows.find((roow) => roow.order_match_id === row.id);
+                    return {
+                        btcpay: found,
+                        // btcpays_rows: transaction_state_response.btcpays_rows[0], // TODO
+                        ...row,
+                    }
+                });
+            }
+            //////
+
             this.setState({
                 transaction_state_loading: false,
                 transaction_state: transaction_state_response,
+                // 
+                order_matches_rows,
             });
         }
         catch (err) {
@@ -270,6 +289,7 @@ class TransactionUpdateable extends React.Component {
                 const order_matches_btcpays_rows = this.state.transaction_state.btcpays_rows;
 
                 const btc_is_promise = give_issuance.asset === 'BTC' ? 'promise' : 'escrowed';
+                const has_btcpays = this.state.transaction_state.btcpays_rows.length > 0;
 
                 transaction_state_element = (
                     <>
@@ -448,14 +468,18 @@ class TransactionUpdateable extends React.Component {
                                             {/* <div class="py-1 my-1"> */}
                                             <table>
                                                 <tbody>
-                                                    {ListElements.getTableRowOrderMatchesHeader()}
-                                                    {order_matches_rows.map((order_matches_row, index) => {
+                                                    {ListElements.getTableRowOrderMatchesHeader(has_btcpays)}
+                                                    {/* {ListElements.getTableRowOrderMatchesHeader()} */}
+                                                    {/* this.state.transaction_state.order_matches_rows */}
+                                                    {this.state.order_matches_rows.map((order_matches_row, index) => {
+                                                    // {order_matches_rows.map((order_matches_row, index) => {
                                                         const order_metadata = {
                                                             tx_hash: orders_row.tx_hash,
                                                             give_issuance: give_issuance,
                                                             get_issuance: get_issuance,
                                                         }
-                                                        return ListElements.getTableRowOrderMatches(order_matches_row, index, order_metadata);
+                                                        return ListElements.getTableRowOrderMatches(order_matches_row, index, order_metadata, has_btcpays);
+                                                        // return ListElements.getTableRowOrderMatches(order_matches_row, index, order_metadata);
                                                     })}
                                                 </tbody>
                                             </table>

@@ -1700,7 +1700,8 @@ class ListElements {
     }
 
     // order matches
-    static getTableRowOrderMatchesHeader() {
+    static getTableRowOrderMatchesHeader(has_btcpays) {
+        // static getTableRowOrderMatchesHeader() {
         return (
             <tr
                 class="whitespace-nowrap text-gray-600 dark:text-gray-400"
@@ -1708,17 +1709,31 @@ class ListElements {
             >
                 <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}></td>
+
+                {has_btcpays ?
+                    (<td style={{ padding: "0 1rem 0.25rem 0" }}></td>)
+                    : null
+                }
+
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>status</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>forward</td>
-                <td style={{ padding: "0 1rem 0.25rem 0" }}>backward</td>
+
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>block index</td>
                 <td style={{ padding: "0 1rem 0.25rem 0" }}>block time</td>
+
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>forward</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>backward</td>
+                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>block index</td>
+                <td style={{ padding: "0 1rem 0.25rem 0" }}>block time</td> */}
+
+                {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>stringify</td> */}
+
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>JSON.stringify(order_matches_row)</td> */}
                 {/* <td style={{ padding: "0 1rem 0.25rem 0" }}>JSON.stringify(order_metadata)</td> */}
             </tr>
         );
     }
-    static getTableRowOrderMatches(order_matches_row, index, order_metadata) {
+    static getTableRowOrderMatches(order_matches_row, index, order_metadata, has_btcpays) {
+        // static getTableRowOrderMatches(order_matches_row, index, order_metadata) {
 
         // simple approach
         const assets_divisibility = {};
@@ -1743,7 +1758,30 @@ class ListElements {
                     :
                     (<td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/tx/${order_matches_row.tx1_hash}`}>tx1</Link></code></td>)
                 }
+
+                {/*  */}
+                {/* terniary */}
+                {/*  */}
+                {has_btcpays ?
+                    (
+                        <>
+                            {
+                                order_matches_row.btcpay ?
+                                    (<td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/tx/${order_matches_row.btcpay.tx_hash}`}>BTC</Link></code></td>)
+                                    :
+                                    (<td style={{ padding: "0 1rem 0 0" }}></td>)
+                            }
+                        </>
+                    )
+                    : null
+                }
+                {/*  */}
+
                 <td style={{ padding: "0 1rem 0 0" }}><code>{order_matches_row.status}</code></td>
+                
+                <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/block/${order_matches_row.block_index}`}>{order_matches_row.block_index}</Link></code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code>{timeIsoFormat(order_matches_row.block_time)}</code></td>
+                
                 <td style={{ padding: "0 1rem 0 0" }}>
                     <code>
                         <Link to={`/asset/${order_matches_row.forward_asset}`}>{order_matches_row.forward_asset}</Link>
@@ -1757,10 +1795,13 @@ class ListElements {
                     </code>
                 </td>
 
-                <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/block/${order_matches_row.tx1_index_block}`}>{order_matches_row.tx1_index_block}</Link></code></td>
-                {/* <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/block/${order_matches_row.block_index}`}>{order_matches_row.block_index}</Link></code></td> */}
+                {/* here interested in the block updated time (api query fixed) */}
+                {/* <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/block/${order_matches_row.tx1_index_block}`}>{order_matches_row.tx1_index_block}</Link></code></td> */}
+                {/* <td style={{ padding: "0 1rem 0 0" }}><code><Link to={`/block/${order_matches_row.block_index}`}>{order_matches_row.block_index}</Link></code></td>
+                <td style={{ padding: "0 1rem 0 0" }}><code>{timeIsoFormat(order_matches_row.block_time)}</code></td> */}
                 
-                <td style={{ padding: "0 1rem 0 0" }}><code>{timeIsoFormat(order_matches_row.block_time)}</code></td>
+                {/* <td style={{ padding: "0 1rem 0 0" }}><code>{JSON.stringify(order_matches_row.btcpay)}</code></td> */}
+                {/* <td style={{ padding: "0 1rem 0 0" }}><code>{JSON.stringify(order_matches_row.btcpays_rows)}</code></td> */}
                 
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(order_matches_row)}</td> */}
                 {/* <td style={{ padding: "0 1rem 0 0" }}>{JSON.stringify(order_metadata)}</td> */}
